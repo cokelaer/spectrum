@@ -1,0 +1,17 @@
+
+.. image:: psd_all.png
+    :class: align-right
+    :width: 50%
+
+
+
+**Spectrum** contains tools to estimate Power Spectral Densities using methods based on Fourier transform, Parametric methods or eigenvalues analysis:
+
+    * The Fourier methods are based upon correlogram, periodogram and Welch estimates. Standard tapering windows (Hann, Hamming, Blackman) and more exotic ones are available (DPSS, Taylor, ...). 
+    * The parametric methods are based on Yule-Walker, BURG, MA and ARMA, covariance and modified covariance methods.
+    * Non-parametric methods based on eigen analysis (e.g., MUSIC) and minimum variance analysis are also implemented.
+
+
+
+
+
