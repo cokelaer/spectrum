@@ -11,6 +11,7 @@ Documentation
     :maxdepth: 3
     :numbered:
 
+
     Quick Start<user/index.rst>   
     Overview of available PSD methods <user/spectral_analysis.rst>   
     Tutorials <user/tutorials.rst>   
