@@ -1,7 +1,7 @@
 import numpy
 from spectrum import *
-from spectrum.psd import *
-from spectrum.errors import *
+from psd import *
+from errors import *
 from numpy.testing import assert_array_almost_equal
 import pylab
 data = marple_data
