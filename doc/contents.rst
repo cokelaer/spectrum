@@ -12,6 +12,7 @@ Documentation
     :numbered:
 
 
+    Installation<user/install.rst>   
     Quick Start<user/index.rst>   
     Overview of available PSD methods <user/spectral_analysis.rst>   
     Tutorials <user/tutorials.rst>   
