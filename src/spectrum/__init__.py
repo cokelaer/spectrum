@@ -10,19 +10,18 @@ import correlation
 import correlog
 import covar
 import criteria
-try:
-    import dpss
-    from dpss import *
-except:
-    pass
+##try:
+#    import dpss
+#    from dpss import *
+#except:
+#    pass
 import eigen
 import eigenfre
-import exparams
-import fastrls
+#import fastrls
 import levinson
-import linear_prediction
+#import linear_prediction
 import linalg
-import lms
+#import lms
 import lpc
 import minvar
 import modcovar
@@ -34,10 +33,10 @@ import tools
 import window
 import waveform
 import yulewalker
-import transfer
+#import transfer
 
 
-from transfer import *
+#from transfer import *
 from arma import *
 from burg import *
 from cholesky import *
@@ -48,9 +47,9 @@ from criteria import *
 from eigen import *
 from eigenfre import *
 from levinson import *
-from linear_prediction import *
+#from linear_prediction import *
 from linalg import *
-from lms import *
+#from lms import *
 from lpc import *
 from minvar import *
 from modcovar import *

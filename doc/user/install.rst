@@ -1,3 +1,14 @@
+Download
+================
+
+
+The source code is available here:
+
+https://www.assembla.com/code/PySpectrum/subversion/nodes/trunk/
+
+Official tarball coming soon...
+
+
 Installation
 =================
 
