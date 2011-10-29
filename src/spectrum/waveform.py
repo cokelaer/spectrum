@@ -68,8 +68,8 @@ def chirp(t, f0=0., t1=1., f1=100., form='linear', phase=0):
         y = chirp(t, form='linear')
         plot(y)
         hold(True)
-        y = chirp(t, form='quadratic', 'r')
-        plot(y)
+        y = chirp(t, form='quadratic')
+        plot(y, 'r')
 
     """
     valid_forms = ['linear', 'quadratic', 'logarithmic']

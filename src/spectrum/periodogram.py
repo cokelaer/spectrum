@@ -49,11 +49,17 @@ __all__ = ['pdaniell', 'speriodogram', 'Periodogram', 'pylab_periodogram',
            'DaniellPeriodogram']
 
  
-def speriodogram(x, NFFT=None, detrend='mean', sampling=1., 
-                   scale_by_freq=True, window='hamming'):
-    """Simplest periodogram ever, but matrices accepted!
-    
+def speriodogram(x, NFFT=None, detrend=True, sampling=1., 
+                   scale_by_freq=True, window='hamming', axis=0):
+    """Simple periodogram, but matrices accepted.
+
     :param x: an array or matrix of data samples.
+    :param NFFT: length of the data before FFT is computed (zero padding)
+    :param bool detrend: detrend the data before co,puteing the FFT
+    :param float sampling:
+    :param scale_by_freq:
+    :param str window:
+
     :return: 2-sided PSD if complex data, 1-sided if real.
     
     if a matrix is provided (using numpy.matrix), then a periodogram 
@@ -62,48 +68,78 @@ def speriodogram(x, NFFT=None, detrend='mean', sampling=1.,
     
     The mean of the input data is also removed from the data before computing
     the psd. 
-     
-    """
-    #spectrum = Spectrum(x, Fs, sides=sides)
+
+    .. plot::
+        :width: 80%
+        :include-source:
+
+        from pylab import *
+        from spectrum import *
+        data = data_cosine(N=1024, A=0.1, sampling=1024, freq=200)
+        semilogy(speriodogram(data, detrend=False, sampling=1024), marker='o')
+        grid(True)
+
     
+    .. plot::
+        :width: 80%
+        :include-source:
+
+        from spectrum import *
+        from pylab import *
+        # create N data sets and make the frequency dependent on the time
+        N = 100
+        m = numpy.concatenate([data_cosine(N=1024, A=0.1, sampling=1024, freq=200) for x in range(1, N)]); 
+        m.resize(N, 1024)
+        res = speriodogram(m)
+        figure(1)
+        semilogy(res)
+        figure(2)
+        imshow(res.transpose())
+
+    .. todo:: a proper spectrogram class/function 
+    """
     x = array(x)
+    # array with 1 dimension case
     if x.ndim == 1:
+        print 'array case'
+        axis = 0
         r = x.shape[0]
-        axis_choice = 0
+        w = Window(r, window)   #same size as input data
+    # matrix case
     elif x.ndim == 2:
+        print '2D array. each row is a 1D array'
         [r, c] = x.shape
         if r==1:
             r = c
-            axis_choice = 0
+            w = Window(x.size, window)   #same size as input data
         else:
-            axis_choice = 1
-            
+            w = Window(c, window)   #same size as input data
+
+
     if NFFT == None:
         NFFT = len(x)
     
-    w = Window(x.size, window)   #same size as input data
- 
     isreal = numpy.isrealobj(x)
     
     if detrend == True:
-        m = mean(x, axis=axis_choice)
+        m = mean(x, axis=axis)
     else:
         m = 0
     if isreal == True:
         res =  (abs (rfft (x*w.data - m, NFFT))) ** 2. / r       
     else:
-        res =  (abs (fft (x*w.data - m, NFFT))) ** 2. / r
+        res =  (abs (fft (x*w.data - m, NFFT ))) ** 2. / r
             
     if scale_by_freq is True:
         df = sampling / float(NFFT)
         res*= 2*pi/df
 
-    return res
+    return res.transpose()
     
 
 
 
-def pylab_periodogram(data, NFFT=None,  Fs=1.):
+def pylab_periodogram(data, NFFT=None,  sampling=1.):
     r"""Simple periodogram wrapper of numpy.psd with only nfft option
 
     This function is a simplified version of numpy.psd. The main difference
@@ -158,7 +194,7 @@ def pylab_periodogram(data, NFFT=None,  Fs=1.):
     """
     spectrum = Spectrum(data, sampling=1.)
     
-    P = plt.psd(data, NFFT, Fs=Fs)
+    P = plt.psd(data, NFFT, sampling=sampling)
     spectrum.psd = P[0]
     #spectrum.__Spectrum_sides = 'twosided'
     
@@ -168,11 +204,15 @@ def pylab_periodogram(data, NFFT=None,  Fs=1.):
 class Periodogram(FourierSpectrum):
     """The Periodogram class provides an interface to periodogram PSDs
     
-    ::
-    
-        p = Periodogram(data)
+    .. plot::
+        :width: 80%
+        :include-source:
+
+        from spectrum import *
+        data = data_cosine(N=1024, A=0.1, sampling=1024, freq=200)
+        p = Periodogram(data, sampling=1024)
         p()
-        p.plot()
+        p.plot(marker='o')
     
     
     """
@@ -287,7 +327,7 @@ class pdaniell(FourierSpectrum):
     
     
         from spectrum import *
-        data = data_cosine(N=4096, Fs=4096)
+        data = data_cosine(N=4096, sampling=4096)
         p = pdaniell(data, 8, NFFT=4096)
         p()
         p.plot()

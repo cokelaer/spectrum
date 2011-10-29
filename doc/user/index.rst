@@ -1,8 +1,8 @@
 User Guide
 ===========
 
-QuickStart (Periodogram)
----------------------------
+QuickStart (Periodogram example)
+--------------------------------
 
 The simplest way to start with **Spectrum** is to import everything from the library:
 
@@ -20,14 +20,14 @@ Now, we can analyse this data using one of the Power Spectrum Estimation method.
 
     p = Periodogram(data, sampling=1024) 
     p() # now you run the estimation
-    p.plot()
+    p.plot(marker='o')  # standard matplotlib options are accepted
 
 
 .. plot::
     :width: 80%
 
     from spectrum import *
-    data = data_cosine(N=1024, A=0.1, Fs=1024, freq=200)
+    data = data_cosine(N=1024, A=0.1, sampling=1024, freq=200)
     p = Periodogram(data, sampling=1024) #here you just define the PSD estimate 
     p() # now you run the estimation
     p.plot(marker='o')
@@ -42,11 +42,15 @@ You can also look at a centered PSD around the zero frequency::
 
 .. warning:: By convention, the :attr:`psd` attribute contain the default PSD (either one-sided for real data or two-sided for the complex data).
 
-Since **p** is an instance of Periodogram, you can introspect the object to obtain diverse information such as the original data, the sampling, the PSD itself and so on.
+Since **p** is an instance of Periodogram, you can introspect the object to obtain diverse information such as the original data, the sampling, the PSD itself and so on::
+
+   p.psd # contains the PSD values
+   p.frequencies() returns a list of frequencies
+   print(p) # prints some information about the PSD.
 
 
-The object approach versus functional approach (ARMA)
-------------------------------------------------------------
+The object approach versus functional approach (ARMA example)
+--------------------------------------------------------------
 
 Object approach
 ~~~~~~~~~~~~~~~~~~
@@ -70,7 +74,7 @@ where 15,15 and 30 are arguments of the ARAM model (see :class:`spectrum.parma`)
 Then, computation and plot can be performed::
 
     p()
-    p.plot(norm=True, marker='-', color='red')
+    p.plot(norm=True, color='red', linewidth=2)
 
 .. plot::
     :width: 80%
@@ -78,7 +82,7 @@ Then, computation and plot can be performed::
     from spectrum import parma, marple_data
     p = parma(marple_data, 15, 15, 30, NFFT=4096)
     p() # now you run the estimation
-    p.plot(norm=True, marker='-', color='red') # same options as pylab.plot
+    p.plot(norm=True, color='red', linewidth=2) # same options as pylab.plot
 
 Since the data is complex, the PSD (stored in p.psd) is a twosided PSD. Note also that all optional arguments accepted by matplotlib function are also available in this implementation. 
 
@@ -87,7 +91,7 @@ Functional approach
 ~~~~~~~~~~~~~~~~~~~~
 The object-oriented approach can be replaced by a functional one if required. Nevertheless, as mentionned earlier, this approach required more expertise and could easily lead to errors. Here is an example that is identical to the previous piece of code. First, we need two functions, one for the estimation, one for the PSD computation (and plotting)::
 
-    from arma import arma_estimate, arma2psd
+    from spectrum.arma import arma_estimate, arma2psd
 
 In order to extract the autoregressive coefficients (AR) and Moving average coefficients (MA), the :func:`~spectrum.arma.arma_estimate` can be used::
 

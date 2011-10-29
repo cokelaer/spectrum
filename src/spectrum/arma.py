@@ -17,10 +17,10 @@
 """
 from numpy import zeros, append, insert, real
 from numpy.fft import fft
-from correlation import CORRELATION
-from covar import arcovar, arcovar_marple
-import yulewalker
-from psd import ParametricSpectrum
+from spectrum.correlation import CORRELATION
+from spectrum.covar import arcovar, arcovar_marple
+import spectrum.yulewalker as yulewalker
+from spectrum.psd import ParametricSpectrum
 
 
 __all__ = ["arma2psd", "arma_estimate", "ma", "pma", "parma"]

@@ -1,4 +1,4 @@
-
+"""This module provides the Base class for PSDs"""
 import pylab as plt
 from tools import nextpow2 
 import numpy
@@ -14,19 +14,19 @@ class Range(object):
     """A class to ease the creation of frequency ranges. 
 
     Given the length :attr:`N` of a data sample and a sampling frequency
-    :attr:`Fs`, this class provides methods to generate frequency
+    :attr:`sampling`, this class provides methods to generate frequency
     ranges
 
-        * :meth:`centerdc`: frequency range from -Fs/2 up to Fs/2 (excluded),
-        * :meth:`twosided`: frequency range from 0 up to Fs (excluded),
-        * :meth:`onesided`: frequency range from 0 up to Fs (included).
+        * :meth:`centerdc`: frequency range from -sampling/2 up to sampling/2 (excluded),
+        * :meth:`twosided`: frequency range from 0 up to sampling (excluded),
+        * :meth:`onesided`: frequency range from 0 up to sampling (included).
 
     Each method as a generator version:
 
     .. doctest::
         :options: +SKIP
 
-        >>> r = Range(10, Fs=1)
+        >>> r = Range(10, sampling=1)
         >>> list(r.onesided_gen())
         [0.0, 0.1, 0.2, 0.3, 0.4, 0.5]
         >>> r.onesided()
@@ -49,50 +49,50 @@ class Range(object):
         5
     """
 
-    def __init__(self, N, Fs=1.):
+    def __init__(self, N, sampling=1.):
         """**Constructor**
 
         :param int N: the data length
-        :param float Fs: the sampling frequency
+        :param float sampling: the sampling frequency
 
         .. rubric:: Attributes:
 
         From the input parameters, read/write attributes are set:
 
             * :attr:`N`, the data length,
-            * :attr:`Fs`, the sampling frequency.
+            * :attr:`sampling`, the sampling frequency.
 
         Additionally, the following read-only attribute is available:
 
             * :attr:`df`, the frequency step computed from :attr:`N` and 
-              :attr:`Fs`.
+              :attr:`sampling`.
 
         """
         self.__N = N
-        self.__Fs = Fs
+        self.__sampling = sampling
         self.__df = None
         self._setN(N)
-        self._setFs(Fs)
+        self._setsampling(sampling)
 
     def _getdf(self):
         return self.__df
     df = property(fget=_getdf, doc="""Getter to access the frequency step, 
-        computed from :attr:`N` and :attr:`Fs`.""")
+        computed from :attr:`N` and :attr:`sampling`.""")
 
     def _getN(self):
         return self.__N
     def _setN(self,N):
         self.__N = N
-        self.__df = self.__Fs/float(self.__N)
+        self.__df = self.__sampling/float(self.__N)
     N = property(fget=_getN, fset=_setN, doc="""Getter/Setter of the data length. 
         If changed, :attr:`df` is updated.""")
 
-    def _getFs(self):
-        return self.__Fs
-    def _setFs(self, Fs):
-        self.__Fs = Fs
-        self.__df = self.__Fs/float(self.__N)
-    Fs = property(fget=_getFs, fset=_setFs, doc="""Getter/Setter of the sampling
+    def _getsampling(self):
+        return self.__sampling
+    def _setsampling(self, sampling):
+        self.__sampling = sampling
+        self.__df = self.__sampling/float(self.__N)
+    sampling = property(fget=_getsampling, fset=_setsampling, doc="""Getter/Setter of the sampling
         frequency. If changed, :attr:`df` is updated.""")
 
     def centerdc_gen(self):
@@ -159,7 +159,7 @@ class Range(object):
     def __str__(self):
         msg = 'Range object information\n'
         msg += '    N=%s\n' % self.__N
-        msg += '    Fs=%s\n' % self.__Fs
+        msg += '    sampling=%s\n' % self.__sampling
         msg += '    df=%s\n' % self.__df
         return msg
         
@@ -345,14 +345,14 @@ class Spectrum(object):
             return
         new_nfft = None
         if NFFT == 'nextpow2':
-            print 'nextpow2'
+            print 'NFFT is based on nextpow2:', 
             n = nextpow2(self.data.size)
             new_nfft = int(pow(2,n))
         elif NFFT == None:
-            print 'setting to data length'
+            print 'NFFT set to data length',
             new_nfft = self.N 
         elif isinstance(NFFT, int):
-            print 'setting manually'
+            print 'NNFT set  manually to',
             assert NFFT > 0, 'NFFT must be a positive integer'
             new_nfft = NFFT
         else:
@@ -400,13 +400,12 @@ class Spectrum(object):
         if self.datatype == 'complex':
             assert sides != ['onesided'], "complex data cannot be onesided (%s provided)" % sides
         
-        print '------------>'
         # If sides is indeed different, update the psd
         if self.psd != None:
             newpsd = self.get_converted_psd(sides)
             self.__psd = newpsd
         self.__sides = sides
-        print '------------> %s %s' % (self.__sides, sides) 
+        #print '------------> %s %s' % (self.__sides, sides) 
         # we set the PSD by hand, so we can consider that PSD is up-to-date
         self.modified = False
     _doc_sides = """Getter/Setter to the :attr:`sides` attributes.
@@ -447,7 +446,7 @@ class Spectrum(object):
 
     def _getPSD(self):
         if self.__psd == None:
-            print 'PSD not yet computed.'
+            print 'PSD not yet computed. call the object to estimate the PSD.'
             
         else:
             return self.__psd

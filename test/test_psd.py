@@ -13,12 +13,12 @@ def test_psd_module_range():
     r = Range(N, fs)
     assert r.N == N
     r.df == float(fs)/N
-    r.Fs == fs
+    r.sampling == fs
 
     #test attributes
     r.N = 1024;
     assert r.df == 1.
-    r.Fs = 2048;
+    r.sampling = 2048;
     assert r.df == 2.
 
     # test methods

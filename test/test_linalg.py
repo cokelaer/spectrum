@@ -1,4 +1,5 @@
 import numpy
+import spectrum
 from spectrum import linalg
 from spectrum.linalg import * 
 from numpy.testing import *
@@ -14,12 +15,12 @@ def test_pascal():
         assert True
 
 
-
 def test_svd():
     a = numpy.matrix([[2.8-.4j, 1.6],[3.6-1.2j, 2.4-1.8j],[2+.4j, 2.8-4.4j]])
     U, S, V = csvd(a)
     assert_array_almost_equal(S, numpy.array([ 7.51711296,  2.96867189]))
 
+    csvd(a)
 
 
 def test_corrmtx():
@@ -81,3 +82,10 @@ def test_corrmtx():
 
     for method in ['prewindowed','postwindowed','autocorrelation','modified','covariance']:
         corrmtx([1,2,3,4,5,6,7,8], 3, method=method)
+
+
+    try:
+        corrmtx([1,2,3,4,5,6,7,8], 3, method='dummy')
+        assert False
+    except: 
+        assert True

@@ -1,8 +1,6 @@
 """
 .. topic:: Linear algebra tools  
 
-    is this needed
-    
     .. autosummary::
        
         csvd
@@ -20,7 +18,7 @@ __all__ = ["pascal", "csvd", "corrmtx"]
 
 
 def pascal(n):
-    """Return pascal matrix
+    """Return Pascal matrix
     
     :param int n: size of the matrix
     
@@ -32,10 +30,8 @@ def pascal(n):
            [   1.,    5.,   15.,   35.,   70.,  126.],
            [   1.,    6.,   21.,   56.,  126.,  252.]])
 
-    .. todo:: use the symmetric property to improve computational time if needed
     """
     errors.is_positive_integer(n)
-    #assert n > 0, 'n must be stricly positive'
     result = numpy.zeros((n, n))
 
     #fill the first row and column
@@ -53,7 +49,7 @@ def pascal(n):
 def corrmtx(x_input, m, method='autocorrelation'):
     r"""Correlation matrix
     
-    This function is usde by PSD estimator functions. It generates
+    This function is used by PSD estimator functions. It generates
     the correlation matrix from a correlation data set and a maximum lag.
     
     :param array x: autocorrelation samples (1D)
@@ -121,11 +117,11 @@ def corrmtx(x_input, m, method='autocorrelation'):
     
     .. math:: X_p = \begin{pmatrix}L_p\\T_p\end{pmatrix}
     
-    From this definition, the postwindowed matrix is 
+    the postwindowed matrix is 
     
     .. math:: X_p = \begin{pmatrix}T_p\\U_p\end{pmatrix}
     
-    and the covariance matrix is:
+    the covariance matrix is:
     
     .. math:: X_p = \begin{pmatrix}T_p\end{pmatrix}
     
