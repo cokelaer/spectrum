@@ -19,7 +19,7 @@ import errors
 __all__ = ["minvar", "pminvar"]
 
 
-def minvar(X, order, sampling=1., NPSD=default_NPSD):
+def minvar(X, order, sampling=1., NFFT=default_NPSD):
     r"""Minimum Variance Spectral Estimation (MV)
 
     This function computes the minimum variance spectral estimate using
@@ -36,7 +36,7 @@ def minvar(X, order, sampling=1., NPSD=default_NPSD):
     :param X: Array of complex or real data samples (length N)
     :param int order: Dimension of correlation matrix (AR order = order - 1 )
     :param float T: Sample interval (PSD scaling)
-    :param int NPSD: length of the final PSD
+    :param int NFFT: length of the final PSD
 
     :return:
         * PSD  - Power spectral density values (two-sided)
@@ -74,9 +74,9 @@ def minvar(X, order, sampling=1., NPSD=default_NPSD):
     
     """
     errors.is_positive_integer(order)
-    errors.is_positive_integer(NPSD)
+    errors.is_positive_integer(NFFT)
     
-    psi = numpy.zeros(NPSD, dtype=complex)
+    psi = numpy.zeros(NFFT, dtype=complex)
     
     # First, we need to compute the AR values (note that order-1)
     A, P, k = arburg (X, order - 1)
@@ -121,11 +121,11 @@ def minvar(X, order, sampling=1., NPSD=default_NPSD):
         
         SUM = SUM/P
         if K != 0:
-            psi[NPSD-K] = SUM.conjugate()
+            psi[NFFT-K] = SUM.conjugate()
         psi[K] = SUM
 
     # Compute FFT of denominator
-    psi = fft(psi, NPSD)          
+    psi = fft(psi, NFFT)          
     
     #  Invert the psi terms at this point to get PSD values
     PSD = sampling / numpy.real(psi)
@@ -167,7 +167,7 @@ class pminvar(ParametricSpectrum):
 
     def __call__(self):
         res = minvar(self.data, self.ar_order, sampling=self.sampling, 
-                     NPSD=self.NFFT)
+                     NFFT=self.NFFT)
         
         # save the AR and reflection coefficients.
         self.ar = res[1]

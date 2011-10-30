@@ -21,7 +21,7 @@ However, it contains no information about the PSD estimation method. If you type
 it should return a warning message telling that psd is not yet computed. 
 
 
-You can either compute the PSD independantly, and then populate the psd attribute::
+You can either compute the PSD independantly, and populate the psd attribute manually::
 
     psd = speriodogram(p.data)
 
@@ -33,12 +33,22 @@ and call the function with the proper optional arguments::
 
     p(15, NFFT=4096)
 
-Now, psd should contain the PSD vector. 
+In both case, the psd is now populated in the attribute psd.
 
-Again, the best way in such case is to use::
+Nevertheless, the best way is to use the proper method directly::
 
-    p =  pminvar(data, 15)
+    p =  pminvar(data_cosine(), 15)
     p()
+    p.plot()
 
 that takes care of setting the relevant attributes. 
+
+
+.. plot:: 
+    :width: 80%
+
+    from spectrum import *
+    p =  pminvar(data_cosine(), 15)
+    p()
+    p.plot()
 

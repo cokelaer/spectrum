@@ -91,9 +91,9 @@ linalg
     :undoc-members:
     :synopsis: Linear algebra tools
 
-Transfer function
-~~~~~~~~~~~~~~~~~~~~
-.. automodule:: spectrum.transfer
+.. Transfer function
+.. ~~~~~~~~~~~~~~~~~~~~
+.. .. automodule:: spectrum.transfer
     :members:
     :undoc-members:
     :synopsis: transfer function utilities
@@ -106,9 +106,9 @@ Waveforms
     :synopsis: transfer function utilities
 
 
-Linear prediction
--------------------
-.. automodule::  spectrum.linear_prediction
+.. Linear prediction
+.. -------------------
+.. .. automodule::  spectrum.linear_prediction
     :members:
     :undoc-members:
     :synopsis: linear prediction

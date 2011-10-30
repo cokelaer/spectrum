@@ -5,7 +5,7 @@ import pylab
 from numpy.testing import assert_array_almost_equal
 
 def test_minvar_values():
-    res = minvar(marple_data, 15, NPSD=16)
+    res = minvar(marple_data, 15, NFFT=16)
     assert_array_almost_equal(res[0], numpy.array([  9.34915901e-07,   9.86770648e-07,   1.38729656e-06,
          1.74456323e-06,   4.68522681e-06,   8.93086143e-05,
         -4.43764511e-06,  -3.07585044e-06,  -3.05032082e-06,

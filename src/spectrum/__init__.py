@@ -1,5 +1,5 @@
 #: version
-__version__ = '0.4.3'
+__version__ = '0.4.4'
 #: default number os samples used to compute FFT
 default_NPSD = 4096
 

@@ -88,13 +88,13 @@ def speriodogram(x, NFFT=None, detrend=True, sampling=1.,
         from pylab import *
         # create N data sets and make the frequency dependent on the time
         N = 100
-        m = numpy.concatenate([data_cosine(N=1024, A=0.1, sampling=1024, freq=200) for x in range(1, N)]); 
+        m = numpy.concatenate([data_cosine(N=1024, A=0.1, sampling=1024, freq=x) for x in range(1, N)]); 
         m.resize(N, 1024)
         res = speriodogram(m)
         figure(1)
         semilogy(res)
         figure(2)
-        imshow(res.transpose())
+        imshow(res.transpose(), aspect='auto')
 
     .. todo:: a proper spectrogram class/function 
     """

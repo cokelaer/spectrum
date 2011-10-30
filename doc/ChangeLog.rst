@@ -1,6 +1,12 @@
 ChangeLog Summary
 ===================
 
+October 2011
+-----------------
+
+* 0.4.4: Start to provide the library on the web www.assembla.com
+
+
 May 2011
 ----------
 

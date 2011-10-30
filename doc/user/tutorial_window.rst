@@ -67,17 +67,17 @@ Window Factory
 ------------------
 
 
-All the window are gathered within a Factory function called :func:`~spectrum.window.get_window`. The previous Hamming window can then be called using:
+All the window are gathered within a Factory function called :func:`~spectrum.window.create_window`. The previous Hamming window can then be called using:
 
 .. plot::
     :width: 80%
     :include-source:
 
-    from spectrum.window import get_window
+    from spectrum.window import create_window
     from pylab import plot
 
     N = 64
-    w = get_window(N, 'hamming')
+    w = create_window(N, 'hamming')
     plot(w)
 
 The interest is that this function calls the simple function after sanity checks.
