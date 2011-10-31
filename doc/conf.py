@@ -27,8 +27,7 @@ assert hasattr(init_sphinx,'user_theme')
 assert hasattr(init_sphinx,'sphinx_themes_path')
 
 
-extensionPath = '/home/cokelaer/Work/virtualenv/openalea/misc/share/'
-sys.path.append(os.path.join(extensionPath,'sphinxext'))
+sys.path.append(os.path.join('.','sphinxext'))
 
 
 #NOTHING to change below in principle

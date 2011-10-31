@@ -1,0 +1,808 @@
+/*
+ * software.css_t
+ * ~~~~~~~~~~~~~~~
+ *
+ * Sphinx stylesheet -- 
+ *
+ * :copyright: Copyright 2007-2010 by the Sphinx team, see AUTHORS.
+ * :license: BSD, see LICENSE for details.
+ *
+ */
+
+@import url("basic.css");
+
+/* ---------------------------------------------*/
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+html, body{  
+height:100%;
+margin:0px;
+padding:0px;
+min-height:100%
+}
+
+/* ---------------------------------------------*/
+body {
+  font-family: "Verdana", Arial, sans-serif;
+  line-height: 1.4em;
+  color: black;
+  background-color: #eeeeec;
+  height:auto;
+}
+
+
+/* ---------------------------------------------*/
+/* Page layout */
+
+
+div.header, div.content, div.footer {
+  width: 70em;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.header-wrapper {
+  background: url(bgtop.png) top left repeat-x;
+  border-bottom: 4px solid #2e3436;
+}
+
+
+/* ---------------------------------------------*/
+/* Default body styles */
+a {
+  color: #ce5c00;
+}
+
+div.bodywrapper a, div.footer a {
+  text-decoration: underline;
+}
+
+.clearer {
+  clear: both;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.line-block {
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.line-block .line-block {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 1.5em;
+}
+
+h1, h2, h3, h4 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-weight: normal;
+  color: #3465a4;
+  margin-bottom: .2em;
+}
+
+h1 {
+    color: #204a87;
+}
+
+
+
+div.content h1 {
+  border-bottom: 2px solid #3465A4;
+  margin-top: 0.3em;
+  padding-bottom: .5em;
+}
+
+h2 {
+  color: #204a87;
+  margin-top: 0.3em;
+  padding-bottom: .3em;
+  border-bottom: 1px solid #3465A4;
+  width:95%
+}
+
+
+/* ---------------------------------------------*/
+/* Set the color and style of the headerlink*/
+a.headerlink {
+  visibility: hidden;
+  color: #dddddd;
+  padding-left: .3em;
+}
+
+h1:hover > a.headerlink,
+h2:hover > a.headerlink,
+h3:hover > a.headerlink,
+h4:hover > a.headerlink,
+h5:hover > a.headerlink,
+h6:hover > a.headerlink,
+dt:hover > a.headerlink {
+  visibility: visible;
+}
+
+
+/* ---------------------------------------------*/
+img {
+  border: 0;
+}
+
+/* ---------------------------------------------*/
+/* general shape of todo/seealso/warning/note boxes*/
+div.admonition {
+    font-size: 0.9em;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left:10%;
+    padding: 00px 00px 5px 00px;
+    border-left: 0.2em solid black;
+    border: 2px solid #86989B;
+    background-color: #f7f7f7;
+    width:80%;
+    font-size:      0.8em;
+    line-height:1em;
+}
+div.admonition p.last{
+    padding-left:   10px;   /*for the text*/
+    padding-right:   10px;   /*for the text*/
+    line-height:0.9em;
+}
+
+
+/* and titles*/
+div.admonition p.admonition-title {
+    color: white;
+    border-bottom: 4px solid #86989B;
+    background-color: #AFC1C4;
+    margin-left:    00px;   /* the title within the box is sticked to the borders' box*/
+    margin-right:   00px;
+    padding-left:   10px;   /*for the text*/
+    padding-bottom: 0.2em;
+    padding-top:    0.2em;
+    min-width:      120px;
+}
+
+/* the warning box has its own class names */
+div.warning p.admonition-title{
+    background-repeat: no-repeat;
+    /*margin-right:10px;
+    padding-left:5px;
+    padding-top:5px;
+    min-width:120px;*/
+    font-weight: bold;
+    /*width:100%;
+    background-color: #AFC1C4;*/
+    background-color: #CF0000;
+    border-bottom: 4px solid #940000;
+}
+
+
+div.admonition pre, div.warning pre {
+    margin: 0.0em 0.5em 0.0em 0.5em;
+}
+
+div.admonition ul, div.admonition ol,
+div.warning ul, div.warning ol {
+    margin: 0.1em 0.5em 0.5em 1em;
+    padding: 0;
+}
+
+/* TODO box ---------------------------------------- */
+div.admonition-todo {
+/*border-top: 2px solid red;
+border-bottom: 2px solid red;
+border-left: 2px solid red;
+border-right: 2px solid red;*/
+background-color: #ff6347
+}
+
+div.admonition-todo p.last{
+    padding-left:   10px;   /*for the text*/
+    padding-right:   10px;   /*for the text*/
+    line-height:0.9em;
+}
+div.admonition-todo p.first{
+    padding-left:   10px;   /*for the text*/
+    padding-right:   10px;   /*for the text*/
+    line-height:0.9em;
+    background-color: #CF0000;
+}
+
+/* ---------------------------------------------*/
+dt:target, .highlighted {
+  background-color: #fbe54e;
+}
+
+/* ---------------------------------------------*/
+/* Header */
+
+div.header {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+div.header h1 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-weight: normal;
+  font-size: 180%;
+  letter-spacing: .08em;
+}
+
+div.header h1 a {
+  color: white;
+}
+
+div.header div.rel {
+  margin-top: -1em;
+  float:right;
+}
+
+div.header div.rel a {
+  color: #fcaf3e;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------*/
+p.logo {
+    float: right;
+}
+
+/* ---------------------------------------------*/
+img.logo {
+    border: 0;
+}
+
+
+/* ---------------------------------------------*/
+/* Content */
+div.content-wrapper {
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height:90%;
+  /*position:absolute;*/
+}
+
+div.document {
+  width: 75%;
+  float: left;
+  overflow-x:auto;
+}
+
+div.body {
+  padding-right: 2em;
+  text-align: justify;
+}
+
+
+
+div.document ul {
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+  margin-bottom: .0em;
+  list-style-type: square;
+}
+
+div.document dd {
+  margin-left: 1.2em;
+  margin-top: .4em;
+  margin-bottom: 1em;
+}
+
+div.document .section {
+  margin-top: 1.7em;
+}
+div.document .section:first-child {
+  margin-top: 0px;
+}
+
+div.document div.highlight {
+  padding: 6px;
+  background-color: #eeeeec;
+  line-height:1em;
+  width:90%;
+  margin-left:0%;
+}
+
+div.highlight-html{
+  table-layout:auto;
+  overflow-x:hidden;
+  background-color: #eeeeec;
+  border-radius:18px 18px  18px 18px;
+  border: 2px solid #dddddd;
+  margin-left:5%;
+  margin-right:5%;
+  padding-left:10px;
+  margin-top:5px;
+}
+div.highlight-python, div.highlight-rest{
+  table-layout:auto;
+  overflow-x:hidden;
+  background-color: #eeeeec;
+  border-radius:18px 18px  18px 18px;
+  border: 2px solid #dddddd;
+  margin-left:5%;
+  margin-right:5%;
+  padding-left:10px;
+  margin-top:5px;
+  line-height:1em;
+}
+
+
+div.document h2 {
+  margin-top: .7em;
+}
+
+div.document p {
+  margin-bottom: .5em;
+}
+
+div.document li.toctree-l1 {
+  margin-bottom: .1em;
+}
+
+div.document .descname {
+  font-weight: bold;
+}
+
+div.document .docutils.literal {
+  background-color: #eeeeec;
+  padding: 1px;
+}
+
+div.document .docutils.xref.literal {
+  background-color: transparent;
+  padding: 0px;
+}
+
+div.document blockquote {
+  margin: 1em;
+}
+
+div.document ol {
+  margin: 1.5em;
+}
+
+
+/* ---------------------------------------------*/
+/* Sidebar */
+
+div.sidebar {
+    height:85%;
+    width: 22%;
+    font-size: .9em;
+    position:fixed;
+    margin-left:70%;
+    margin-right:8%;
+    top:54px; /*size of the top bgk image + 4px for the bar*/
+    border-radius:16px 16px  16px 16px;
+    margin-bottom:48px;
+    /*max-height:400px;*/
+  overflow:auto;
+}
+
+div.sidebar a, div.header a {
+  text-decoration: none;
+}
+
+div.sidebar a:hover, div.header a:hover {
+  text-decoration: underline;
+}
+
+div.sidebar h3 {
+  color: #2e3436;
+  text-transform: uppercase;
+  font-size: 130%;
+  letter-spacing: .1em;
+}
+
+div.sidebar ul.current {
+  list-style-type: none;
+  height:150px;
+  overflow:auto;
+}
+
+div.sidebar ul {
+  list-style-type: none;
+}
+
+div.sidebar li.toctree-l1 a {
+  display: block;
+  padding: 1px;
+  border: 1px solid #dddddd;
+  background-color: #eeeeec;
+  margin-bottom: .4em;
+  padding-left: 3px;
+  color: #2e3436;
+}
+
+div.sidebar li.toctree-l2 a {
+  background-color: transparent;
+  border: none;
+  margin-left: 1em;
+  border-bottom: 1px solid #dddddd;
+}
+
+div.sidebar li.toctree-l3 a {
+  background-color: transparent;
+  border: none;
+  margin-left: 2em;
+  border-bottom: 1px solid #dddddd;
+}
+
+div.sidebar li.toctree-l2:last-child a {
+  border-bottom: none;
+}
+
+div.sidebar li.toctree-l1.current a {
+  border-right: 5px solid #fcaf3e;
+}
+
+div.sidebar li.toctree-l1.current li.toctree-l2 a {
+  border-right: none;
+}
+
+
+/* ---------------------------------------------*/
+/* Footer */
+
+div.footer-wrapper {
+  background: url(bgfooter.png) top left repeat-x;
+  border-top: 2px solid #babdb6;
+  border-right: 2px solid #babdb6;
+  width:70%;                    /* with respect to the entire window*/
+  font-size:0.7em;
+  height:50px;
+  /*position:fixed;*/
+  bottom:0px;
+/*
+  margin-bottom:0px;
+  padding-bottom:0px;*/
+  overflow: auto;
+  line-height:1.2em;
+}
+
+div.footer, div.footer a {
+  color: #888a85;
+}
+
+div.footer .right {
+  text-align: left;
+  width:100%;                    /*copyright, and analytics div in the footer-wrapper*/
+  font-size:0.8em;
+}
+
+div.footer .left {              /*source/index/next div*/
+  text-transform: uppercase;
+  width: 18%;
+  font-size:0.8em;
+}
+
+
+/* Styles copied from basic theme */
+
+
+/* -- search page ----------------------------------------------------------- */
+
+ul.search {
+    margin: 10px 0 0 20px;
+    padding: 0;
+}
+
+ul.search li {
+    padding: 5px 0 5px 20px;
+    background-image: url(file.png);
+    background-repeat: no-repeat;
+    background-position: 0 7px;
+}
+
+ul.search li a {
+    font-weight: bold;
+}
+
+ul.search li div.context {
+    color: #888;
+    margin: 2px 0 0 30px;
+    text-align: left;
+}
+
+ul.keywordmatches li.goodmatch a {
+    font-weight: bold;
+}
+
+/* -- index page ------------------------------------------------------------ */
+
+table.contentstable {
+    width: 90%;
+}
+
+table.contentstable p.biglink {
+    line-height: 150%;
+}
+
+a.biglink {
+    font-size: 1.3em;
+}
+
+span.linkdescr {
+    font-style: italic;
+    padding-top: 1px;
+    font-size: 90%;
+}
+
+/* -- general index --------------------------------------------------------- */
+
+table.indextable td {
+    text-align: left;
+    vertical-align: top;
+}
+
+table.indextable dl, table.indextable dd {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+table.indextable tr.pcap {
+    height: 10px;
+}
+
+table.indextable tr.cap {
+    margin-top: 10px;
+    background-color: #f2f2f2;
+}
+
+img.toggler {
+    margin-right: 3px;
+    margin-top: 3px;
+    cursor: pointer;
+}
+
+
+/* -- viewcode extension ---------------------------------------------------- */
+
+.viewcode-link {
+    float: right;
+}
+
+.viewcode-back {
+    float: right;
+    font-family:: "Verdana", Arial, sans-serif;
+}
+
+div.viewcode-block:target {
+    margin: -1px -3px;
+    padding: 0 3px;
+    background-color: #f4debf;
+    border-top: 1px solid #ac9;
+    border-bottom: 1px solid #ac9;
+}
+
+
+
+div.legend {
+background-color:#11557C;
+/*font-weight:bold;*/
+font-size:.8em;
+width:80%;
+}
+
+
+/*box around the parameters created wihh :param x: */
+table.docutils{
+border-left: 1px solid gray;
+border-right: 1px solid gray;
+border-top: 1px solid gray;
+border-bottom: 1px solid gray;
+min-width:30%;
+max-width:90%;
+}
+
+table.citation{
+    border: 0;
+    margin: 2px;
+}
+table.citation td.label{
+    width:20%;
+    color:red;
+}
+table.citation tr{
+    border: 1px solid;
+}
+
+/* when using 
+ * ======
+ * ======
+ * data
+ * ======
+ *the first row is colored in blue
+ * */
+th.head {
+background-color:#E3EFF1
+}
+
+
+
+
+
+
+p.rubric {
+color:blue;
+}
+
+th.field-name {
+color:blue;
+min-width:25%;
+background-color:#eeeeee;
+}
+
+/* surround the classes, functions and exceptions with boxes*/
+dl.class, dl.function, dl.exception{
+    margin-top:10px;
+    border-top: 2px solid #888;
+    border-bottom: 2px solid #888;
+    border-left: 2px solid #888;
+    border-right: 2px solid #888;
+}
+
+
+dl.method, dl.attribute {
+    border-top: 1px solid #aaa;
+}
+
+img.inheritance {
+    border: 1px solid blue;
+    max-width:90%;
+    align:center;
+}
+
+
+
+
+
+
+
+
+
+table.footnote td, table.footnote th {
+  border: none;
+}
+
+
+table indextable{
+    border-collapse: collapse;
+    margin: 0 -0.5em 0 -0.5em;
+    table-layout:auto;
+    width:100%;
+    overflow:hidden;
+    word-wrap:break-word;
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+
+ }
+
+
+
+.first {
+    margin-top: 0 !important;
+}
+
+/* FIGURE and IMAGE related*/
+
+
+img.align-left, .figure.align-left, object.align-left {
+    clear: left;
+    float: left;
+    margin-right: 1em;
+}
+
+img.align-right, .figure.align-right, object.align-right {
+    clear: right;
+    float: right;
+    margin-left: 1em;
+}
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.align-center {
+    clear: both;
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
+}
+
+
+/*all figure are centered with a border and max width*/
+div.figure {
+border-top: 2px solid #888;
+border-left: 2px solid #888;
+border-bottom: 2px solid #888;
+border-right: 2px solid #888;
+max-width:70%;
+margin-left:15px;
+margin-right:15px;
+margin-top:5px;
+margin-bottom:5px;
+text-align:center;
+background-color:#fff;
+padding:1%;
+display:block;
+margin-right:auto;
+margin-left:auto;
+}
+
+div.topic {
+border: 1px solid #CCCCCC;
+margin: 10px 0;
+padding: 7px 7px 7px 7px;
+border-radius:16px 16px  16px 16px;
+
+}
+div.topic#figure{
+clear:both;
+display:block;
+margin-right:auto;
+margin-left:auto;
+}
+
+div.topic img{
+clear:both;
+display:block;
+margin-right:5px;
+margin-left:5px;
+border: 1px solid #888;
+}
+
+
+div.figure p.caption {
+clear:both;
+background-color:#11557;
+font-size:.8em;
+font-weight:bold;
+width:80%;
+margin-left:10%;
+margin-right:10%;
+text-align:justify;
+line-height:1.2em;
+}
+
+
+
+/* This is for the linenos option of literalinclude directive */
+div.linenodiv{
+line-height:1em;
+}
+
+/* other fields of interests for literalinclude are td.linenos, td.linenos pre*/
+
+table.highlighttable {
+table-layout:auto;
+width:90%;
+}
+
+table.highlighttable td {
+    padding: 0px;
+}
