@@ -1,5 +1,5 @@
 
-from spectrum import transfer
+##from spectrum import transfer
 from spectrum.transfer import *
 from nose.tools import assert_almost_equal
 
