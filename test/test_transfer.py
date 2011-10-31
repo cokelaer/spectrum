@@ -1,6 +1,5 @@
-
-##from spectrum import transfer
-from spectrum.transfer import *
+from spectrum import transfer
+from transfer import *
 from nose.tools import assert_almost_equal
 
 def test_tf2zpk():

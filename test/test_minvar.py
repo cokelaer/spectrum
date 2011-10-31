@@ -1,6 +1,10 @@
+from spectrum import *
+from spectrum import minvar
+from minvar import *
+
+
 import numpy
 from spectrum import marple_data
-from spectrum.minvar import *
 import pylab
 from numpy.testing import assert_array_almost_equal
 

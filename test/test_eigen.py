@@ -1,6 +1,7 @@
+from spectrum import eigen
 import numpy
-from spectrum import MINEIGVAL
-from spectrum.eigen import *
+#from spectrum import MINEIGVAL
+from eigen import *
 from nose.tools import assert_almost_equal
 
 

@@ -1,5 +1,6 @@
 from spectrum import *
-from spectrum.modcovar import *
+from spectrum import modcovar 
+from modcovar import *
 import pylab
 from numpy.testing import *
 

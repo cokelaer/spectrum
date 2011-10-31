@@ -1,5 +1,6 @@
+
 from spectrum import datasets
-from spectrum.datasets import *
+from datasets import *
 
 def test_cos():
     d = data_cosine()

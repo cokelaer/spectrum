@@ -1,4 +1,7 @@
-from spectrum import marple_data, datasets
+from spectrum import *
+from spectrum import periodogram
+from periodogram import *
+
 from pylab import linspace, log10, plot, ylim, savefig
 from nose.tools import assert_almost_equal
 from spectrum.periodogram import *

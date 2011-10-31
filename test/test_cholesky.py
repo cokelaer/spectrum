@@ -1,4 +1,7 @@
-from spectrum.cholesky import *
+
+from spectrum import *
+from spectrum import cholesky
+from cholesky import *
 from numpy.testing import assert_array_almost_equal
 import numpy
 

@@ -33,10 +33,10 @@ import tools
 import window
 import waveform
 import yulewalker
-#import transfer
+import transfer
 
 
-#from transfer import *
+from transfer import *
 from arma import *
 from burg import *
 from cholesky import *

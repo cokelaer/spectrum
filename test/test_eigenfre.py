@@ -1,7 +1,8 @@
-from spectrum import marple_data, data_cosine
-from pylab import plot, linspace, log10, savefig
+from spectrum import *
 from spectrum import eigenfre
-from spectrum.eigenfre import *
+from eigenfre import *
+
+from pylab import plot, linspace, log10, savefig
 import numpy
 from numpy.testing import *
 
