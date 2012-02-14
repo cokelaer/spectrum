@@ -15,7 +15,7 @@ class SpectrumError(Exception):
 class SpectrumModifiedError(SpectrumError):
     def __str__(self):
         msg = """Data has been modified (or NFFT, or sampling, or N) but 
-            the PSD has not be (re)-computed. Call it using name.()"""
+            the PSD has not be (re)-computed. Call it using () or run() method."""
         return msg
     
 class SpectrumChoiceError(SpectrumError):
@@ -53,9 +53,9 @@ class SpectrumOrder(SpectrumError):
         msg = """AR or MA order must be stricly positive"""
         return msg
 
-class SpectrumNPSD(SpectrumError):
+class SpectrumNFFT(SpectrumError):
     def __str__(self):
-        msg = """NPSD must be stricly positive"""
+        msg = """NFFT must be stricly positive"""
         return msg
         
 def is_positive_integer(order, name="wrong argument. "):

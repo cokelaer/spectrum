@@ -1,30 +1,25 @@
-Download
-================
+Installation and source 
+=========================
+
+**Spectrum** is available on `PYPI <http://pypi.python.org/pypi>`_, so you should be able to type::
+
+    easy_install -U spectrum 
 
 
-The source code is available here:
+Since spectrum depends on other python packages such as Numpy, Matplotlib and Scipy they will be installed automatically (if not already installed). 
 
-https://www.assembla.com/code/PySpectrum/subversion/nodes/trunk/
-
-Official tarball coming soon...
-
-
-Installation
-=================
-
-First, you will need some standard libraries::
-
+You can also install them yourself by typing::
 
     easy_install -U numpy
     easy_install -U matplotlib
     easy_install -U scipy
 
 
-.. note:: the -U update the already installed libraries.
+.. note:: the -U option updates the libraries that are already installed.
 
-The source code is available here:
+
+**Spectrum** source code (SVN repository) is available here:
 
 https://www.assembla.com/code/PySpectrum/subversion/nodes/trunk/
-
 
 

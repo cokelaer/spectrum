@@ -33,7 +33,8 @@ Minimum Variance estimator
 
 Modified Covariance method
 ---------------------------
-.. automodule:: modcovar
+
+.. module:: modcovar
     :synopsis: PSDs estimate using modified covariance analysis
 .. automodule:: spectrum.modcovar
     :members:

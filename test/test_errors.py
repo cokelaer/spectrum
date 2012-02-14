@@ -38,7 +38,7 @@ def test_errors():
     print a
     a = SpectrumOrder()
     print a
-    a = SpectrumNPSD()
+    a = SpectrumNFFT()
     print a
     
 

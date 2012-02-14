@@ -1,6 +1,7 @@
 import numpy
 from spectrum import *
 from spectrum.psd import *
+from spectrum.psd import Range # not exposed in __all__, so need to import manually
 from spectrum.errors import *
 from numpy.testing import assert_array_almost_equal
 import pylab

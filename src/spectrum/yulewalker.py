@@ -136,10 +136,11 @@ class pyule(ParametricSpectrum):
         
         For a detailled description of the parameters, see :func:`aryule`.
          
-        :param array data:
+        :param array data: input data (list or numpy.array)
         :param int order:
-        :param int NFFT:
-        :param float sampling:
+        :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+        :param float sampling: sampling frequency of the input :attr:`data`
+
         :param str norm: don't change if you do not know
                 
         """
@@ -151,7 +152,7 @@ class pyule(ParametricSpectrum):
     def __call__(self):
         import arma
         ar, rho, k = aryule(self.data, self.ar_order, norm=self._norm_aryule)
-        psd = arma.arma2psd(ar, NPSD=self.NFFT, rho=rho, T=self.sampling)
+        psd = arma.arma2psd(ar, NFFT=self.NFFT, rho=rho, T=self.sampling)
         # save the AR and reflection coefficients.
         self.ar = ar
         self.reflection = k

@@ -51,7 +51,7 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.inheritance_diagram',
     #'sphinx.ext.viewcode',
-    #'numpyext.only_directives',
+    'matplotlib.sphinxext.only_directives',
     'matplotlib.sphinxext.plot_directive',
     #'numpyext.numpydoc',
     #'numpyext.plot_directive',
@@ -227,8 +227,8 @@ latex_font_size = '10pt'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'main.tex', u'Documentation',
-   u'username from metainfo.ini', 'manual'),
+  ('contents', 'main.tex', u'Documentation',
+   u'Thomas Cokelaer', 'manual'),
 ]
 
 latex_elements = { 'inputenc': '\\usepackage[utf8]{inputenc}' }

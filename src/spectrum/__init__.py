@@ -1,7 +1,7 @@
 #: version
-__version__ = '0.4.5'
+__version__ = '0.5.0'
 #: default number os samples used to compute FFT
-default_NPSD = 4096
+default_NFFT = 4096
 
 import arma
 import burg

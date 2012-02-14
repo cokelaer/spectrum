@@ -103,11 +103,12 @@ class pburg(ParametricSpectrum):
 
         For a detailled description of the parameters, see :func:`burg`.
 
-        :param array data:
+        :param array data:     input data (list or numpy.array)
         :param int order:  
         :param str criteria:
-        :param int NFFT:
-        :param float sampling: 
+        :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+
+        :param float sampling: sampling frequency of the input :attr:`data`. 
 
         """
         super(pburg, self).__init__(data, ar_order=order, 
@@ -121,7 +122,7 @@ class pburg(ParametricSpectrum):
         self.rho = rho
         self.reflection = ref
         psd = arma2psd(A=self.ar, B=self.ma, rho=self.rho, 
-                      T=self.sampling, NPSD=self.NFFT)
+                      T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
             newpsd  = psd[0:self.NFFT/2]*2

@@ -30,6 +30,7 @@ def pascal(n):
            [   1.,    5.,   15.,   35.,   70.,  126.],
            [   1.,    6.,   21.,   56.,  126.,  252.]])
 
+    .. todo:: use the symmetric property to improve computational time if needed
     """
     errors.is_positive_integer(n)
     result = numpy.zeros((n, n))

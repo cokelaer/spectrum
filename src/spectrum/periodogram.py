@@ -7,7 +7,8 @@
         Periodogram
         DaniellPeriodogram
         speriodogram
-    
+        WelchPeriodogram
+        speriodogram    
         
     .. codeauthor:: Thomas Cokelaer 2011
      
@@ -45,7 +46,7 @@ import pylab as plt
     
     
     
-__all__ = ['pdaniell', 'speriodogram', 'Periodogram', 'pylab_periodogram', 
+__all__ = ['pdaniell', 'speriodogram', 'Periodogram', 'WelchPeriodogram', 
            'DaniellPeriodogram']
 
  
@@ -56,7 +57,8 @@ def speriodogram(x, NFFT=None, detrend=True, sampling=1.,
     :param x: an array or matrix of data samples.
     :param NFFT: length of the data before FFT is computed (zero padding)
     :param bool detrend: detrend the data before co,puteing the FFT
-    :param float sampling:
+    :param float sampling: sampling frequency of the input :attr:`data`.
+
     :param scale_by_freq:
     :param str window:
 
@@ -96,12 +98,11 @@ def speriodogram(x, NFFT=None, detrend=True, sampling=1.,
         figure(2)
         imshow(res.transpose(), aspect='auto')
 
-    .. todo:: a proper spectrogram class/function 
+    .. todo:: a proper spectrogram class/function that takes care of normalisation
     """
     x = array(x)
     # array with 1 dimension case
     if x.ndim == 1:
-        print 'array case'
         axis = 0
         r = x.shape[0]
         w = Window(r, window)   #same size as input data
@@ -139,16 +140,12 @@ def speriodogram(x, NFFT=None, detrend=True, sampling=1.,
 
 
 
-def pylab_periodogram(data, NFFT=None,  sampling=1.):
-    r"""Simple periodogram wrapper of numpy.psd with only nfft option
+def WelchPeriodogram(data, NFFT=None,  sampling=1., **kargs):
+    r"""Simple periodogram wrapper of numpy.psd function.
 
-    This function is a simplified version of numpy.psd. The main difference
-    is that you do not have the possibility to average over several segments, 
-    as a Welch Periodogram would allow.
-
-    :param A: the input data
-    :param NFFT: NFFT padding
-    :param window: the type of tapering
+    :param A:              the input data
+    :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+    :param str window: 
 
 
     :Technical documentation:
@@ -185,16 +182,18 @@ def pylab_periodogram(data, NFFT=None,  sampling=1.):
 
 
     .. plot::
+        :width: 80%
+        :include-source:
 
 
         from spectrum import *
-        psd = pylab_periodogram(marple_data, 256)
+        psd = WelchPeriodogram(marple_data, 256)
 
 
     """
     spectrum = Spectrum(data, sampling=1.)
     
-    P = plt.psd(data, NFFT, sampling=sampling)
+    P = plt.psd(data, NFFT, Fs=sampling, **kargs)
     spectrum.psd = P[0]
     #spectrum.__Spectrum_sides = 'twosided'
     
@@ -220,11 +219,11 @@ class Periodogram(FourierSpectrum):
                  window='hann', NFFT=None, scale_by_freq=False, 
                  detrend=None):
         """**Periodogram Constructor**
-        
-        :param array data:
-        :param float sampling:
-        :param str window:
-        :param int NFFT:
+       
+        :param array data:     input data (list or numpy.array) 
+        :param float sampling: sampling frequency of the input :attr:`data`.
+        :param str window:  a tapering window. See :class:`~spectrum.window.Window`.
+        :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
         :param bool scale_by_freq:
         :param str detrend:
         
@@ -243,7 +242,7 @@ class Periodogram(FourierSpectrum):
         self.psd = psd
         if self.scale_by_freq is True:
             self.scale()
-        
+     
     def _str_title(self):
         return "Periodogram PSD estimate\n"
     
@@ -325,7 +324,6 @@ class pdaniell(FourierSpectrum):
     
     ::
     
-    
         from spectrum import *
         data = data_cosine(N=4096, sampling=4096)
         p = pdaniell(data, 8, NFFT=4096)
@@ -338,12 +336,12 @@ class pdaniell(FourierSpectrum):
                  window='hann', NFFT=None, scale_by_freq=True, 
                  detrend=None):
         """**pdaniell Constructor**
-        
-        :param array data:
-        :param int P: number of neighbour to average over.
-        :param float sampling:
-        :param str window:
-        :param int NFFT:
+       
+        :param array data:  input data (list or numpy.array) 
+        :param int P:       number of neighbours to average over.
+        :param float sampling: sampling frequency of the input :attr:`data`.
+        :param str window:  a tapering window. See :class:`~spectrum.window.Window`.
+        :param int NFFT:    total length of the final data sets (padded with zero if needed; default is 4096)
         :param bool scale_by_freq:
         :param str detrend:
         
@@ -356,12 +354,11 @@ class pdaniell(FourierSpectrum):
                                        detrend=detrend)
         self.P = P
     def __call__(self):
-        res = DaniellPeriodogram(self.data, self.P, window=self.window, sampling=self.sampling, 
-                             NFFT=self.NFFT, scale_by_freq=self.scale_by_freq,
-                             detrend=self.detrend)
-        
+        res = DaniellPeriodogram(self.data, self.P, window=self.window, 
+                  sampling=self.sampling, NFFT=self.NFFT, 
+                  scale_by_freq=self.scale_by_freq,
+                  detrend=self.detrend)
         self.psd = res[0]
-        
         
     def _str_title(self):
         return "Daniell Periodogram PSD estimate\n"

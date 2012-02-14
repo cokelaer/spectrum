@@ -65,7 +65,7 @@ def test_ma():
 
 
 def test_arma2psd():
-    psd = arma2psd([0.5], NPSD=16, norm=True)*4
+    psd = arma2psd([0.5], NFFT=16, norm=True)*4
     assert_array_almost_equal(psd, numpy.array([ 0.44444444,  0.46000709,  0.51095832,  0.61248861,  0.8       ,
             1.15298155,  1.84198285,  3.06635155,  4.        ,  3.06635155,
             1.84198285,  1.15298155,  0.8       ,  0.61248861,  0.51095832,

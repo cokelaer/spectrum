@@ -26,7 +26,7 @@ from spectrum.psd import ParametricSpectrum
 __all__ = ["arma2psd", "arma_estimate", "ma", "pma", "parma"]
 
 
-def arma2psd(A=None, B=None, rho=1., T=1., NPSD=4096, sides='default', norm=False):
+def arma2psd(A=None, B=None, rho=1., T=1., NFFT=4096, sides='default', norm=False):
     r"""Computes power spectral density given ARMA values.
 
     This function computes the power spectral density values
@@ -34,13 +34,13 @@ def arma2psd(A=None, B=None, rho=1., T=1., NPSD=4096, sides='default', norm=Fals
     the driving sequence is a white noise process of zero mean and 
     variance :math:`\rho_w`. The sampling frequency and noise variance are
     used to scale the PSD output, which length is set by the user with the 
-    `NPSD` parameter. 
+    `NFFT` parameter. 
     
     :param array A:   Array of AR parameters (complex or real)
     :param array B:   Array of MA parameters (complex or real)
     :param float rho: White noise variance to scale the returned PSD
     :param float T:   Sample interval in seconds to scale the returned PSD
-    :param int NPSD:  Final size of the PSD
+    :param int NFFT:  Final size of the PSD
     :param str sides: Default PSD is two-sided, but sides can be set to centerdc.
     
     .. warning:: By convention, the AR or MA arrays does not contain the
@@ -77,29 +77,29 @@ def arma2psd(A=None, B=None, rho=1., T=1., NPSD=4096, sides='default', norm=Fals
         
     :References: [Marple]_
     """
-    if NPSD == None:
-        NPSD = 4096
+    if NFFT == None:
+        NFFT = 4096
     
     if A == None and B == None:
         raise ValueError("Either AR or MA model must be provided")
     
-    psd = zeros(NPSD, dtype=complex)
+    psd = zeros(NFFT, dtype=complex)
     
     if A != None:
         ip = len(A)
-        den = zeros(NPSD, dtype=complex)
+        den = zeros(NFFT, dtype=complex)
         den[0] = 1.+0j
         for k in range(0, ip):
             den[k+1] = A[k]
-        denf = fft(den, NPSD)
+        denf = fft(den, NFFT)
 
     if B != None:
         iq = len(B)
-        num = zeros(NPSD, dtype=complex)
+        num = zeros(NFFT, dtype=complex)
         num[0] = 1.+0j
         for k in range(0, iq):
             num[k+1] = B[k]
-        numf = fft(num, NPSD)
+        numf = fft(num, NFFT)
 
     if A != None and B != None:
         psd = rho * T * abs(numf)**2. /  abs(denf)**2.
@@ -237,12 +237,12 @@ class parma(ParametricSpectrum):
         
         For a detailed description of the parameters, see :func:`arma_estimate`.
         
-        :param array data:
+        :param array data:     input data (list or numpy.array)
         :param int P:
         :param int Q:
         :param int lag:
-        :param int NFFT:
-        :param float sampling:
+        :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+        :param float sampling: sampling frequency of the input :attr:`data`.
                 
         """
         super(parma, self).__init__(data, ma_order=Q, ar_order=P, lag=lag, 
@@ -257,7 +257,7 @@ class parma(ParametricSpectrum):
         self.ar = ar_params
         self.rho = rho
         psd = arma2psd(A=self.ar, B=self.ma, rho=self.rho, 
-                      T=self.sampling, NPSD=self.NFFT)
+                      T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
             newpsd  = psd[0:self.NFFT/2]*2
@@ -298,11 +298,12 @@ class pma(ParametricSpectrum):
         
         For a detailed description of the parameters, see :func:`ma`.
         
-        :param array data:
-        :param int Q: MA order
-        :param int M: AR model used to estimate the MA parameters
-        :param int NFFT: 
-        :param float sampling:
+        :param array data:     input data (list or numpy.array)
+        :param int Q:          MA order
+        :param int M:          AR model used to estimate the MA parameters
+        :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+        :param float sampling: sampling frequency of the input :attr:`data`.
+
                 
         """
         super(pma, self).__init__(data, ma_order=Q, ar_order=M, 
@@ -314,7 +315,7 @@ class pma(ParametricSpectrum):
         self.ma = ma_params
         self.rho = rho
         psd = arma2psd(A=None, B=self.ma, rho=self.rho, 
-                      T=self.sampling, NPSD=self.NFFT)
+                      T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
             import tools

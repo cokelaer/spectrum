@@ -140,7 +140,7 @@ def _twosided_zerolag(data, zerolag):
 def cshift(data, offset):
     """Circular shift to the right (within an array) by a given offset
 
-    :param array data: an input array
+    :param array data: input data (list or numpy.array)
     :param int offset: shift the array with the offset
     
     .. doctest::

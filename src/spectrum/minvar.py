@@ -13,13 +13,13 @@ import numpy
 from burg import arburg
 from numpy.fft import fft
 from psd import ParametricSpectrum
-from spectrum import default_NPSD
+from spectrum import default_NFFT
 import errors
 
 __all__ = ["minvar", "pminvar"]
 
 
-def minvar(X, order, sampling=1., NFFT=default_NPSD):
+def minvar(X, order, sampling=1., NFFT=default_NFFT):
     r"""Minimum Variance Spectral Estimation (MV)
 
     This function computes the minimum variance spectral estimate using
@@ -80,6 +80,7 @@ def minvar(X, order, sampling=1., NFFT=default_NPSD):
     
     # First, we need to compute the AR values (note that order-1)
     A, P, k = arburg (X, order - 1)
+
     # add the order 0 
     A = numpy.insert(A, 0, 1.+0j)
 
@@ -104,10 +105,10 @@ def minvar(X, order, sampling=1., NFFT=default_NPSD):
     P = 0.00636525545
     """
     
-    # if we use exqtly the same AR coeff and P from MArple BUrg output, then 
+    # if we use exactly the same AR coeff and P from Marple Burg output, then 
     # we can compare the following code. This has been done and reveals that
     # the FFT in marple is also slightly different (precision) from this one.
-    # However, the results are sufficiently close (when NPSD is small) that
+    # However, the results are sufficiently close (when NFFT is small) that
     # we are confident the following code is correct.
 
     # Compute the psi coefficients
@@ -154,16 +155,17 @@ class pminvar(ParametricSpectrum):
         """**Constructor**
         
         For a detailled description of the parameters, see :func:`minvar`.
-         
-        :param array data:
+
+        :param array data:     input data (list or numpy.array)         
         :param int order:
-        :param int NFFT:
-        :param float sampling:
+        :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+        :param float sampling: sampling frequency of the input :attr:`data`.
+
                 
         """
         super(pminvar, self).__init__(data, ar_order=order, sampling=sampling, 
                                             NFFT=NFFT)
-        
+         
 
     def __call__(self):
         res = minvar(self.data, self.ar_order, sampling=self.sampling, 

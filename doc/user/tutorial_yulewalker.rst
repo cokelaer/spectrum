@@ -2,8 +2,8 @@ Yule Walker example
 =====================
 
 The following example illustrate the usage of the :func:`~spectrum.yulewalker.aryule` function
-that allows you to estimate the autoregressive coefficients of some data. First, you will need those
-modules and packages:
+that allows you to estimate the autoregressive coefficients of a set of data. First, we need some
+packages:
 
 
 .. doctest::
@@ -24,7 +24,7 @@ This array will be our data to test the Yule-Walker function, namely :func:`aryu
 
     ar, variance, coeff_reflection = aryule(y[0], 20)
 
-By looking at the `coeff_reflection` output, it appears that the AR coefficiency  are rather small for order>4. 
+By looking at the `coeff_reflection` output, it appears that the AR coefficient are rather small for order>4 (see following plot). From the plot, chosing an order 4 seems a reasonable choice. 
 
 
 .. plot::  
@@ -49,16 +49,20 @@ It is possible to plot the PSD from the `ar` values using this:
     from pylab import *
     import scipy.signal
     from spectrum import *
+    # Create a AR model
     a = [1, -2.2137, 2.9403, -2.1697, 0.9606]
+    # create some data based on these AR parameters
     y = scipy.signal.lfilter([1], a, randn(1, 1024))
-    # PSD of  the model ouput
-    p = Periodogram(y[0], sampling=2.)
+    # if we know only the data, we estimate the PSD using Periodogram
+    p = Periodogram(y[0], sampling=2)  # y is a list of list hence the y[0]
     p()
     p.plot(label='Model ouput')
+    # now, let us try to estimate the original AR parameters
     AR, P, k = aryule(y[0], 4) 
-    PSD = arma2psd(AR, NPSD=512)
+    PSD = arma2psd(AR, NFFT=512)
     PSD = PSD[len(PSD):len(PSD)/2:-1]
-    plot(linspace(0, 1, len(PSD)), 10*log10(abs(PSD)*2./(2.*pi)), label='Estimate of y using Yule-Walker AR(4)')
+    plot(linspace(0, 1, len(PSD)), 10*log10(abs(PSD)*2./(2.*pi)), 
+        label='Estimate of y using Yule-Walker AR(4)')
     xlabel(r'Normalized frequency (\times \pi rad/sample)')
     ylabel('One-sided PSD (dB/rad/sample)')
     legend()

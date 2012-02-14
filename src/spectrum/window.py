@@ -9,7 +9,23 @@
         window_hann
         window_hamming
         window_bartlett
-        ...
+        window_bartlett_hann
+        window_blackman
+        window_blackman_harris
+        window_blackman_nuttall
+        window_bohman
+        window_chebwin
+        window_cosine
+        window_flattop
+        window_gaussian
+        window_hamming
+        window_hann
+        window_kaiser
+        window_lanczos
+        window_nuttall
+        window_parzen
+        window_tukey
+
         
     .. codeauthor:: Thomas Cokelaer 2011
  
@@ -17,6 +33,10 @@
 """
 from numpy import pi, cos, arange, array, sin, exp, sinc, linspace, \
     sqrt, ones, sum
+
+
+#__all__ = ["window_names","Window","create_window"]
+
 
 window_names = {
                  'bartlett_hann': 'window_bartlett_hann',
@@ -35,7 +55,7 @@ window_names = {
                  'nuttall':'window_nuttall',
                  'parzen':'window_parzen',
                  'flattop': 'window_flattop',
-                  'riesz':'window_riesz',
+                 'riesz':'window_riesz',
                  'riemann':'window_riemann',
                  'hann':'window_hann',
                  'hanning':'window_hann',
@@ -170,8 +190,8 @@ class Window(object):
         """Compute the window data frequency response
 
         :param norm: True by default. normalised the frequency data.
-        :param NFFT: 2048 by default. if less than data length, then 
-            NFFT is set to the data length*2.
+        :param int NFFT:       total length of the final data sets( 2048 by default. if less than data length, then 
+            NFFT is set to the data length*2).
             
         The response is stored in :attr:`response`.
         
@@ -1193,7 +1213,7 @@ def window_riemann(N):
     .. seealso:: :func:`create_window`, :class:`Window`
     """
     n = linspace(-N/2., (N)/2., N)
-    w = sin(n/N*2.*pi)/(n/N*2.*pi)
+    w = sin(n/float(N)*2.*pi) / (n / float(N)*2.*pi)
     return w
 
 

@@ -360,10 +360,10 @@ class pcovar(ParametricSpectrum):
 
         For a detailled description of the parameters, see :func:`arcovar`.
 
-        :param array data:
+        :param array data:     input data (list or numpy.array)
         :param int order:  
-        :param int NFFT:
-        :param float sampling: 
+        :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+        :param float sampling: sampling frequency of the input :attr:`data`.
 
 
         """
@@ -375,7 +375,7 @@ class pcovar(ParametricSpectrum):
         from spectrum import arma2psd
         ar, _e = arcovar(self.data, self.ar_order)
         self.ar = ar
-        psd = arma2psd(A=ar, T=self.sampling, NPSD=self.NFFT)
+        psd = arma2psd(A=ar, T=self.sampling, NFFT=self.NFFT)
         
         if self.datatype == 'real':
             from tools import twosided_2_onesided

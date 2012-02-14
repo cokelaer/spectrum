@@ -1,7 +1,7 @@
 import numpy
 from numpy.fft import fft
 from numpy.linalg import svd
-from spectrum import default_NPSD
+from spectrum import default_NFFT
 from psd import ParametricSpectrum
 #import spectrum
 from tools import twosided_2_onesided, centerdc_2_twosided, twosided_2_centerdc
@@ -32,10 +32,10 @@ class pmusic(ParametricSpectrum):
 
         For a detailed description of the parameters, see :func:`arma_estimate`.
 
-        :param array data:
+        :param array data:     input data (list or numpy.array)
         :param int IP:
-        :param int NFFT:
-        :param float sampling:
+        :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+        :param float sampling: sampling frequency of the input :attr:`data`.
 
         """
         super(pmusic, self).__init__(data, ar_order=IP,  
@@ -44,7 +44,7 @@ class pmusic(ParametricSpectrum):
 
     def __call__(self):
         psd, _eigenvalues = eigen(self.data, self.ar_order, NSIG=self.NSIG, 
-            NPSD=self.NFFT, threshold=None, criteria='aic', verbose=verbose, method='music')
+            NFFT=self.NFFT, threshold=None, criteria='aic', verbose=verbose, method='music')
         if self.datatype == 'real':
             self.psd = twosided_2_onesided(psd)
         else:
@@ -79,10 +79,10 @@ class pev(ParametricSpectrum):
 
         For a detailed description of the parameters, see :func:`arma_estimate`.
 
-        :param array data:
+        :param array data:     input data (list or numpy.array)
         :param int IP:
-        :param int NFFT:
-        :param float sampling:
+        :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+        :param float sampling: sampling frequency of the input :attr:`data`.
 
         """
         super(pev, self).__init__(data, ar_order=IP,  
@@ -91,7 +91,7 @@ class pev(ParametricSpectrum):
 
     def __call__(self):
         psd, _eigenvalues = eigen(self.data, self.ar_order, NSIG=self.NSIG, 
-            NPSD=self.NFFT, threshold=None, criteria='aic', verbose=verbose, 
+            NFFT=self.NFFT, threshold=None, criteria='aic', verbose=verbose, 
             method='ev')
         if self.datatype == 'real':
             self.psd = twosided_2_onesided(psd)
@@ -108,20 +108,20 @@ class pev(ParametricSpectrum):
 
 
 
-def music(X, IP, NSIG=None, NPSD=default_NPSD, threshold=None, criteria='aic',
+def music(X, IP, NSIG=None, NFFT=default_NFFT, threshold=None, criteria='aic',
         verbose=False):
     """Eigen value pseudo spectrum estimate. See :func:`eigenfre`"""
-    return eigen(X, IP, NSIG=NSIG, method='music', NPSD=NPSD, 
+    return eigen(X, IP, NSIG=NSIG, method='music', NFFT=NFFT, 
                  threshold=threshold, criteria=criteria, verbose=verbose)
 
-def ev(X, IP, NSIG=None, NPSD=default_NPSD, threshold=None, criteria='aic',
+def ev(X, IP, NSIG=None, NFFT=default_NFFT, threshold=None, criteria='aic',
         verbose=False):
     """Eigen value pseudo spectrum estimate. See :func:`eigenfre`"""
-    return eigen(X, IP, NSIG=NSIG, method='ev', NPSD=NPSD, 
+    return eigen(X, IP, NSIG=NSIG, method='ev', NFFT=NFFT, 
                  threshold=threshold, criteria=criteria, verbose=verbose)
 #ev.__doc__ += "\n\n"+eigen.__doc__
 
-def eigen(X, P, NSIG=None, method='music', threshold=None, NPSD=default_NPSD,
+def eigen(X, P, NSIG=None, method='music', threshold=None, NFFT=default_NFFT,
           criteria='aic', verbose=False):
     r"""Pseudo spectrum using eigenvector method (EV or Music)
 
@@ -157,7 +157,7 @@ def eigen(X, P, NSIG=None, method='music', threshold=None, NPSD=default_NPSD,
     :param float threshold: If specified, the signal sub space is made of the
         eigen values larger than :math:`\rm{threshold} \times \lambda_{min}`,
         where :math:`\lambda_{min}` is the minimum eigen values.
-    :param NPSD: :func:`spectrum.default_NPSD`
+    :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
 
     :return:
         * PSD: Array of real frequency estimator values (two sided for 
@@ -171,12 +171,12 @@ def eigen(X, P, NSIG=None, method='music', threshold=None, NPSD=default_NPSD,
         from spectrum import *
         from pylab import plot, log10, linspace, legend, axis
 
-        psd, ev = pev(marple_data, 15, NSIG=11)
+        psd, ev = eigen(marple_data, 15, NSIG=11)
         f = linspace(-0.5, 0.5, len(psd))
         plot(f, 10 * log10(psd/max(psd)), label='User defined')
-        psd, ev = pev(marple_data, 15, threshold=2)
+        psd, ev = eigen(marple_data, 15, threshold=2)
         plot(f, 10 * log10(psd/max(psd)), label='threshold method (100)')
-        psd, ev = pev(marple_data, 15)
+        psd, ev = eigen(marple_data, 15)
         plot(f, 10 * log10(psd/max(psd)), label='AIC method (8)')
         legend()
         axis([-0.5, 0.5, -120, 0])
@@ -215,8 +215,8 @@ def eigen(X, P, NSIG=None, method='music', threshold=None, NPSD=default_NPSD,
         NP = 100
     FB = numpy.zeros((2*NP, P), dtype=complex)
     #FB = numpy.zeros((MAXU, IP), dtype=complex)
-    Z = numpy.zeros(NPSD, dtype=complex)
-    PSD = numpy.zeros(NPSD)
+    Z = numpy.zeros(NFFT, dtype=complex)
+    PSD = numpy.zeros(NFFT)
     
     
     # These loops can surely be replaced by a function that create such matrix
@@ -248,9 +248,9 @@ def eigen(X, P, NSIG=None, method='music', threshold=None, NPSD=default_NPSD,
     #C   NSIG at this point
     for I in range(NSIG, P):
         Z[0:P] = V[0:P, I]
-        Z[P:NPSD] = 0
+        Z[P:NFFT] = 0
 
-        Z  = fft(Z, NPSD)
+        Z  = fft(Z, NFFT)
 
         if method == 'music':  
             PSD = PSD + abs(Z)**2.
@@ -261,7 +261,7 @@ def eigen(X, P, NSIG=None, method='music', threshold=None, NPSD=default_NPSD,
 
     #for some reasons, we need to rearrange the output. this is related to 
     #the way U and V are order in the routine svd
-    nby2 = NPSD/2
+    nby2 = NFFT/2
     newpsd = numpy.append(PSD[nby2:0:-1], PSD[nby2*2-1:nby2-1:-1])
 
     return newpsd, S

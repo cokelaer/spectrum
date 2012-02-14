@@ -1,7 +1,7 @@
 All PSD methods
 ================
 
-
+This example is used to generate the front image. It shows how to use the different PSD classes that can be found in **Spectrum**.
 
 .. plot::
     :include-source:
@@ -39,7 +39,7 @@ All PSD methods
     p(); p.plot(label='Modcovar(15)', norm=norm, sides=sides)
 
     # correlagram
-    p = Correlogram(data, lag=15, NFFT=4096)
+    p = pcorrelogram(data, lag=15, NFFT=4096)
     p(); p.plot(label='Correlogram(15)', norm=norm, sides=sides)
 
     #minvar

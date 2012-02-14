@@ -1,6 +1,19 @@
 ChangeLog Summary
 ===================
 
+February 2012
+--------------
+* 0.5.0: 
+   * NPSD replaced by NFFT (qlso not correct for ARMA methods that do not have NFFT since not fourier)
+   * Correlogram replaced by pcorrelogram 
+   * more consistent function and class naming convention 
+   * Update the entire documentation. 
+* 0.4.6: fixed pylab_periodogram, documentation (installation)
+
+January 2012
+---------------
+
+* 0.4.5: start to play with Pypi
 October 2011
 -----------------
 

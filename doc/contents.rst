@@ -21,11 +21,11 @@ Documentation
     ChangeLog.rst
 
 
+
 .. toctree::
     :hidden:
 
     user/biblio.rst
-    criteria.rst
 
 License
 =======

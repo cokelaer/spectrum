@@ -32,8 +32,8 @@ def test_correlog_correlation_method():
     psd2 = CORRELOGRAMPSD(marple_data, marple_data, lag=16, correlation_method='xcorr')
     assert_array_almost_equal(psd1, psd2)
 
-def test_Correlogram_class():
-    p = Correlogram(marple_data, lag=16)
+def test_pcorrelogram_class():
+    p = pcorrelogram(marple_data, lag=16)
     p()
     print p
 

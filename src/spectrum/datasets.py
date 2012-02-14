@@ -5,17 +5,20 @@
     .. autosummary::
 
         data_cosine 
-        marple_data 
+        marple_data
+        TimeSeries 
         
     .. codeauthor:: Thomas Cokelaer 2011
  
     :Reference: [Marple]_
 """
-#from numpy import arange, pi, cos, matrix, array
-#from numpy.random import randn
-
+from  pylab import plot, linspace, xlabel, ylabel, grid
 import numpy
-#TOEPLITZ
+from numpy import arange, pi, cos
+
+
+
+
 #example marple app 3.A
 A_cholesky = numpy.matrix([[2+0.j, .5-0.5j,-.2+.1j],
                            [.5+.5j,1,.3-0.2j],
@@ -97,24 +100,64 @@ marple_data = [
  -0.895898521-  0.364855707j]
 
 
+
 def data_cosine(N=1024, A=0.1, sampling=1024., freq=200):
     r"""Return a noisy cosine at a given frequency.
 
     :param N:           the final data size
     :param A:           the strength of the noise
-    :param float sampling:    the sampling frequency
+    :param float sampling: sampling frequency of the input :attr:`data`.
     :param float freq:  the frequency :math:`f_0` of the cosine.
 
     .. math:: x[t] = cos(2\pi t * f_0) + A w[t]
 
     where w[t] is a white noise of variance 1.
     
-    >>> a = data_cosine()
+    >>> a = data_cosine(N=1024, sampling=1024, A=0.5, freq=100)
 
     """
-    from numpy import arange, pi, cos
     from numpy.random import randn
     t = arange(0, float(N)/sampling, 1./sampling)
     x = cos(2.*pi*t*freq) + A * randn(t.size)
     return x
+
+
+    
+class TimeSeries():
+    """A simple Base Class for various data sets.
+
+    .. doctest::
+
+        >>> data = [1, 2, 3, 4, 3, 2, 1, 0 ]
+        >>> ts = TimeSeries(data, sampling=1)
+        >>> ts.plot()
+        >>> ts.dt
+        1.0
+    
+    """
+    def __init__(self, data, sampling=1):
+        """
+
+        :param array data: input data (list or numpy.array)
+        :param sampling: the sampling frequency of the data (default 1Hz)
+
+        """
+        self.data = data
+        self.N = len(data)
+        self.sampling = sampling
+        self.dt = 1./sampling
+
+    def plot(self, **kargs):
+        """Plot the data set, using the sampling information to set the x-axis 
+        correctly."""
+        time = linspace(1*self.dt, self.N*self.dt, self.N)
+        plot(time, self.data, **kargs)
+        xlabel('Time')
+        ylabel('Amplitude')
+        grid(True)
+
+
+
+
+
 

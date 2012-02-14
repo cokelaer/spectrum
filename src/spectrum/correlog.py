@@ -5,7 +5,7 @@
     .. autosummary::
 
         CORRELOGRAMPSD
-        Correlogram
+        pcorrelogram
         
     .. codeauthor:: Thomas Cokelaer 2011
  
@@ -20,7 +20,7 @@ from numpy.fft import fft
 from psd import FourierSpectrum
 
 
-__all__ = ["CORRELOGRAMPSD", "Correlogram"]
+__all__ = ["CORRELOGRAMPSD", "pcorrelogram"]
 
 
 
@@ -30,13 +30,13 @@ def CORRELOGRAMPSD(X, Y=None, lag=-1, window='hamming',
     """PSD estimate using correlogram method.
 
 
-    :param array X: complex or real data samples X(1) to X(N)
-    :param array Y: complex data samples Y(1) to Y(N). If provided, computes 
+    :param array X:        complex or real data samples X(1) to X(N)
+    :param array Y:        complex data samples Y(1) to Y(N). If provided, computes 
         the cross PSD, otherwise the PSD is returned
-    :param int lag:  highest lag index to compute. Must be less than N
+    :param int lag:         highest lag index to compute. Must be less than N
     :param str window_name: see :mod:`window` for list of valid names
-    :param str norm: one of the valid normalisation of :func:`xcorr` (biased, unbiased, coeff, None)
-    :param int NPSD: the length of the final PSD 
+    :param str norm:        one of the valid normalisation of :func:`xcorr` (biased, unbiased, coeff, None)
+    :param int NFFT:        total length of the final data sets (padded with zero if needed; default is 4096)
     :param str correlation_method: either `xcorr` or `CORRELATION`. 
         CORRELATION should be removed in the future.
 
@@ -91,7 +91,7 @@ def CORRELOGRAMPSD(X, Y=None, lag=-1, window='hamming',
         grid(True)
 
     .. seealso:: :func:`create_window`, :func:`CORRELATION`, :func:`xcorr`,
-        :class:`Correlogram`.
+        :class:`pcorrelogram`.
     """
     N = len(X)
     assert lag<N, 'lag must be < size of input data'
@@ -148,7 +148,7 @@ def CORRELOGRAMPSD(X, Y=None, lag=-1, window='hamming',
 
 
 
-class Correlogram(FourierSpectrum):
+class pcorrelogram(FourierSpectrum):
     """The Correlogram class provides an interface to :func:`CORRELOGRAMPSD`.
     
     It returns an object that inherits from :class:`FourierSpectrum` and 
@@ -159,7 +159,7 @@ class Correlogram(FourierSpectrum):
         :include-source:
         
         from spectrum import *
-        p = Correlogram(data_cosine(N=1024), lag=15)
+        p = pcorrelogram(data_cosine(N=1024), lag=15)
         p()
         p.plot()
         p.plot(sides='twosided')
@@ -171,16 +171,16 @@ class Correlogram(FourierSpectrum):
                  detrend=None):
         """**Correlogram Constructor**
         
-        :param array data:
-        :param float sampling:
+        :param array data:     input data (list or numpy.array)
+        :param float sampling: sampling frequency of the input :attr:`data`.
         :param int lag:
-        :param str window:
-        :param int NFFT:
+        :param str window:     a tapering window. See :class:`~spectrum.window.Window`.
+        :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
         :param bool scale_by_freq:
         :param str detrend:
         
         """
-        super(Correlogram, self).__init__(data, 
+        super(pcorrelogram, self).__init__(data, 
                                           window=window, 
                                           sampling=sampling,
                                           NFFT=NFFT, 
@@ -210,5 +210,5 @@ class Correlogram(FourierSpectrum):
         return "Correlogram PSD estimate\n"
     
     def __str__(self):
-        return super(Correlogram, self).__str__()
+        return super(pcorrelogram, self).__str__()
 

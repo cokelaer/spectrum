@@ -7,8 +7,8 @@ from window import window_names
 import tools
 
 
-__all__ = ["Range", "Spectrum", "FourierSpectrum", "ParametricSpectrum"]
-
+__all__ = ["Spectrum", "FourierSpectrum", "ParametricSpectrum"]
+debug = False
 
 class Range(object):
     """A class to ease the creation of frequency ranges. 
@@ -53,7 +53,8 @@ class Range(object):
         """**Constructor**
 
         :param int N: the data length
-        :param float sampling: the sampling frequency
+        :param float sampling: sampling frequency of the input :attr:`data`.
+
 
         .. rubric:: Attributes:
 
@@ -185,7 +186,7 @@ class Spectrum(object):
     :param str detrend:    detrend method ([None,'mean']) to apply on the input data before 
         computing the PSD. See :attr:`detrend`.
     :param bool scale_by_freq: divide the final PSD by :math:`2*\pi/df`
-    :param int NFFT:       total length of the data given to the FFT
+    :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
     
     The input parameters are available as attributes. Additional
     attributes such as :attr:`N` (the data length), :attr:`df` (the frequency
@@ -289,7 +290,7 @@ class Spectrum(object):
         self.scale_by_freq = scale_by_freq
         
         self.NFFT = NFFT
-        self.method = None
+        self.method = self.__class__  # alias to the class name
      
     def _getMethod(self):
         return self.__method
@@ -304,7 +305,10 @@ class Spectrum(object):
             res = self.method(self.data, *args, **kargs)
             self.psd = res[0]
         #return res
-        
+      
+    def run(self):
+        self()
+ 
     def _getDetrend(self):
         return self.__detrend
     def _setDetrend(self, detrend):
@@ -341,24 +345,24 @@ class Spectrum(object):
         return self.__NFFT
     def _setNFFT(self, NFFT):#if NFFT is changed, we need to redo the padding
         if self.__NFFT == NFFT and self.__NFFT != None:
-            print 'NFFT is the same, nothing to do'
+            #print 'NFFT is the same, nothing to do'
             return
         new_nfft = None
         if NFFT == 'nextpow2':
-            print 'NFFT is based on nextpow2:', 
+            #print 'NFFT is based on nextpow2:', 
             n = nextpow2(self.data.size)
             new_nfft = int(pow(2,n))
         elif NFFT == None:
-            print 'NFFT set to data length',
+            #print 'NFFT set to data length',
             new_nfft = self.N 
         elif isinstance(NFFT, int):
-            print 'NNFT set  manually to',
+            #print 'NNFT set  manually to',
             assert NFFT > 0, 'NFFT must be a positive integer'
             new_nfft = NFFT
         else:
             raise ValueError("NFFT must be either None, positive integer or 'nextpow2'")
             
-        print new_nfft
+        #print new_nfft
         if self.__NFFT != new_nfft:
             self.__NFFT = new_nfft
             # Now that the NFFT has changed, we need to update the range
@@ -562,9 +566,9 @@ class Spectrum(object):
                 "complex datatype so sides cannot be onesided."
             
         if self.sides == 'onesided':
-            print 'Current sides is onesided'
+            if debug: print 'Current sides is onesided'
             if sides == 'twosided':
-                print '--->Converting to twosided'
+                if debug: print '--->Converting to twosided'
                 # here we divide everything by 2 to get the twosided versin
                 N = self.NFFT
                 newpsd = numpy.concatenate((self.psd[0:-1]/2., list(reversed(self.psd[0:-1]/2.))))
@@ -729,7 +733,7 @@ class ParametricSpectrum(Spectrum):
     
     This class inherits attributes and methods from 
     :class:`Spectrum`. It is used by children class :class:`~spectrum.periodogram.Periodogram`, 
-    :class:`~spectrum.correlog.Correlogram` and :class:`Welch` PSD estimates. 
+    :class:`~spectrum.correlog.pcorrelogram` and :class:`Welch` PSD estimates. 
     The parameters are those used by :class:`Spectrum`.
 
     :param array data:     Input data (list or numpy.array)
@@ -740,8 +744,8 @@ class ParametricSpectrum(Spectrum):
 
     In addition you need specific parameters such as:
     
-    :param str window:  a tapering window. See :class:`Window`.
-    :param int lag:     to be used by the :class:`~spectrum.correlog.Correlogram` methods only.
+    :param str window:  a tapering window. See :class:`~spectrum.window.Window`.
+    :param int lag:     to be used by the :class:`~spectrum.correlog.pcorrelogram` methods only.
     :param int NFFT:    Total length of the data given to the FFT
 
     This class has dedicated PSDs methods such as :meth:`periodogram`, which 
@@ -755,9 +759,9 @@ class ParametricSpectrum(Spectrum):
         from spectrum import ParametricSpectrum
         data = datasets.data_cosine(N=1024)
         s = ParametricSpectrum(data, ar_order=4, ma_order=4, sampling=1024, NFFT=512, lag=10)
-        s.parma()
-        s.plot(sides='onesided')
-        s.plot(sides='twosided')
+        #s.parma()
+        #s.plot(sides='onesided')
+        #s.plot(sides='twosided')
 
     """
     def __init__(self, data, sampling=1., ar_order=None, ma_order=None, lag=-1,
@@ -870,7 +874,7 @@ class ParametricSpectrum(Spectrum):
         self.ma = mav
         self.rho = rho
         psd = arma2psd(A=None, B=self.ma, rho=self.rho, 
-                      T=self.sampling, NPSD=self.NFFT)
+                      T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
             newpsd  = psd[self.NFFT/2:]*2
@@ -889,7 +893,7 @@ class ParametricSpectrum(Spectrum):
         self.rho = rho
         
         psd = arma2psd(A=self.ar, B=self.ma, rho=self.rho, 
-                      T=self.sampling, NPSD=self.NFFT)
+                      T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
             newpsd  = psd[0:self.NFFT/2]*2
@@ -910,7 +914,7 @@ class ParametricSpectrum(Spectrum):
         self.rho = rho
         self.reflection = ref
         psd = arma2psd(A=self.ar, B=self.ma, rho=self.rho, 
-                      T=self.sampling, NPSD=self.NFFT)
+                      T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
             newpsd  = psd[0:self.NFFT/2]*2
@@ -925,7 +929,7 @@ class ParametricSpectrum(Spectrum):
     """def minvar(self):
         from minvar import minvar
         psd = minvar(self.data, self.ar_order, sampling=self.sampling,
-                     NPSD=self.NFFT)
+                     NFFT=self.NFFT)
         if self.datatype == 'real':
             newpsd  = psd[0:self.NFFT/2]*2
             newpsd[0] /= 2.
@@ -942,7 +946,7 @@ class FourierSpectrum(Spectrum):
 
     This class inherits attributes and methods from  :class:`Spectrum`. It is
     used by children class :class:`~spectrum.periodogram.Periodogram`, 
-    :class:`~spectrum.correlog.Correlogram` and :class:`Welch` PSD estimates. 
+    :class:`~spectrum.correlog.pcorrelogram` and :class:`Welch` PSD estimates. 
 
     The parameters are those used by :class:`Spectrum`
 
@@ -957,7 +961,7 @@ class FourierSpectrum(Spectrum):
     In addition you need specific parameters such as:
 
     :param str window:  a tapering window. See :class:`~spectrum.window.Window`.
-    :param int lag:     to be used by the :class:`~spectrum.correlog.Correlogram` methods only.
+    :param int lag:     to be used by the :class:`~spectrum.correlog.pcorrelogram` methods only.
 
 
     This class has dedicated PSDs methods such as :meth:`speriodogram`, which 
@@ -972,7 +976,7 @@ class FourierSpectrum(Spectrum):
         s = FourierSpectrum(datasets.data_cosine(), lag=32, sampling=1024, NFFT=512)
         s.periodogram()
         s.plot(label='periodogram')
-        s.correlogram()
+        #s.correlogram()
         s.plot(label='correlogram')
         from pylab import legend, xlim
         legend()
@@ -989,6 +993,7 @@ class FourierSpectrum(Spectrum):
         See the class documentation for the parameters.
         
         .. rubric:: Additional attributes to those inherited from 
+
         :class:`Spectrum` are:
     
         * :attr:`lag`, a lag used to compute the autocorrelation
@@ -1054,7 +1059,7 @@ class FourierSpectrum(Spectrum):
      
     
     def _correlogram(self):
-        """An alias to :class:`~spectrum.correlog.Correlogram`
+        """An alias to :class:`~spectrum.correlog.pcorrelogram`
         
         The parameters are extracted from the attributes. Relevant attributes
         ares :attr:`window`, attr:`sampling`, attr:`NFFT`, attr:`scale_by_freq`,
@@ -1067,10 +1072,10 @@ class FourierSpectrum(Spectrum):
             from spectrum import datasets
             from spectrum import FourierSpectrum
             s = FourierSpectrum(datasets.data_cosine(), sampling=1024, NFFT=512, lag=32)
-            s.correlogram()
+            s._correlogram()
             s.plot()
         """
-        from correlog import CORRELOGRAMPSD
+        from spectrum.correlog import CORRELOGRAMPSD
         psd = CORRELOGRAMPSD(self.data, self.data_y,
                              lag=self.lag,
                              window=self.window, 

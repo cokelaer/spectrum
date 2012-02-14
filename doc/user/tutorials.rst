@@ -1,7 +1,7 @@
 Tutorials
 ===========
 
-Spectrum contains PSD estimates classes and methods but also many other functionalities that are useful to the domain os Spectral Estimation such as Linear algebra tools (e.g., Levinson recursion), Tapering windows, Linear prediction and so on. This section provides several tutorials related to Spectral Estimation. They may require some expertise to fully understand them but the examples remains simple. 
+**Spectrum** contains PSD estimates classes and methods but also many other functionalities that are useful in spectral estimation such as linear algebra tools (e.g., Levinson recursion), tapering windows, linear prediction and so on. This section provides several tutorials related to spectral estimation. They may require some expertise to fully understand them... 
 
 
 
@@ -15,6 +15,8 @@ Spectrum contains PSD estimates classes and methods but also many other function
     tutorial_window.rst
     tutorial_front_image.rst
     tutorial_psd.rst
+    tutorial_criteria.rst
+
 
 
 
