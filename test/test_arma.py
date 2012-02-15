@@ -1,6 +1,4 @@
 from spectrum import *
-from spectrum import arma
-from arma import *
 from pylab import linspace, log10, plot, ylim, savefig
 from nose.tools import assert_almost_equal
 from spectrum.arma import arma_estimate, arma2psd, parma, pma, ma

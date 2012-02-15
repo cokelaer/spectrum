@@ -1,6 +1,4 @@
 from spectrum import *
-from spectrum import correlog
-from correlog import *
 
 from nose.tools import assert_almost_equal
 from pylab import *

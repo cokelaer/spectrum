@@ -1,6 +1,4 @@
 from spectrum import *
-from spectrum import covar
-from covar import *
 import pylab
 from nose.tools import assert_almost_equal
 from numpy.testing import *

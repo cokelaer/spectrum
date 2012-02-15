@@ -1,6 +1,4 @@
 from spectrum import *
-from spectrum import eigenfre
-from eigenfre import *
 
 from pylab import plot, linspace, log10, savefig
 import numpy

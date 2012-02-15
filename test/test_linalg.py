@@ -1,9 +1,5 @@
-
-
-
 import numpy
-from spectrum import linalg
-from linalg import * 
+from spectrum import *
 from numpy.testing import *
 
 def test_pascal():

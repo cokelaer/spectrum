@@ -1,6 +1,4 @@
 from spectrum import *
-from spectrum import waveform
-from waveform import *
 from numpy import linspace
 
 

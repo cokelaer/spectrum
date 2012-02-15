@@ -1,6 +1,4 @@
 from spectrum import *
-from spectrum import minvar
-from minvar import *
 
 
 import numpy

@@ -1,6 +1,4 @@
 from spectrum import *
-from spectrum import lpc
-from lpc import *
 import numpy
 from numpy.testing import *
 
