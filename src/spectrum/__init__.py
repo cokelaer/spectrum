@@ -1,5 +1,5 @@
 #: version
-__version__ = '0.5.0'
+__version__ = '0.5.2'
 #: default number os samples used to compute FFT
 default_NFFT = 4096
 
@@ -10,11 +10,7 @@ import correlation
 import correlog
 import covar
 import criteria
-##try:
-#    import dpss
-#    from dpss import *
-#except:
-#    pass
+import mtm
 import eigen
 import eigenfre
 #import fastrls
@@ -36,6 +32,7 @@ import yulewalker
 import transfer
 
 
+from mtm import *
 from transfer import *
 from arma import *
 from burg import *
@@ -61,4 +58,5 @@ from toeplitz import *
 from window import *
 from waveform import *
 from yulewalker import *
+
 

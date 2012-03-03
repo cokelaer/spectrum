@@ -33,11 +33,4 @@ Tapering Windows
     :undoc-members:
     :synopsis: window
 
-.. DPSS windows
-.. ==============
-.. .. module:: dpss
-.. .. automodule:: spectrum.dpss
-    :members:
-    :undoc-members:
-    :synopsis: dpss
 

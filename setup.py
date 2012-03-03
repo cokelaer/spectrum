@@ -2,6 +2,7 @@ import os, sys, glob
 pj = os.path.join
 
 from setuptools import setup, find_packages
+from distutils.core import Extension
 
 name='spectrum'
 os.sys.path.append((pj(os.path.curdir, 'src', name)))
@@ -22,6 +23,8 @@ setup(
     author_email="cokelaer@gmail.com",
     url='http://www.assembla.com/spaces/PySpectrum/wiki',
     license='LGPL',
+
+    ext_modules=[Extension('spectrum.mydpss', ['src/cpp/mydpss.c', ])],
 
     packages = find_packages('src'),
     package_dir={ '' : 'src' },

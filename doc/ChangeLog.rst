@@ -1,8 +1,13 @@
 ChangeLog Summary
 ===================
 
+March 2012
+--------------
+* 0.5.2: add pmtm
+
 February 2012
 --------------
+* 0.5.1: add dpss wtapering windows
 * 0.5.0: 
    * NPSD replaced by NFFT (qlso not correct for ARMA methods that do not have NFFT since not fourier)
    * Correlogram replaced by pcorrelogram 
