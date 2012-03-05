@@ -36,9 +36,9 @@ def LEVINSON(r, order=None, allow_singularity=False):
     where :math:`\bold{T}_M` is a Hermitian Toeplitz matrix with elements
     :math:`T_0, T_1, \dots ,T_M`. 
     
-    .. note:: Solving this equations by Gaussian elimination would require 
-        :math:`M^3` operations whereas the levinson algorithm requires 
-        :math:`M^2+M` additions and :math:`M^2+M` multiplications.
+    .. note:: Solving this equations by Gaussian elimination would 
+        require :math:`M^3` operations whereas the levinson algorithm 
+        requires :math:`M^2+M` additions and :math:`M^2+M` multiplications.
   
     This is equivalent to solve the following symmetric Toeplitz system of 
     linear equations

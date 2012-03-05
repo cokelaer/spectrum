@@ -210,8 +210,7 @@ class Spectrum(object):
     range (based on :attr:`sampling`, :attr:`NFFT` and :attr:`sides`)  
     
     .. note:: the modification of some attributes (e.g., NFFT), makes the PSD
-        obsolete. In such cases, the PSD must be re-computed before using
-        :meth:`plot` again.
+     obsolete. In such cases, the PSD must be re-computed before using :meth:`plot` again.
     
     At any time, you can get general information about the Spectrum instance::
     
@@ -980,7 +979,7 @@ class FourierSpectrum(Spectrum):
         s.plot(label='correlogram')
         from pylab import legend, xlim
         legend()
-        xlim(-512, 1024)
+        xlim(0,512)
 
     """
     _window = window_names

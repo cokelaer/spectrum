@@ -30,5 +30,5 @@ Documentation
 License
 =======
 
-**Spectrum** is released under a `Cecill-C <http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html>`_  license, which is compatible with LGPL compatible license.
+**Spectrum** is released under a LGPL License.
 

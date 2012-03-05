@@ -1,3 +1,4 @@
+from spectrum import *
 from spectrum.mtm import dpss, pmtm
 from spectrum import data_cosine
 

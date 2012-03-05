@@ -8,7 +8,7 @@ This section gives you a quick overview of the spectral analysis methods and cla
 Non-parametric classes
 =========================
 
-The Fourier-based methods provides :class:`~spectrum.periodogram.Periodogram`, :class:`~spectrum.correlog.pcorrelogram`, Welch estimate (not implemented see pylab.psd instead) and multitapering (not yet implemented).
+The Fourier-based methods provides :class:`~spectrum.periodogram.Periodogram`, :class:`~spectrum.correlog.pcorrelogram`, Welch estimate (not implemented see pylab.psd instead) and multitapering :class:`~spectrum.mtm.pmtm`. 
 
 In addition to the Fourier-based methods, there are 3 types of non-parametric methods:
 

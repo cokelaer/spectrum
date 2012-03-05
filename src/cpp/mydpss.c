@@ -242,8 +242,7 @@ jtinvit_(int *nm, int *n, double *d, double *e, double *e2, int *m, double *w, i
 {
 	/* Initialized data */
 
-	/*static double   machep = 1.25e-15;*/
-    static double   machep = 2.22044605e-16;
+	static double   machep = 1.25e-15;
 
 	/* System generated locals */
 	int             z_dim1, z_offset, i1, i2, i3;
