@@ -80,7 +80,7 @@ multitap(int num_points, int nwin, double *lam, float npi, double *tapers, doubl
 	 */
 	int             i, k, kk;
 	double          ww, cs, ai, an, eps, rlu, rlb, aa;
-	double          dfac, drat, gamma, bh, tapsq, TWOPI, DPI;
+	double          dfac, drat, invgamma, gamma, bh, tapsq, TWOPI, DPI;
 	double         *diag, *offdiag, *offsq;
 	double         *scratch1, *scratch2, *scratch3, *scratch4, *scratch6;
 
@@ -170,7 +170,7 @@ multitap(int num_points, int nwin, double *lam, float npi, double *tapers, doubl
 	}
 
 	gamma = log((double) 8. * an * sin((double) 2. * DPI * ww)) + (double) 0.5772156649;
-    double invgamma = 1./gamma;
+    invgamma = 1./gamma;
 
 	for (k = 0; k < nwin; k++) {
 		bh = -2. * DPI * (an * ww - (double) (k) /
