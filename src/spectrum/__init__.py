@@ -1,5 +1,5 @@
 #: version
-__version__ = '0.5.3'
+__version__ = '0.5.4'
 #: default number os samples used to compute FFT
 default_NFFT = 4096
 
@@ -15,7 +15,7 @@ import eigen
 import eigenfre
 #import fastrls
 import levinson
-import linear_prediction
+Mmport linear_prediction
 import linalg
 #import lms
 import lpc
