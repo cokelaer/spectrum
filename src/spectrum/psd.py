@@ -404,7 +404,7 @@ class Spectrum(object):
             assert sides != ['onesided'], "complex data cannot be onesided (%s provided)" % sides
         
         # If sides is indeed different, update the psd
-        if self.psd != None:
+        if self.__psd != None:
             newpsd = self.get_converted_psd(sides)
             self.__psd = newpsd
         self.__sides = sides
