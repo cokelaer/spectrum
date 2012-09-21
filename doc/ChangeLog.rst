@@ -1,6 +1,13 @@
 ChangeLog Summary
 ===================
 
+Sept 2012
+----------
+* 0.5.5: 
+    * fix name of the libraries for mac and windows
+    * change setup to manage version properly.
+
+
 March 2012
 --------------
 * 0.5.3: add poly2lsf and lsf2poly, add tests, fix bug related to compilation of mydpss.cc

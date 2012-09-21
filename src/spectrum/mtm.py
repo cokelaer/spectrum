@@ -39,10 +39,9 @@ Note that on OSX -shared should be replaced by -dynamiclib and sum.so should be 
 
 # Import shared mtspec library depending on the platform.
 if platform.system() == 'Windows':
-    lib_name = 'libmtspec.pyd'
+    lib_name = 'mydpss.pyd'
 elif platform.system() == 'Darwin':
-    lib_name = 'libmtspec.so'
-
+    lib_name = 'mydpss.so'
 else:
     lib_name = 'mydpss.so'
 

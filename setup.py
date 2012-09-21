@@ -4,18 +4,20 @@ pj = os.path.join
 from setuptools import setup, find_packages
 from distutils.core import Extension
 
-name='spectrum'
-os.sys.path.append((pj(os.path.curdir, 'src', name)))
-try:
-    import spectrum
-    version = spectrum.__version__
-except:
-    version = 0.9
+
+
+
+_MAJOR               = 0
+_MINOR               = 5
+_MICRO               = 5
+version              = '%d.%d.%d' % (_MAJOR, _MINOR, _MICRO)
+release              = '%d.%d' % (_MAJOR, _MINOR)
+
 
 data_files = [ (pj('share', 'data'), glob.glob(os.path.join('share','data', '*.dat')))]
 
 setup(
-    name=name,
+    name="spectrum",
     version=version,
     description="Spectrum Analysis Tools",
     long_description="""This package provides functions/classes to estimate Power Spectral Densities using methods based on Fourier transform, Parametric methods or eigenvalues analysis. The Fourier methods are based upon correlogram, periodogram and Welch estimates. Standard tapering windows (Hann, Hamming, Blackman) and more exotic ones are available (DPSS, Taylor, ...). The parametric methods are based on Yule-Walker, BURG, MA and ARMA, covariance and modified covariance methods. Non-parametric methods based on eigen analysis (e.g., MUSIC) and minimum variance analysis are also implemented""",
