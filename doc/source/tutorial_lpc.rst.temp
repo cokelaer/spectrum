@@ -1,0 +1,61 @@
+
+LPC Examples
+=============
+
+:source: `http://www.mathworks.com/help/toolbox/signal/lpc.html <mathworks>`_
+
+In this tutorial, we will estimate a data series using a third-order forward predictor, and compare to the original signal.
+
+First, we create a signal data as the output of an autoregressive process 
+driven by white noise.
+
+::
+
+    from scipy.signal import lfilter
+    from pylab import *
+    n = randn(50000) # Normalized white Gaussian noise
+    x = lfilter([1],[1., 1/2., 1/3., 1/4.],n);
+    x = x[45904:50000]  # get 2096 data samples
+
+note that we use the last 4096 samples of the AR process output to avoid start-up transients. 
+
+Then, we can compute the predictor coefficients, estimated signal, prediction error, and autocorrelation sequence of the prediction error::
+
+    from spectrum.lpc import lpc
+    [a, error_variance] = lpc(x,3)
+    est_x = lfilter([0,-a[1], -a[2]],[1],x)  # Estimated signal
+    e = x - est_x;                          # Prediction error
+    acs = xcorr(e,e,maxlags=2048);          #% ACS of prediction error
+
+The error_variance should be around 1.
+
+
+
+Compare the predicted signal to the original signal:
+
+.. plot::
+    :width: 80%
+    :include-source:
+
+    from scipy.signal import lfilter
+    from pylab import *
+    n = randn(50000) # Normalized white Gaussian noise
+    x = lfilter([1],[1., 1/2., 1/3., 1/4.],n)
+    x = x[45904:50000]  # get 2096 data samples
+
+    from spectrum.lpc import lpc
+    a,error_variance = lpc(x,3)
+    est_x = lfilter([0,-a[1], -a[2]],[1],x)  # Estimated signal
+    e = x - est_x;                          # Prediction error
+    acs = xcorr(e,e,maxlags=2048);          #% ACS of prediction error
+
+    figure()
+    xr = arange(1,97)
+    plot(xr,x[4000:],xr,est_x[4000:],'--')
+    title('Original Signal vs. LPC Estimate')
+    xlabel('Sample Number')
+    ylabel('Amplitude')
+    grid(True)
+    legend(['Original Signal','LPC Estimate'])
+
+
