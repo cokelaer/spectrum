@@ -1,6 +1,11 @@
 ChangeLog Summary
 ===================
 
+Oct 2012
+---------
+* 0.5.6:
+    * refactored documentation using easydev package.
+
 Sept 2012
 ----------
 * 0.5.5: 

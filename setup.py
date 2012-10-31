@@ -9,7 +9,7 @@ from distutils.core import Extension
 
 _MAJOR               = 0
 _MINOR               = 5
-_MICRO               = 5
+_MICRO               = 6
 version              = '%d.%d.%d' % (_MAJOR, _MINOR, _MICRO)
 release              = '%d.%d' % (_MAJOR, _MINOR)
 
@@ -32,7 +32,7 @@ setup(
     package_dir={ '' : 'src' },
 
     # Dependencies
-    install_requires = ['matplotlib', 'numpy', 'scipy'],
+    install_requires = ['matplotlib', 'numpy', 'scipy', 'easydev'],
     data_files = data_files,
     platforms=["Linux"],
     classifiers=["Development Status :: 1 - Planning",
