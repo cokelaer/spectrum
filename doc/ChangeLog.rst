@@ -1,6 +1,11 @@
 ChangeLog Summary
 ===================
 
+Nov 2013
+-----------
+* 0.5.7:
+    * doc typo corrected in tukey window
+
 Oct 2012
 ---------
 * 0.5.6:

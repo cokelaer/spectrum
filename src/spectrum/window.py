@@ -1014,7 +1014,7 @@ def window_tukey(N, r=0.5):
 
     .. math:: 0.5 (1+cos(2pi/r (x-r/2))) for 0<=x<r/2
     
-    .. math:: 0.5 (1+cos(2pi/r (x-1+r/2))) for x>r/2
+    .. math:: 0.5 (1+cos(2pi/r (x-1+r/2))) for x>=1-r/2
     
     
     .. seealso:: :func:`create_window`, :class:`Window`
