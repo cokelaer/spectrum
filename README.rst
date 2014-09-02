@@ -1,6 +1,6 @@
 Spectral Analysis in Python
 
-.. image:: psd_all.png
+.. image:: http://www.thomas-cokelaer.info/software/spectrum/html/_images/psd_all.png
     :class: align-right
     :width: 50%
 
