@@ -19,6 +19,10 @@ Computers & Geology: 21, 199-236.
 /*--------------------------------------------------------*/
 /*#include "jl.h"*/
 
+/* under windows, Pythonxy requires this function apparently*/
+void initmydpss()
+{}
+
 float *alloc_fvec(long first , long last)
 {
 float *v;

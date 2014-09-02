@@ -9,7 +9,7 @@ from distutils.core import Extension
 
 _MAJOR               = 0
 _MINOR               = 5
-_MICRO               = 7
+_MICRO               = 8
 version              = '%d.%d.%d' % (_MAJOR, _MINOR, _MICRO)
 release              = '%d.%d' % (_MAJOR, _MINOR)
 
@@ -26,7 +26,8 @@ setup(
     url='http://www.assembla.com/spaces/PySpectrum/wiki',
     license='LGPL',
 
-    ext_modules=[Extension('spectrum.mydpss', ['src/cpp/mydpss.c', ])],
+    ext_modules=[Extension('spectrum.mydpss', ['src/cpp/mydpss.c', ],
+        export_symbols=['multitap'])],
 
     packages = find_packages('src'),
     package_dir={ '' : 'src' },
