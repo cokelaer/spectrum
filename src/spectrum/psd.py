@@ -6,6 +6,7 @@ import errors
 from window import window_names
 import tools
 
+import pylab
 
 __all__ = ["Spectrum", "FourierSpectrum", "ParametricSpectrum"]
 debug = False
@@ -665,7 +666,16 @@ class Spectrum(object):
             
         from pylab import plot, log10,savefig, grid, xlim
         from pylab import ylim as plt_ylim
+   
         
+        if 'ax' in kargs.keys():
+            save_ax = pylab.gca()
+            pylab.sca(kargs['ax'])
+            rollback = True
+            del kargs['ax']
+        else:
+            rollback = False
+
         if norm:
             plot(frequencies, 10*log10(psd/max(psd)),  **kargs)
         else:
@@ -685,6 +695,8 @@ class Spectrum(object):
             xlim(-self.sampling/2., self.sampling/2.)
         if filename:
             savefig(filename)
+        if rollback:
+            pylab.sca(save_ax)
         del psd, frequencies #is it needed?
 
     def power(self):

@@ -1,6 +1,13 @@
 ChangeLog Summary
 ===================
 
+Sept 2014
+-----------
+
+* 0.6.0:
+    * After a while without development, I moved the source on github
+    * plots accept the ax argument in psd module. It is a bit of a hack but seems to work.
+
 Sept 2012
 ----------
 * 0.5.5: 
