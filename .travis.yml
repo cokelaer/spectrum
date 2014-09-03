@@ -17,7 +17,7 @@ install:
   - pip install coveralls
 # # command to run tests, e.g. python setup.py test
 script:  
-  - python setup.py nosetests --with-coverage --cover-package fitter
+  - python setup.py nosetests --with-coverage --cover-package spectrum
 
 after_success:
   coveralls
