@@ -32,6 +32,3 @@ Spectral Analysis in Python
     * Multitapering is also available
 
 
-
-
-

@@ -16,14 +16,18 @@ release              = '%d.%d' % (_MAJOR, _MINOR)
 
 data_files = [ (pj('share', 'data'), glob.glob(os.path.join('share','data', '*.dat')))]
 
+with open('README.rst') as f:
+    readme = f.read()
+
+
 setup(
     name="spectrum",
     version=version,
     description="Spectrum Analysis Tools",
-    long_description="""This package provides functions/classes to estimate Power Spectral Densities using methods based on Fourier transform, Parametric methods or eigenvalues analysis. The Fourier methods are based upon correlogram, periodogram and Welch estimates. Standard tapering windows (Hann, Hamming, Blackman) and more exotic ones are available (DPSS, Taylor, ...). The parametric methods are based on Yule-Walker, BURG, MA and ARMA, covariance and modified covariance methods. Non-parametric methods based on eigen analysis (e.g., MUSIC) and minimum variance analysis are also implemented""",
+    long_description=readme,
     author="Thomas Cokelaer",
     author_email="cokelaer@gmail.com",
-    url='http://www.assembla.com/spaces/PySpectrum/wiki',
+    url='http://github.com/cokelaer/spectrum',
     license='LGPL',
 
     ext_modules=[Extension('spectrum.mydpss', ['src/cpp/mydpss.c', ],
