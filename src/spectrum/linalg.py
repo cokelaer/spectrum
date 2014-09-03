@@ -12,7 +12,7 @@
    
 """
 import numpy
-import errors
+from . import errors
 
 __all__ = ["pascal", "csvd", "corrmtx"]
 
@@ -143,10 +143,14 @@ def corrmtx(x_input, m, method='autocorrelation'):
     # create the relevant matrices that will be useful to create
     # the correlation matrices
     N = len(x_input)
-    try:
-        x = x_input.copy()
-    except AttributeError:
+
+    # FIXME:do we need a copy ? 
+    if isinstance(x_input, list):
         x = numpy.array(x_input)
+    else:
+        x = x_input.copy()
+
+
     if x.dtype == complex:
         complex_type = True
     else:

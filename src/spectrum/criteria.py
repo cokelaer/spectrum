@@ -262,7 +262,7 @@ def CAT(N, rho, k):
         for j in range(1, p+1):
             rho_j = float(N)/(N-j)*rho[j-1]
             s = s + 1./rho_j
-        print s, s/float(N), 1./rho_p
+        print(s, s/float(N), 1./rho_p)
         cat[p-1] = s/float(N) - 1./rho_p
     return cat
     

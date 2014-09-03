@@ -23,7 +23,7 @@ class test_class_Window():
             assert True
     def test_info(self):
         self.w.info()
-        print self.w
+        print(self.w)
 
 
 #unittest of create_window
@@ -36,7 +36,7 @@ def test_create_window_error():
 
 #test that create_window(N, name) works for all valid names
 def test_create_window():
-    for name in window_names.keys():
+    for name in list(window_names.keys()):
         yield check_window, name
 def check_window(name):
     create_window(52, name=name)
@@ -56,7 +56,7 @@ def test_create_window_switch():
             'poisson_hanning': {'alpha': 2},
             'cauchy':   {'alpha': 3},
             }
-    names = param.keys()
+    names = list(param.keys())
     for name in names:
         yield check_window_switch, name, param[name]
 def check_window_switch(name, param):

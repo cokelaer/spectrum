@@ -37,8 +37,8 @@ the computation. For instance, if you can change the output easily::
     p.plot(sides='twosided')
     
 """
-from window import Window
-from psd import Spectrum, FourierSpectrum
+from .window import Window
+from .psd import Spectrum, FourierSpectrum
 from pylab import pi, fft, mean, rfft
 from numpy import array, ceil
 import numpy
@@ -108,7 +108,7 @@ def speriodogram(x, NFFT=None, detrend=True, sampling=1.,
         w = Window(r, window)   #same size as input data
     # matrix case
     elif x.ndim == 2:
-        print '2D array. each row is a 1D array'
+        print('2D array. each row is a 1D array')
         [r, c] = x.shape
         if r==1:
             r = c

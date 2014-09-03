@@ -11,9 +11,9 @@
 
 """
 
-from correlation import CORRELATION
-from levinson import LEVINSON
-from psd import ParametricSpectrum
+from .correlation import CORRELATION
+from .levinson import LEVINSON
+from .psd import ParametricSpectrum
 
 __all__ = ['aryule', 'pyule']
 
@@ -150,7 +150,7 @@ class pyule(ParametricSpectrum):
         self._norm_aryule = norm
 
     def __call__(self):
-        import arma
+        from . import arma
         ar, rho, k = aryule(self.data, self.ar_order, norm=self._norm_aryule)
         psd = arma.arma2psd(ar, NFFT=self.NFFT, rho=rho, T=self.sampling)
         # save the AR and reflection coefficients.
@@ -159,7 +159,7 @@ class pyule(ParametricSpectrum):
         
         # save the PSD
         if self.datatype == 'real':
-            import tools
+            from . import tools
             self.psd = tools.twosided_2_onesided(psd)
             #psd = res[0]
             #newpsd  = psd[0:self.NFFT/2]*2

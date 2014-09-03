@@ -19,13 +19,13 @@ def test_minvar():
     from spectrum import tools
     res = minvar(marple_data, 15, 1.)
     psd = res[0]
-    newpsd = tools.cshift(psd, len(psd)/2) # switch positive and negative freq
+    newpsd = tools.cshift(psd, len(psd)//2) # switch positive and negative freq
     return newpsd
 
 def test_pminvar():
     psd = pminvar(marple_data, 15)
     psd()
-    print psd
+    print(psd)
     psd = pminvar([1,2,3,4,5,6,7,-8], 2)
     psd()
 

@@ -130,9 +130,9 @@ class Window(object):
         """
         #input attributse
         assert N>0 , "First argument  must be positive"
-        if name == None or name not in window_names.keys():
+        if name == None or name not in list(window_names.keys()):
             raise ValueError("second argument must be a valid window name %s" %
-                             window_names.keys())
+                             list(window_names.keys()))
         
         self.__N = N
         self.__name = name
@@ -303,7 +303,7 @@ class Window(object):
         
     def info(self):
         """Print object information such as length and name"""
-        print self
+        print(self)
         
     def __str__(self):
         msg = 'Window object:\n'
@@ -398,7 +398,7 @@ def create_window(N, name=None, **kargs):
     if name == None:
         name = 'rectangle'
     name = name.lower()
-    assert name in window_names.keys(), \
+    assert name in list(window_names.keys()), \
         """window name %s not implemented or incorrect. Try to use one of %s"""\
         % (name, window_names)
     
@@ -419,7 +419,7 @@ def create_window(N, name=None, **kargs):
                          eval(window_names['poisson_hanning']).__defaults__[0]},
          }
     
-    if name not in windows_with_parameters.keys():
+    if name not in list(windows_with_parameters.keys()):
         if len(kargs) == 0:
             # not parameters, so we directly call the function    
             w = f(N)
@@ -427,10 +427,10 @@ def create_window(N, name=None, **kargs):
             raise ValueError("""
             Parameters do not match any of the window. The window provided 
             do not expect any parameters. Try to remove the parameters""")
-    elif name in windows_with_parameters.keys():
+    elif name in list(windows_with_parameters.keys()):
         # user optional parameters are provided, scan them:
         dargs = {}
-        for arg in kargs.keys(): 
+        for arg in list(kargs.keys()): 
             # check that the parameters are valid, and obtain the default value
             try:
                 default = windows_with_parameters[name][arg]
@@ -438,7 +438,7 @@ def create_window(N, name=None, **kargs):
                 raise ValueError("""
                     Invalid optional argument (%s) for %s window.
                     Valid optional arguments are (%s)""" % \
-                    (arg, name, windows_with_parameters[name].keys()))
+                    (arg, name, list(windows_with_parameters[name].keys())))
             # add the user parameter to the list of parameters
             dargs[arg] = kargs.get(arg, default)
         # call the proper function with the optional arguments

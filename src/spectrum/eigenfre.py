@@ -2,9 +2,9 @@ import numpy
 from numpy.fft import fft
 from numpy.linalg import svd
 from spectrum import default_NFFT
-from psd import ParametricSpectrum
+from .psd import ParametricSpectrum
 #import spectrum
-from tools import twosided_2_onesided, centerdc_2_twosided, twosided_2_centerdc
+from .tools import twosided_2_onesided, centerdc_2_twosided, twosided_2_centerdc
 
 verbose = False
 
@@ -275,13 +275,13 @@ def _get_signal_space(S, NP, verbose=False, threshold=None, NSIG=None,
     
     
     """
-    from criteria import aic_eigen, mdl_eigen
+    from .criteria import aic_eigen, mdl_eigen
     # This section selects automatically the noise and signal subspaces.
     # NSIG being the number of eigenvalues corresponding to signals.
     if NSIG == None:
         if threshold == None:
             if verbose:
-                print 'computing NSIG using AIC method'
+                print('computing NSIG using AIC method')
             # get the minimum index of the AIC vector
             if criteria == 'aic':
                 aic = aic_eigen(S, NP*2)
@@ -289,10 +289,10 @@ def _get_signal_space(S, NP, verbose=False, threshold=None, NSIG=None,
                 aic = mdl_eigen(S, NP*2)
             # get the minimum index of the AIC vector, add 1 to get the NSIG
             NSIG = numpy.argmin(aic) + 1
-            if verbose:print 'NSIG=', NSIG, ' found as the number of pertinent sinusoids'
+            if verbose:print('NSIG=', NSIG, ' found as the number of pertinent sinusoids')
         else:
             if verbose:
-                print 'computing NSIG using user threshold '
+                print('computing NSIG using user threshold ')
             # following an idea from Matlab, pmusic, we look at the minimum
             # eigen value, and split the eigen values above and below
             # K times min eigen value, where K is >1
@@ -300,7 +300,7 @@ def _get_signal_space(S, NP, verbose=False, threshold=None, NSIG=None,
             new_s = S[numpy.where(S>m)]
             NSIG = len(new_s)
             if verbose:
-                print 'found', NSIG
+                print('found', NSIG)
             if NSIG == 0:
                 NSIG = 1
     return NSIG

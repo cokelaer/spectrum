@@ -26,7 +26,7 @@ def test_pyule():
     p = pyule(marple_data, 15)
     p()
     p.plot()
-    print p
+    print(p)
 
 #do not change. used to create figure
 def create_figure():

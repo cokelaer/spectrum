@@ -3,9 +3,10 @@
 :References: [Kay]_
 """
 
-from levinson import LEVINSON, rlevinson
+from .levinson import LEVINSON, rlevinson
 import numpy
 from scipy.signal import deconvolve
+
 __all__ = ['ac2poly', 'poly2ac', 'ac2rc', 'rc2poly', 'rc2ac', 'is2rc', 'rc2is', 
     'rc2lar', 'lar2rc', 'poly2rc', 'lsf2poly', 'poly2lsf']
 
@@ -101,7 +102,7 @@ def rc2poly(kr, r0=None):
 
     """
     # Initialize the recursion
-    from levinson import levup
+    from .levinson import levup
     p = len(kr)              #% p is the order of the prediction polynomial.
     a = numpy.array([1, kr[0]])           #% a is a true polynomial.
     e = numpy.zeros(5)

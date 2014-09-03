@@ -10,8 +10,8 @@ def test_mineigval():
     T0=3
     T = numpy.array([-2+.5j, .7-1j],dtype=complex)
     eigval, eigvec = MINEIGVAL(T0 , T, tol)
-    print 'Eigenvalue=',eigval
-    print 'Eigenvector=',eigvec
+    print('Eigenvalue=',eigval)
+    print('Eigenvector=',eigvec)
 
     assert_almost_equal(eigval, .488694078106)
 

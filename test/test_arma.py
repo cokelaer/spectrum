@@ -75,12 +75,12 @@ def test_parma():
     p = parma(marple_data, 4, 4, 30, NFFT=4096)
     p()
     p.plot()
-    print p
+    print(p)
 
 def test_moving_average_class():
     p = pma(marple_data, 15, 30, NFFT=4096)
     p()
-    print p
+    print(p)
     p = pma(data_cosine(N=1024), 15, 30, NFFT=4096)
 
 def create_figure_ma():

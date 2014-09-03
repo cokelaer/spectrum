@@ -190,13 +190,12 @@ def xcorr(x, y=None, maxlags=None, norm='biased'):
     if y == None:
         y = x
     assert len(x) == len(y), 'x and y must have the same length. Add zeros if needed'
-    assert maxlags <= N, 'maxlags must be less than data length'
     
     if maxlags == None:
         maxlags = N-1
         lags = arange(0, 2*N-1)
     else:
-        assert maxlags < N
+        assert maxlags <= N, 'maxlags must be less than data length'
         lags = arange(N-maxlags-1, N+maxlags)
               
     res = numpy.correlate(x, y, mode='full')

@@ -1,5 +1,5 @@
 import numpy
-from psd import ParametricSpectrum
+from .psd import ParametricSpectrum
 debug = False
 
 
@@ -77,28 +77,28 @@ def arcovar_marple(x, order):
     pbv = []
     for m in range(0, order+1):
         if debug:
-            print '----------------------------m=', m
-            print c[0:2]
-            print d[0:2]
+            print(('----------------------------m=', m))
+            print((c[0:2]))
+            print((d[0:2]))
         r1 = 1./pf
         r2 = 1./pb
         r3 = 1./delta
         r4 = 1./gamma
         if debug:
-            print 'starting r1r2r3r4=', r1, r2, r3, r4, pf, pb, delta, gamma
+            print(('starting r1r2r3r4=', r1, r2, r3, r4, pf, pb, delta, gamma))
         #Order update: AF and AB vectors ; time update: C and D vectors
         temp = 0.+0.j
         for k in range(m+1, N):
             temp = temp + x[k]*x[k-m-1].conjugate()
 
         if debug:
-            print 'temp=', temp
+            print(('temp=', temp))
         r[m] =  temp.conjugate()
         theta = x[0] * c[m]
         if debug:
-            print 'theta', theta
-            print 'cccccccccc', c[0:2]
-            print 'dddddd', d[0:2]
+            print(('theta', theta))
+            print(('cccccccccc', c[0:2]))
+            print(('dddddd', d[0:2]))
         if m == 0:
             pass
         else:
@@ -111,29 +111,29 @@ def arcovar_marple(x, order):
                 #print '         c=',c[k], 'af=',af[m-k-1]
         if m>0:
             if debug:
-                print m, N-m
-                print 'Xk=0',x[m-0],x[N-m-1], x[N-m+0]
+                print((m, N-m))
+                print(('Xk=0',x[m-0],x[N-m-1], x[N-m+0]))
             if m>1:
                 if debug:
-                    print 'Xk=1',x[m-1],x[N-m-1], x[N-m+1]
+                    print('Xk=1',x[m-1],x[N-m-1], x[N-m+1])
         c1 = -temp * r2
         c2 = -r1 * temp.conjugate()
         c3 = theta * r3
         c4 = r4 *theta.conjugate()
         if debug:
-            print 'c1c2c3c4 before af=',c1 ,c2 ,c3 ,c4
+            print('c1c2c3c4 before af=',c1 ,c2 ,c3 ,c4)
         af[m] = c1                    #             ! Eq. (8.C.19)
         ab[m] = c2                    #             ! Eq. (8.C.22)
         save = c[m]
         c[m] = save + c3*d[m]
         d[m] = d[m] + c4*save
         if debug:
-            print 'res',m,'af[m]=',af[m], ab[m], save, 'temp=',temp
+            print('res',m,'af[m]=',af[m], ab[m], save, 'temp=',temp)
 
         if m == 0:
             pass
         else:
-            if debug:print 'af before', af[0:2]
+            if debug:print('af before', af[0:2])
             for k in range(0, m):
                 save = af[k]
                 af[k] = save + c1 * ab[m-k-1] # Eq. (8.C.18)
@@ -143,15 +143,15 @@ def arcovar_marple(x, order):
                 c[k] = save + c3*d[k]       # Eq. (8.C.37)
                 d[k] = d[k] + c4*save       # Eq. (8.C.38)
                 if debug:
-                    print 'loop2 k=', k
-                    print '      af[k]=', af[k]
-                    print '      ab[m-k-1]=', ab[m-k-1]
-                    print '      c[k]=', c[k]
-                    print '      d[k]=', d[k]
+                    print('loop2 k=', k)
+                    print('      af[k]=', af[k])
+                    print('      ab[m-k-1]=', ab[m-k-1])
+                    print('      c[k]=', c[k])
+                    print('      d[k]=', d[k])
             if debug:
                 if debug:
-                    print 'af after=', af[0:2]
-                    print 'ab=', ab[0:2]
+                    print('af after=', af[0:2])
+                    print('ab=', ab[0:2])
 
         r5 = temp.real**2 + temp.imag**2
         pf = pf - r5*r2         # Eq. (8.C.20)
@@ -160,18 +160,18 @@ def arcovar_marple(x, order):
         delta = delta - r5*r4               # Eq. (8.C.39)
         gamma = gamma - r5*r3               # Eq. (8.C.40)
         if debug:
-            print 'r5r2r1deltagamma', r5, r2, r1 , delta, gamma
-            print 'pf before norm', pf, pb, N-m-1
+            print('r5r2r1deltagamma', r5, r2, r1 , delta, gamma)
+            print('pf before norm', pf, pb, N-m-1)
         if m != order-1:
             pass
         else:
             pf = pf / float(N-m-1)
             pb = pb / float(N-m-1)
             if debug:
-                print 'ENDING', N-m-1
+                print('ENDING', N-m-1)
             break
         if debug:
-            print 'pf and pb', pf, pb
+            print('pf and pb', pf, pb)
         if pf > 0 and pb > 0:
             pass
         else: 
@@ -188,13 +188,13 @@ def arcovar_marple(x, order):
         r3 = 1./delta
         r4 = 1./gamma
         if debug:
-            print '--------time update', r1, r2, r3, r4, m+1, N-m-1, x[m+1], x[N-m-2]
+            print('--------time update', r1, r2, r3, r4, m+1, N-m-1, x[m+1], x[N-m-2])
         ef = x[m+1]
         eb = x[(N-1)-m-1]
         if debug:
-            print 'delta, gamma=', delta, gamma
+            print('delta, gamma=', delta, gamma)
         if debug:
-            print 'before eb=', eb, ' ef=', ef
+            print('before eb=', eb, ' ef=', ef)
             
             
         for k in range(0,m+1):
@@ -206,14 +206,14 @@ def arcovar_marple(x, order):
         #ef = sum(af)
             
         if debug:
-            print 'efweb', ef , eb
+            print('efweb', ef , eb)
         c1 = ef*r3
         c2 = eb*r4
         c3 = eb.conjugate() * r2
         c4 = ef.conjugate() * r1
         if debug:
-            print 'c1c2c3c4', c1, c2, c3, c4
-            print 'af before', af[0:2]
+            print('c1c2c3c4', c1, c2, c3, c4)
+            print('af before', af[0:2])
         for k in range(m, -1, -1):
             save = af[k]
             af[k] = save + c1 * d[k]                    #  Eq. (8.C.33)
@@ -222,11 +222,11 @@ def arcovar_marple(x, order):
             ab[k] = save + c2 * c[m-k]                 # Eq. (8.C.35)
             c[m-k] = c[m-k] + c3 * save              # Eq. (8.C.24)
         if debug:
-            print 'af after', af[0:2]
-            print 'd', d[0:2]
-            print 'ab', ab[0:2]
-            print 'c', c[0:2]
-        if debug:print 'Pb before', pf, pb
+            print('af after', af[0:2])
+            print('d', d[0:2])
+            print('ab', ab[0:2])
+            print('c', c[0:2])
+        if debug:print('Pb before', pf, pb)
         c[m+1] = c3
         d[0] = c4
         #r5 = abs(ef)**2
@@ -238,15 +238,15 @@ def arcovar_marple(x, order):
         r5 = eb.real**2 + eb.imag**2
         pb = pb - r5 * r4                              # Eq. (8.C.36)
         if debug:
-            print 'Pb---------------------', m, pb, r5, r4
+            print('Pb---------------------', m, pb, r5, r4)
         gamma = gamma-r5*r2                        # Eq. (8.C.31)
         if debug:
-            print 'Gamma', gamma
-            print 'r5 r3,r1,and delta', r5, r3, r1, delta
-            print 'eb=', eb
-            print 'ef=', ef
-            print 'pf=', pf
-            print 'pb=', pb
+            print('Gamma', gamma)
+            print('r5 r3,r1,and delta', r5, r3, r1, delta)
+            print('eb=', eb)
+            print('ef=', ef)
+            print('pf=', pf)
+            print('pb=', pb)
         pbv.append(pb)
 
         if (pf > 0. and pb > 0.):
@@ -254,7 +254,7 @@ def arcovar_marple(x, order):
         else:
             ValueError("Negative PF or PB value")
         if debug:
-            print delta, gamma
+            print(delta, gamma)
         if (delta > 0. and delta <= 1.) and (gamma > 0. and gamma <= 1.):
             pass
         else:
@@ -378,7 +378,7 @@ class pcovar(ParametricSpectrum):
         psd = arma2psd(A=ar, T=self.sampling, NFFT=self.NFFT)
         
         if self.datatype == 'real':
-            from tools import twosided_2_onesided
+            from .tools import twosided_2_onesided
             newpsd  = twosided_2_onesided(psd)
             #\psd[0:self.NFFT/2]*2
             #newpsd[0] /= 2.

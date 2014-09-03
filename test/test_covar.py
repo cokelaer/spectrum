@@ -47,7 +47,7 @@ def test_covar():
     af, pf, ab, pb, pv = arcovar_marple(marple_data, 15)
     PSD = arma2psd(af)
 
-    newpsd = cshift(PSD, len(PSD)/2) # switch positive and negative freq
+    newpsd = cshift(PSD, len(PSD)//2) # switch positive and negative freq
     return newpsd
 
 def test_pcovar():
@@ -55,7 +55,7 @@ def test_pcovar():
     p()
     p = pcovar(marple_data, 15, NFFT=4096)
     p()
-    print p.get_converted_psd('centerdc')
+    print(p.get_converted_psd('centerdc'))
     return p.psd
 
 

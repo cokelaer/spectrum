@@ -11,7 +11,7 @@ def test_pmusic():
     p()
     p = pmusic(data_cosine(), 15, NSIG=11)    
     p()
-    print p
+    print(p)
 
 
 def test_eigenfre_music():

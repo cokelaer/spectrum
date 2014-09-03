@@ -14,10 +14,10 @@
 
 
 import numpy
-from correlation import CORRELATION, xcorr
-from window import Window
+from .correlation import CORRELATION, xcorr
+from .window import Window
 from numpy.fft import fft
-from psd import FourierSpectrum
+from .psd import FourierSpectrum
 
 
 __all__ = ["CORRELOGRAMPSD", "pcorrelogram"]

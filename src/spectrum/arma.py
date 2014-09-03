@@ -112,7 +112,7 @@ def arma2psd(A=None, B=None, rho=1., T=1., NFFT=4096, sides='default', norm=Fals
     # The PSD is a twosided PSD.
     # to obtain the centerdc
     if sides != 'default':
-        import tools
+        from . import tools
         assert sides in ['centerdc']
         if sides == 'centerdc':
             psd = tools.twosided_2_centerdc(psd)
@@ -318,7 +318,7 @@ class pma(ParametricSpectrum):
                       T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
-            import tools
+            from . import tools
             self.psd = tools.twosided_2_onesided(psd)
             #newpsd  = psd[self.NFFT/2:]*2
             #newpsd[0] /= 2.

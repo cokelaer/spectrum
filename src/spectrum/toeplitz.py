@@ -121,7 +121,7 @@ def HERMTOEP(T0, T, Z):
             for j in range(0,k+1):
                 X[j] = X[j] + alpha * A[k-j].conjugate()
             continue
-        khalf = (k+1)/2
+        khalf = (k+1)//2
         for j in range(0, khalf):
             kj = k-j-1
             save=A[j]

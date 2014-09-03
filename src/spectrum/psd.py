@@ -1,10 +1,10 @@
 """This module provides the Base class for PSDs"""
 import pylab as plt
-from tools import nextpow2 
+from .tools import nextpow2 
 import numpy
-import errors
-from window import window_names
-import tools
+from . import errors
+from .window import window_names
+from . import tools
 
 import pylab
 
@@ -136,10 +136,10 @@ class Range(object):
         
         """
         if self.N % 2 == 0:
-            for n in range(0, self.N/2+1):
+            for n in range(0, self.N//2+1):
                 yield n * self.df
         else:
-            for n in range(0, (self.N+1)/2):
+            for n in range(0, (self.N+1)//2):
                 yield n * self.df
                         
     def onesided(self):
@@ -299,8 +299,8 @@ class Spectrum(object):
     method = property(fget=_getMethod, fset=_setMethod)
          
     def __call__(self, *args, **kargs):
-        print """To be use with care. THis function is there just to help, it 
-            does not populate the proper attribute except psd."""
+        print("""To be use with care. THis function is there just to help, it 
+            does not populate the proper attribute except psd.""")
         if self.method != None:
             res = self.method(self.data, *args, **kargs)
             self.psd = res[0]
@@ -450,7 +450,7 @@ class Spectrum(object):
 
     def _getPSD(self):
         if self.__psd == None:
-            print 'PSD not yet computed. call the object to estimate the PSD.'
+            print('PSD not yet computed. call the object to estimate the PSD.')
             
         else:
             return self.__psd
@@ -566,9 +566,9 @@ class Spectrum(object):
                 "complex datatype so sides cannot be onesided."
             
         if self.sides == 'onesided':
-            if debug: print 'Current sides is onesided'
+            if debug: print('Current sides is onesided')
             if sides == 'twosided':
-                if debug: print '--->Converting to twosided'
+                if debug: print('--->Converting to twosided')
                 # here we divide everything by 2 to get the twosided versin
                 N = self.NFFT
                 newpsd = numpy.concatenate((self.psd[0:-1]/2., list(reversed(self.psd[0:-1]/2.))))
@@ -576,7 +576,7 @@ class Spectrum(object):
                 newpsd[-1] = self.psd[-1] 
                 newpsd[0] *= 2.
             elif sides == 'centerdc':
-                print '--->Converting to centerdc'
+                print('--->Converting to centerdc')
                 newpsd = numpy.concatenate((self.psd[-1:0:-1]/2., self.psd[0:-1]/2.))
                 # so we need to multiply by 2 the 0 and F2/2 frequencies
                 newpsd[self.NFFT/2] *= 2.
@@ -584,9 +584,9 @@ class Spectrum(object):
             self.NFFT = len(newpsd)
             
         elif self.sides == 'twosided':
-            print 'Current sides is twosided'
+            print('Current sides is twosided')
             if sides == 'onesided':
-                print '--->Converting to onesided'
+                print('--->Converting to onesided')
                 N = self.NFFT
                 newpsd = numpy.array(self.psd[0:N/2+1]*2)
                 newpsd[0] /= 2
@@ -595,9 +595,9 @@ class Spectrum(object):
                 newpsd = tools.twosided_2_centerdc(self.psd)
             self.NFFT = len(self.psd)
         elif self.sides == 'centerdc': # same as twosided to onesided
-            print 'Current sides is centerdc'
+            print('Current sides is centerdc')
             if sides == 'onesided':
-                print '--->Converting to onesided'
+                print('--->Converting to onesided')
                 N = self.NFFT
                 newpsd = numpy.array(list(reversed(self.psd[0:N/2+1]*2)))
                 newpsd[0] = self.psd[N/2]
@@ -668,7 +668,7 @@ class Spectrum(object):
         from pylab import ylim as plt_ylim
    
         
-        if 'ax' in kargs.keys():
+        if 'ax' in list(kargs.keys()):
             save_ax = pylab.gca()
             pylab.sca(kargs['ax'])
             rollback = True
@@ -863,7 +863,7 @@ class ParametricSpectrum(Spectrum):
     def plot_reflection(self):
         from pylab import stem, title, xlabel, ylabel
         if self.reflection != None:
-            stem(range(0, len(self.reflection)), abs(self.reflection))
+            stem(list(range(0, len(self.reflection))), abs(self.reflection))
             title('Reflection coefficient evolution')
             xlabel('Order')
             ylabel('Reflection Coefficient absolute values')
@@ -1062,7 +1062,7 @@ class FourierSpectrum(Spectrum):
             s.periodogram()
             s.plot()
         """
-        from periodogram import speriodogram
+        from .periodogram import speriodogram
         psd = speriodogram(self.data, window=self.window, sampling=self.sampling, 
                              NFFT=self.NFFT, scale_by_freq=self.scale_by_freq,
                              detrend=self.detrend)

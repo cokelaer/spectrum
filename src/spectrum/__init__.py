@@ -1,60 +1,60 @@
 #: default number os samples used to compute FFT
 default_NFFT = 4096
 
-import arma
-import burg
-import cholesky
-import correlation
-import correlog
-import covar
-import criteria
-import mtm
-import eigen
-import eigenfre
+from . import arma
+from . import burg
+from . import cholesky
+from . import correlation
+from . import correlog
+from . import covar
+from . import criteria
+from . import mtm
+from . import eigen
+from . import eigenfre
 #import fastrls
-import levinson
-import linear_prediction
-import linalg
+from . import levinson
+from . import linear_prediction
+from . import linalg
 #import lms
-import lpc
-import minvar
-import modcovar
-import periodogram
-import psd
-import datasets
-import toeplitz
-import tools
-import window
-import waveform
-import yulewalker
-import transfer
+from . import lpc
+from . import minvar
+from . import modcovar
+from . import periodogram
+from . import psd
+from . import datasets
+from . import toeplitz
+from . import tools
+from . import window
+from . import waveform
+from . import yulewalker
+from . import transfer
 
 
-from mtm import *
-from transfer import *
-from arma import *
-from burg import *
-from cholesky import *
-from correlation import *
-from correlog import *
-from covar import *
-from criteria import *
-from eigen import *
-from eigenfre import *
-from levinson import *
-from linear_prediction import *
-from linalg import *
+from .mtm import *
+from .transfer import *
+from .arma import *
+from .burg import *
+from .cholesky import *
+from .correlation import *
+from .correlog import *
+from .covar import *
+from .criteria import *
+from .eigen import *
+from .eigenfre import *
+from .levinson import *
+from .linear_prediction import *
+from .linalg import *
 #from lms import *
-from lpc import *
-from minvar import *
-from modcovar import *
-from periodogram import *
-from psd import *
-from datasets import *
-from tools import *
-from toeplitz import *
-from window import *
-from waveform import *
-from yulewalker import *
+from .lpc import *
+from .minvar import *
+from .modcovar import *
+from .periodogram import *
+from .psd import *
+from .datasets import *
+from .tools import *
+from .toeplitz import *
+from .window import *
+from .waveform import *
+from .yulewalker import *
 
 

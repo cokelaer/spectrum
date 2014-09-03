@@ -24,7 +24,7 @@ def test_pmodcovar():
     # test real data
     p  = pmodcovar(data_cosine(), 15, scale_by_freq=True)
     p()
-    print p
+    print(p)
 
     # and complex data
     p  = pmodcovar(marple_data, 15, NFFT=4096)

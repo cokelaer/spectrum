@@ -15,7 +15,7 @@
 #TODO: convert arburg into arburg2 to get a nicer and faster algorithm.
  
 import numpy
-from psd import ParametricSpectrum
+from .psd import ParametricSpectrum
 
 __all__ = ["arburg", 'pburg']
 
@@ -116,7 +116,7 @@ class pburg(ParametricSpectrum):
         self.criteria = criteria
 
     def __call__(self):
-        from arma import arma2psd
+        from .arma import arma2psd
         ar, rho, ref = arburg(self.data, self.ar_order, self.criteria)
         self.ar = ar
         self.rho = rho
@@ -202,7 +202,7 @@ def arburg(X, order, criteria=None):
         from spectrum import Criteria
         crit = Criteria(name=criteria, N=N)
         crit.data = rho
-        print 0, 'old criteria=',crit.old_data, 'new criteria=',crit.data, 'new_rho=', rho
+        print((0, 'old criteria=',crit.old_data, 'new criteria=',crit.data, 'new_rho=', rho))
 
     #p =0
     a = numpy.zeros(0, dtype=complex)
@@ -223,7 +223,7 @@ def arburg(X, order, criteria=None):
         new_rho = temp * rho 
 
         if criteria:
-            print k+1, 'old criteria=',crit.old_data, 'new criteria=',crit.data, 'new_rho=',new_rho
+            print((k+1, 'old criteria=',crit.old_data, 'new criteria=',crit.data, 'new_rho=',new_rho))
             #k+1 because order goes from 1 to P whereas k starts at 0.
             status = crit(rho=temp*rho, k=k+1)
             if status is False:
@@ -244,7 +244,7 @@ def arburg(X, order, criteria=None):
             
         else:
             # update the AR coeff
-            khalf = (k+1)/2
+            khalf = (k+1)//2  # FIXME here khalf must be an integer
             for j in range(0, khalf):   
                 ap = a[j] # previous value
                 a[j] = ap + kp * a[k-j-1].conjugate()      # Eq. (8.2)     

@@ -29,7 +29,7 @@ def test_psd_module_range():
     r.N = 11;
     r.onesided()
     r.twosided()
-    print r
+    print(r)
 
 
 class test_spectrum():
@@ -41,7 +41,7 @@ class test_spectrum():
 
     def init(self):
         self.s = Spectrum(self.data)
-        print self.s #__str__ when psd is not yet computed
+        print(self.s) #__str__ when psd is not yet computed
         
     def test_attributes(self):
         self.init()
@@ -107,7 +107,7 @@ def test_fourier_spectrum():
     s.periodogram()
     s.plot()
     
-    print s
+    print(s)
 
 def test_arma_spectrum():
     from spectrum import datasets

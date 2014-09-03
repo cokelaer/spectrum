@@ -10,11 +10,11 @@
     .. codeauthor:: Thomas Cokelaer, 2011
 """
 import numpy
-from burg import arburg
+from .burg import arburg
 from numpy.fft import fft
-from psd import ParametricSpectrum
+from .psd import ParametricSpectrum
 from spectrum import default_NFFT
-import errors
+from . import errors
 
 __all__ = ["minvar", "pminvar"]
 
@@ -177,7 +177,7 @@ class pminvar(ParametricSpectrum):
         
         # save the PSD
         if self.datatype == 'real':
-            import tools
+            from . import tools
             self.psd = tools.twosided_2_onesided(res[0])
             #psd = res[0]
             #newpsd  = psd[0:self.NFFT/2]*2

@@ -12,7 +12,7 @@ import pylab
 def test_arburg_functional():
     ar, P, k = arburg(marple_data, order=15)
     PSD = arma2psd(ar)
-    newpsd = cshift(PSD, len(PSD)/2) # switch positive and negative freq
+    newpsd = cshift(PSD, len(PSD)//2) # switch positive and negative freq
     return newpsd
 
 
@@ -64,7 +64,7 @@ def test_pburg():
     p = pburg(marple_data, 15, NFFT=4096)
     p()
     p.plot(sides='centerdc')
-    print p
+    print(p)
     # test real case
     p = pburg(data_cosine(), 15, NFFT=4096)
     p()

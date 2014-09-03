@@ -1,6 +1,6 @@
 import numpy
 from numpy import real
-from psd import ParametricSpectrum
+from .psd import ParametricSpectrum
 
 __all__ = ['modcovar', 'modcovar_marple', 'pmodcovar']
 
@@ -100,7 +100,7 @@ def modcovar_marple (X,IP):
         else:
             #for k in range(0, (M-1)/2+1):
             #print 'BEFORE', A[0:4]
-            for K in range(0, (M+1)/2):
+            for K in range(0, (M+1)//2):
                 MK = M-K-1
                 SAVE1=A[K]
                 A[K]=SAVE1+C1*A[MK].conjugate() # Eq. (8.D.22)
@@ -129,7 +129,7 @@ def modcovar_marple (X,IP):
 
         #print 'C1C2C3C4', C1, C2, C3, C4
         #print M, M/2+1, (M-1)/2+1
-        for K in range(0, (M)/2+1):
+        for K in range(0, (M)//2+1):
             MK=M-K
             SAVE1=C[K].conjugate()
             SAVE2=D[K].conjugate()
@@ -315,7 +315,7 @@ class pmodcovar(ParametricSpectrum):
         psd = arma2psd(A=ar, T=self.sampling, NFFT=self.NFFT)
         
         if self.datatype == 'real':
-            from tools import twosided_2_onesided
+            from .tools import twosided_2_onesided
             newpsd  = twosided_2_onesided(psd)
             #\psd[0:self.NFFT/2]*2
             #newpsd[0] /= 2.

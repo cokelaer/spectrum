@@ -33,7 +33,7 @@ def test_correlog_correlation_method():
 def test_pcorrelogram_class():
     p = pcorrelogram(marple_data, lag=16)
     p()
-    print p
+    print(p)
 
 def create_figure():
     psd = test_correlog()

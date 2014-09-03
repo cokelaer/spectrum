@@ -51,7 +51,7 @@ def _swapsides(data):
     """
     N = len(data)
     from numpy import concatenate
-    return concatenate((data[N/2+1:], data[0:N/2]))
+    return concatenate((data[N//2+1:], data[0:N//2]))
 
 def twosided_2_onesided(data):
     """Convert a one-sided PSD to a twosided PSD
@@ -68,7 +68,7 @@ def twosided_2_onesided(data):
     """
     assert len(data)%2 == 0
     N = len(data) 
-    psd = numpy.array(data[0:N/2+1])*2.
+    psd = numpy.array(data[0:N//2+1])*2.
     psd[0]/=2.
     psd[-1] = data[-1]
     return psd
@@ -95,14 +95,15 @@ def onesided_2_twosided(data):
 def twosided_2_centerdc(data):
     """Convert a two-sided PSD to a center-dc PSD"""
     N = len(data)
-    newpsd = numpy.concatenate((cshift(data[N/2:], 1), data[0:N/2]))
+    # could us int() or // in python 3 
+    newpsd = numpy.concatenate((cshift(data[N//2:], 1), data[0:N//2]))
     newpsd[0] = data[-1]
     return newpsd
 
 def centerdc_2_twosided(data):
     """Convert a center-dc PSD to a twosided PSD"""
     N = len(data)
-    newpsd = numpy.concatenate((data[N/2:], (cshift(data[0:N/2], -1))))
+    newpsd = numpy.concatenate((data[N//2:], (cshift(data[0:N//2], -1))))
     return newpsd
 
 

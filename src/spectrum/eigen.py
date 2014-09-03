@@ -1,5 +1,5 @@
 import numpy
-import toeplitz
+from . import toeplitz
 
 __all__ = ["MINEIGVAL"]
 
@@ -53,7 +53,7 @@ def MINEIGVAL(T0, T, TOL):
         for k in range(0,M+1):
             eigvec[k] = SUM * eig[k]
     if it==maxit:
-        print 'warning reached max number of iteration (%s)' % maxit
+        print('warning reached max number of iteration (%s)' % maxit)
     return eigval, eigvec
 
 

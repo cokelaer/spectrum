@@ -17,29 +17,29 @@ def test_is_positive():
 def test_errors():
 
     a = SpectrumError()
-    print a
+    print(a)
 
     a = SpectrumChoiceError("dummy", ['valid'])
-    print a
+    print(a)
 
     a = SpectrumPSDError()
-    print a
+    print(a)
 
     a = SpectrumModifiedError()
-    print a
+    print(a)
 
     a = SpectrumARMAError()
-    print a
+    print(a)
 
     a = SpectrumMAError()
-    print a
+    print(a)
 
     a = SpectrumARError()
-    print a
+    print(a)
     a = SpectrumOrder()
-    print a
+    print(a)
     a = SpectrumNFFT()
-    print a
+    print(a)
     
 
     try:

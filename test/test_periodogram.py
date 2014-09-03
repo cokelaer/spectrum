@@ -9,7 +9,7 @@ def test_Periodogram():
     p = Periodogram(marple_data)
     p()
     p.plot()
-    print p
+    print(p)
 
 def test_periodogram():
     """check that rho is correct (appendix 10.A )and reproduce figure 10.2"""
