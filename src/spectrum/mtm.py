@@ -8,12 +8,14 @@ The estimation itself can be performed with the :func:`spectrum.mtm.pmtm` functi
 
 
 """
+import sys
+import platform
+import os
+
 import numpy as np
 import ctypes
 from ctypes import *
 import ctypes as C
-import platform
-import os
 from ctypes import POINTER
 import os
 from os.path import join as pj
@@ -37,16 +39,38 @@ Note that on OSX -shared should be replaced by -dynamiclib and sum.so should be 
 
 """
 
+p = os.path.abspath(os.path.dirname(__file__))
 # Import shared mtspec library depending on the platform.
 if platform.system() == 'Windows':
-    lib_name = 'mydpss.pyd'
+    try:
+        lib_name = 'mydpss.pyd'
+        mtspeclib = ctypes.cdll.LoadLibrary(pj(p, lib_name))
+    except:
+        # under python 3.X
+        major = sys.version_info.major
+        minor = sys.version_info.minor
+        lib_name = 'mydpss.cpython-{0}{1}m.so'.format(major, minor)
+        mtspeclib = ctypes.cdll.LoadLibrary(pj(p, lib_name))
 elif platform.system() == 'Darwin':
-    lib_name = 'mydpss.so'
+    try:
+        lib_name = 'mydpss.so'
+        mtspeclib = ctypes.cdll.LoadLibrary(pj(p, lib_name))
+    except:
+        # under python 3.X
+        major = sys.version_info.major
+        minor = sys.version_info.minor
+        lib_name = 'mydpss.cpython-{0}{1}m.so'.format(major, minor)
+        mtspeclib = ctypes.cdll.LoadLibrary(pj(p, lib_name))
 else:
-    lib_name = 'mydpss.so'
-
-p = os.path.abspath(os.path.dirname(__file__))
-mtspeclib = ctypes.cdll.LoadLibrary(pj(p, lib_name))
+    try:
+        lib_name = 'mydpss.so'
+        mtspeclib = ctypes.cdll.LoadLibrary(pj(p, lib_name))
+    except:
+        # under python 3.X
+        major = sys.version_info.major
+        minor = sys.version_info.minor
+        lib_name = 'mydpss.cpython-{0}{1}m.so'.format(major, minor)
+        mtspeclib = ctypes.cdll.LoadLibrary(pj(p, lib_name))
 
 
 def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=True):
