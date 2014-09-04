@@ -1,4 +1,7 @@
-Spectral Analysis in Python
+SPECTRUM : Spectral Analysis in Python
+==========================================
+
+
 
 .. image:: https://badge.fury.io/py/spectrum.svg
     :target: https://badge.fury.io/py/spectrum.svg
@@ -17,6 +20,8 @@ Spectral Analysis in Python
 
 .. image:: https://badge.waffle.io/cokelaer/spectrum.png?label=ready&title=Ready 
     :target: https://waffle.io/cokelaer/spectrum
+
+
 
 
 
