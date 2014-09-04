@@ -31,4 +31,15 @@ Spectral Analysis in Python
     * Non-parametric methods based on eigen analysis (e.g., MUSIC) and minimum variance analysis are also implemented.
     * Multitapering is also available
 
+Installation
+================
 
+::
+
+    pip install spectrum
+
+
+Contributions
+==================
+
+Please see `github <http://github.com/cokelaer/spectrum>`_ for any issues/bugs/comments/contributions.
