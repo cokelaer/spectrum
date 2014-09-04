@@ -17,6 +17,7 @@
 """
 from numpy import zeros, append, insert, real
 from numpy.fft import fft
+
 from spectrum.correlation import CORRELATION
 from spectrum.covar import arcovar, arcovar_marple
 import spectrum.yulewalker as yulewalker

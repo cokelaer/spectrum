@@ -10,11 +10,12 @@
     .. codeauthor:: Thomas Cokelaer, 2011
 """
 import numpy
-from .burg import arburg
 from numpy.fft import fft
-from .psd import ParametricSpectrum
+
+from spectrum.burg import arburg
+from spectrum.psd import ParametricSpectrum
 from spectrum import default_NFFT
-from . import errors
+from spectrum import errors
 
 __all__ = ["minvar", "pminvar"]
 

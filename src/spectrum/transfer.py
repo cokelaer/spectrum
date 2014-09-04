@@ -62,7 +62,7 @@ def tf2zp(b,a):
     .. seealso:: scipy.signal.tf2zpk, which gives the same results but uses a different
         algorithm (z^-1 instead of z).
     """
-    from numpy import roots, array
+    from numpy import roots 
     assert len(b) == len(a), "length of the vectors a and b must be identical. fill with zeros if needed."
 
     g = b[0]/a[0]

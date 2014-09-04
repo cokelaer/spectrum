@@ -1,12 +1,12 @@
 """This module provides the Base class for PSDs"""
 import pylab as plt
-from .tools import nextpow2 
 import numpy
-from . import errors
-from .window import window_names
-from . import tools
 
-import pylab
+from spectrum.tools import nextpow2 
+from spectrum import errors
+from spectrum.window import window_names
+from spectrum import tools
+
 
 __all__ = ["Spectrum", "FourierSpectrum", "ParametricSpectrum"]
 debug = False
@@ -669,8 +669,8 @@ class Spectrum(object):
    
         
         if 'ax' in list(kargs.keys()):
-            save_ax = pylab.gca()
-            pylab.sca(kargs['ax'])
+            save_ax = plt.gca()
+            plt.sca(kargs['ax'])
             rollback = True
             del kargs['ax']
         else:
@@ -696,7 +696,7 @@ class Spectrum(object):
         if filename:
             savefig(filename)
         if rollback:
-            pylab.sca(save_ax)
+            plt.sca(save_ax)
         del psd, frequencies #is it needed?
 
     def power(self):

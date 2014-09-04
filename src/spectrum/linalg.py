@@ -12,7 +12,8 @@
    
 """
 import numpy
-from . import errors
+
+import spectrum.errors as errors
 
 __all__ = ["pascal", "csvd", "corrmtx"]
 

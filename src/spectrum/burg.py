@@ -15,7 +15,7 @@
 #TODO: convert arburg into arburg2 to get a nicer and faster algorithm.
  
 import numpy
-from .psd import ParametricSpectrum
+from spectrum.psd import ParametricSpectrum
 
 __all__ = ["arburg", 'pburg']
 
