@@ -63,7 +63,7 @@ jtinvit_(int *nm, int *n, double *d, double *e, double *e2,
 int
 multitap(int n, int nwin, double *el, float npi, double *tapers, double *tapsum);
 
-
+void PyInit_mydpss() {}
 
 
 /***************************************************************/

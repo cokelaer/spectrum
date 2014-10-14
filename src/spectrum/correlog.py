@@ -96,13 +96,13 @@ def CORRELOGRAMPSD(X, Y=None, lag=-1, window='hamming',
     N = len(X)
     assert lag<N, 'lag must be < size of input data'
     assert correlation_method in ['CORRELATION', 'xcorr']
-    if Y == None:
+    if Y is None:
         Y = numpy.array(X)
         crosscorrelation = False
     else:
         crosscorrelation = True
     
-    if NFFT == None:
+    if NFFT is None:
         NFFT = N
     psd = numpy.zeros(NFFT, dtype=complex)
     

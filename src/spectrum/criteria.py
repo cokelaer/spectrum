@@ -97,7 +97,7 @@ class Criteria(object):
         return self.__data
     def _setData(self, data):
         # save the data value in old_data is there is something to save
-        if self.data == None:
+        if self.data is None:
             self.__data = data
             self.__old_data = 2.*data
         else:

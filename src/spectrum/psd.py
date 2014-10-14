@@ -352,7 +352,7 @@ class Spectrum(object):
             #print 'NFFT is based on nextpow2:', 
             n = nextpow2(self.data.size)
             new_nfft = int(pow(2,n))
-        elif NFFT == None:
+        elif NFFT is None:
             #print 'NFFT set to data length',
             new_nfft = self.N 
         elif isinstance(NFFT, int):
@@ -449,7 +449,7 @@ class Spectrum(object):
     :attr:`df` and  :attr:`datatype` are updated.""")
 
     def _getPSD(self):
-        if self.__psd == None:
+        if self.__psd is None:
             print('PSD not yet computed. call the object to estimate the PSD.')
             
         else:
@@ -527,7 +527,7 @@ class Spectrum(object):
         
         """Return the frequency vector according to :attr:`sides`"""
         # use the attribute sides except if a valid sides argument is provided
-        if sides == None:
+        if sides is None:
             sides = self.sides
         if sides not in self._sides_choices:
             raise errors.SpectrumChoiceError(sides, self._sides_choices)
@@ -637,7 +637,7 @@ class Spectrum(object):
             raise errors.SpectrumModifiedError
         
         # and that it has been computed
-        if self.__psd == None:
+        if self.__psd is None:
             raise errors.SpectrumPSDError
         
         # check that the input sides parameter is correct if provided
@@ -646,7 +646,7 @@ class Spectrum(object):
                 raise errors.SpectrumChoiceError(sides, self._sides_choices)
         
         # if sides is provided but identical to the current psd, nothing to do.
-        if sides == None or sides == self.sides:
+        if sides is None or sides == self.sides:
             frequencies = self.frequencies()
             psd = self.psd
             #sides = self.sides
@@ -792,7 +792,7 @@ class ParametricSpectrum(Spectrum):
                                                  NFFT=NFFT, 
                                                  scale_by_freq=scale_by_freq,
                                                  detrend=detrend)
-        if ar_order == None and ma_order==None:
+        if ar_order is None and ma_order is None:
             raise errors.SpectrumARMAError
         #new user attributes
         self.__ar_order = ar_order

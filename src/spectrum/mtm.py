@@ -120,7 +120,7 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Tru
     N = len(x)
 
     # if dpss not provided, compute them
-    if e == None and v == None:
+    if e is None and v is None:
         if NW != None:
             [tapers, eigenvalues] = dpss(N, NW, k=k)
         else:
@@ -257,7 +257,7 @@ def dpss(N, NW=None, k=None):
 
     """
     assert NW<N/2 , "NW must be stricly less than N/2"
-    if k == None:
+    if k is None:
         k = min(round(2*NW),N)
         k = int(max(k,1))
     from numpy import dot, zeros, arange, sqrt

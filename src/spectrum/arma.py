@@ -78,15 +78,15 @@ def arma2psd(A=None, B=None, rho=1., T=1., NFFT=4096, sides='default', norm=Fals
         
     :References: [Marple]_
     """
-    if NFFT == None:
+    if NFFT is None:
         NFFT = 4096
     
-    if A == None and B == None:
+    if A is None and B is None:
         raise ValueError("Either AR or MA model must be provided")
     
     psd = zeros(NFFT, dtype=complex)
     
-    if A != None:
+    if A is not None:
         ip = len(A)
         den = zeros(NFFT, dtype=complex)
         den[0] = 1.+0j
@@ -94,7 +94,7 @@ def arma2psd(A=None, B=None, rho=1., T=1., NFFT=4096, sides='default', norm=Fals
             den[k+1] = A[k]
         denf = fft(den, NFFT)
 
-    if B != None:
+    if B is not None:
         iq = len(B)
         num = zeros(NFFT, dtype=complex)
         num[0] = 1.+0j
@@ -102,11 +102,11 @@ def arma2psd(A=None, B=None, rho=1., T=1., NFFT=4096, sides='default', norm=Fals
             num[k+1] = B[k]
         numf = fft(num, NFFT)
 
-    if A != None and B != None:
+    if A is not None and B is not None:
         psd = rho * T * abs(numf)**2. /  abs(denf)**2.
-    elif A != None:
+    elif A is not None:
         psd = rho * T / abs(denf)**2.
-    elif B != None:
+    elif B is not None:
         psd = rho * T * abs(numf)**2.
         
     psd = real(psd)
