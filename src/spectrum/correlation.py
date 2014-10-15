@@ -78,7 +78,7 @@ def CORRELATION(x, y=None, maxlags=None, norm='unbiased'):
     """
     assert norm in ['unbiased','biased', 'coeff', None]
     #transform lag into list if it is an integer
-    if y == None:
+    if y is None:
         y = x
     
     # N is the max of x and y
@@ -91,7 +91,7 @@ def CORRELATION(x, y=None, maxlags=None, norm='unbiased'):
         y.resize(N)
             
     #default lag is N-1
-    if maxlags == None:
+    if maxlags is None:
         maxlags = N - 1
     assert maxlags < N, 'lag must be less than len(x)'
     
@@ -120,7 +120,7 @@ def CORRELATION(x, y=None, maxlags=None, norm='unbiased'):
         if k == 0:
             if norm in ['biased', 'unbiased']:
                 r0 = sum/float(N)
-            elif norm == None:
+            elif norm is None:
                 r0 = sum
             else:
                 r0 =  1.
@@ -129,7 +129,7 @@ def CORRELATION(x, y=None, maxlags=None, norm='unbiased'):
                 r[k-1] = sum / float(N-k)
             elif norm == 'biased':
                 r[k-1] = sum / float(N)
-            elif norm == None:
+            elif norm is None:
                 r[k-1] = sum
             elif norm == 'coeff':
                 r[k-1] =  sum/(rmsx*rmsy)/float(N)
@@ -187,11 +187,11 @@ def xcorr(x, y=None, maxlags=None, norm='biased'):
     .. seealso:: :func:`CORRELATION`.  
     """
     N = len(x)
-    if y == None:
+    if y is None:
         y = x
     assert len(x) == len(y), 'x and y must have the same length. Add zeros if needed'
     
-    if maxlags == None:
+    if maxlags is None:
         maxlags = N-1
         lags = arange(0, 2*N-1)
     else:

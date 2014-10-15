@@ -278,8 +278,8 @@ def _get_signal_space(S, NP, verbose=False, threshold=None, NSIG=None,
     from .criteria import aic_eigen, mdl_eigen
     # This section selects automatically the noise and signal subspaces.
     # NSIG being the number of eigenvalues corresponding to signals.
-    if NSIG == None:
-        if threshold == None:
+    if NSIG is None:
+        if threshold is None:
             if verbose:
                 print('computing NSIG using AIC method')
             # get the minimum index of the AIC vector

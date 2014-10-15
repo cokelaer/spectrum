@@ -80,7 +80,7 @@ def LEVINSON(r, order=None, allow_singularity=False):
     T = r[1:]
     M = len(T)
     
-    if order == None:
+    if order is None:
         M = len(T) 
     else:
         assert order <= M, 'order must be less than size of the input data'

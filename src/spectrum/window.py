@@ -130,7 +130,7 @@ class Window(object):
         """
         #input attributse
         assert N>0 , "First argument  must be positive"
-        if name == None or name not in list(window_names.keys()):
+        if name is None or name not in list(window_names.keys()):
             raise ValueError("second argument must be a valid window name %s" %
                              list(window_names.keys()))
         
@@ -172,14 +172,14 @@ class Window(object):
     data = property(fget=_getData, doc="Getter for the window values (in time)")
 
     def _getF(self):
-        if self.__response == None:
+        if self.__response is None:
             self.compute_response()
         self.__frequencies = linspace(-0.5, 0.5, len(self.__response))
         return self.__frequencies
     frequencies = property(fget=_getF, doc="Getter for the frequency array")
 
     def _getResponse(self):
-        if self.__response == None:
+        if self.__response is None:
             self.compute_response()
         return self.__response
     response = property(fget=_getResponse, doc="Getter for the frequency \
@@ -395,7 +395,7 @@ def create_window(N, name=None, **kargs):
 
     .. seealso:: :func:`window_visu`, :func:`Window`, :mod:`spectrum.dpss`
     """
-    if name == None:
+    if name is None:
         name = 'rectangle'
     name = name.lower()
     assert name in list(window_names.keys()), \

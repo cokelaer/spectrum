@@ -107,7 +107,7 @@ def rc2poly(kr, r0=None):
     a = numpy.array([1, kr[0]])           #% a is a true polynomial.
     e = numpy.zeros(5)
 
-    if r0 == None:
+    if r0 is None:
         e0 = 0
     else:
         e0 = r0

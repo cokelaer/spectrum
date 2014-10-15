@@ -117,7 +117,7 @@ def speriodogram(x, NFFT=None, detrend=True, sampling=1.,
             w = Window(c, window)   #same size as input data
 
 
-    if NFFT == None:
+    if NFFT is None:
         NFFT = len(x)
     
     isreal = numpy.isrealobj(x)

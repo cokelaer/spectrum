@@ -56,7 +56,7 @@ def lpc(x, N=None):
     """
 
     m = len(x)
-    if N == None:
+    if N is None:
         N = m - 1 #default value if N is not provided
     elif N > m-1:
         #disp('Warning: zero-padding short input sequence')
