@@ -51,3 +51,9 @@ Contributions
 ==================
 
 Please see `github <http://github.com/cokelaer/spectrum>`_ for any issues/bugs/comments/contributions.
+
+
+Some notebooks (external contributions)
+-------------------------------------------
+
+* http://nbviewer.ipython.org/gist/juhasch/5182528
