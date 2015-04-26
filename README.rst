@@ -23,7 +23,7 @@ SPECTRUM : Spectral Analysis in Python
 
 
 :contributions: Please join https://github.com/cokelaer/spectrum
-:issues: Please use https://github.com/cokelaer/spetrum/issues
+:issues: Please use https://github.com/cokelaer/spectrum/issues
 
 
 
