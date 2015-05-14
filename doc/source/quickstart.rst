@@ -1,7 +1,7 @@
 User Guide
 ===========
 
-**Spectrum** provides classes and functions to estimate Power Spectral Densities (PSD hereafter). This documentation will not describe PSD theoritical background, which can be found in many good books and references. Therefore, we consider that the reader is aware of some terminology used here below. 
+**Spectrum** provides classes and functions to estimate Power Spectral Densities (PSD hereafter). This documentation will not describe PSD theoretical background, which can be found in many good books and references. Therefore, we consider that the reader is aware of some terminology used here below. 
 
 QuickStart (Periodogram example)
 --------------------------------
@@ -125,7 +125,7 @@ In order to extract the autoregressive coefficients (AR) and Moving average coef
     from spectrum.arma import arma_estimate, arma2psd
     ar, ma, rho = arma_estimate(marple_data, 15, 15, 30)
 
-Once the AR and/or MA parameters are found, the :func:`~spectrum.arma.arma2psd` function creates a two-sided PSD for you and the PSD can be plotted ad follows:
+Once the AR and/or MA parameters are found, the :func:`~spectrum.arma.arma2psd` function creates a two-sided PSD for you and the PSD can be plotted as follows:
 
 .. plot::
     :include-source:
