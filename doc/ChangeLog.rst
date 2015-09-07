@@ -1,6 +1,12 @@
 ChangeLog Summary
 #####################
 
+Version 0.6.1
+------------------
+
+* BUG Fixes:
+  * Issue #5 in pyule sampling not initialised is now fixed
+
 Nov 2013
 -----------
 * 0.5.7:

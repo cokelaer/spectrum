@@ -1,6 +1,6 @@
 """ARMA and MA estimates, ARMA and MA PSD estimates.
 
-.. topic:: ARMA model and Power Spectral Densities. 
+.. topic:: ARMA model and Power Spectral Densities.
 
     .. autosummary::
        :nosignatures:
@@ -27,42 +27,43 @@ from spectrum.psd import ParametricSpectrum
 __all__ = ["arma2psd", "arma_estimate", "ma", "pma", "parma"]
 
 
-def arma2psd(A=None, B=None, rho=1., T=1., NFFT=4096, sides='default', norm=False):
+def arma2psd(A=None, B=None, rho=1., T=1., NFFT=4096, sides='default',
+        norm=False):
     r"""Computes power spectral density given ARMA values.
 
     This function computes the power spectral density values
     given the ARMA parameters of an ARMA model. It is suppose that
-    the driving sequence is a white noise process of zero mean and 
+    the driving sequence is a white noise process of zero mean and
     variance :math:`\rho_w`. The sampling frequency and noise variance are
-    used to scale the PSD output, which length is set by the user with the 
-    `NFFT` parameter. 
-    
+    used to scale the PSD output, which length is set by the user with the
+    `NFFT` parameter.
+
     :param array A:   Array of AR parameters (complex or real)
     :param array B:   Array of MA parameters (complex or real)
     :param float rho: White noise variance to scale the returned PSD
     :param float T:   Sample interval in seconds to scale the returned PSD
     :param int NFFT:  Final size of the PSD
     :param str sides: Default PSD is two-sided, but sides can be set to centerdc.
-    
+
     .. warning:: By convention, the AR or MA arrays does not contain the
         A0=1 value.
-    
-    If :attr:`B` is None, the model is a pure AR model. If :attr:`A` is None, 
+
+    If :attr:`B` is None, the model is a pure AR model. If :attr:`A` is None,
     the model is a pure MA model.
 
-    :return: two-sided PSD 
+    :return: two-sided PSD
 
     .. rubric:: Details:
-    
+
     AR case: the power spectral density is:
-    
+
     .. math:: P_{ARMA}(f) = T \rho_w \left|\frac{B(f)}{A(f)}\right|^2
-    
+
     where:
-    
+
     .. math:: A(f) = 1 + \sum_{k=1}^q b(k) e^{-j2\pi fkT}
     .. math:: B(f) = 1 + \sum_{k=1}^p a(k) e^{-j2\pi fkT}
-            
+
     .. rubric:: **Example:**
 
     .. plot::
@@ -75,17 +76,17 @@ def arma2psd(A=None, B=None, rho=1., T=1., NFFT=4096, sides='default', norm=Fals
         plot(10*log10(spectrum.arma.arma2psd([1,0.5],None)), label='AR(2)')
         plot(10*log10(spectrum.arma.arma2psd(None,[0.5,0.5])), label='MA(2)')
         legend()
-        
+
     :References: [Marple]_
     """
     if NFFT is None:
         NFFT = 4096
-    
+
     if A is None and B is None:
         raise ValueError("Either AR or MA model must be provided")
-    
+
     psd = zeros(NFFT, dtype=complex)
-    
+
     if A is not None:
         ip = len(A)
         den = zeros(NFFT, dtype=complex)
@@ -103,12 +104,12 @@ def arma2psd(A=None, B=None, rho=1., T=1., NFFT=4096, sides='default', norm=Fals
         numf = fft(num, NFFT)
 
     if A is not None and B is not None:
-        psd = rho * T * abs(numf)**2. /  abs(denf)**2.
+        psd = rho * T * abs(numf)**2. / abs(denf)**2.
     elif A is not None:
         psd = rho * T / abs(denf)**2.
     elif B is not None:
         psd = rho * T * abs(numf)**2.
-        
+
     psd = real(psd)
     # The PSD is a twosided PSD.
     # to obtain the centerdc
@@ -117,26 +118,26 @@ def arma2psd(A=None, B=None, rho=1., T=1., NFFT=4096, sides='default', norm=Fals
         assert sides in ['centerdc']
         if sides == 'centerdc':
             psd = tools.twosided_2_centerdc(psd)
-        
+
     if norm == True:
         psd /= max(psd)
-        
+
     return psd
 
 
 def arma_estimate(X, P, Q, lag):
     """Autoregressive and moving average estimators.
 
-    This function provides an estimate of the autoregressive 
+    This function provides an estimate of the autoregressive
     parameters, the moving average parameters, and the driving
     white noise variance of  an ARMA(P,Q) for a complex or real data sequence.
-    
-    The parameters are estimated using three steps:    
-    
-        * Estimate the AR parameters from the original data based on a least 
-          squares modified Yule-Walker technique,  
-        * Produce a residual time sequence by filtering the original data 
-          with a filter based on the AR parameters, 
+
+    The parameters are estimated using three steps:
+
+        * Estimate the AR parameters from the original data based on a least
+          squares modified Yule-Walker technique,
+        * Produce a residual time sequence by filtering the original data
+          with a filter based on the AR parameters,
         * Estimate the MA parameters from the residual time sequence.
 
     :param array X: Array of data samples (length N)
@@ -152,7 +153,7 @@ def arma_estimate(X, P, Q, lag):
     .. note::
       *  lag must be >= Q (MA order)
 
-    **dependencies**: 
+    **dependencies**:
         * :meth:`spectrum.correlation.CORRELATION`
         * :meth:`spectrum.covar.arcovar`
         * :meth:`spectrum.arma.ma`
@@ -175,7 +176,7 @@ def arma_estimate(X, P, Q, lag):
     #C   Estimate the AR parameters (no error weighting is used).
     #C   Number of equation errors is M-Q .
     MPQ = lag - Q + P
-    
+
     N = len(X)
     Y = zeros(N-P, dtype=complex)
 
@@ -196,11 +197,11 @@ def arma_estimate(X, P, Q, lag):
     else:
         res = arcovar(Y.copy(), P)    #! Eq. (10.12)
         ar_params = res[0]
-        
+
     # the .copy is used to prevent a reference somewhere. this is a bug
     # to be tracked down.
     Y.resize(N-P)
-    
+
     #C   Filter the original time series
     for k in range(P, N):
         SUM = X[k]
@@ -219,45 +220,47 @@ def arma_estimate(X, P, Q, lag):
 
 class parma(ParametricSpectrum):
     """Class to create PSD using ARMA estimator.
-    
+
     See :func:`arma_estimate` for description.
-    
+
     .. plot::
         :width: 80%
         :include-source:
-    
+
         from spectrum import *
         p = parma(marple_data, 4, 4, 30, NFFT=4096)
         p()
         p.plot(sides='centerdc')
-    
-    
+
+
     """
-    def __init__(self, data, P, Q, lag, NFFT=None, sampling=1., scale_by_freq=False):
+    def __init__(self, data, P, Q, lag, NFFT=None, sampling=1.,
+            scale_by_freq=False):
         """**Constructor:**
-        
+
         For a detailed description of the parameters, see :func:`arma_estimate`.
-        
+
         :param array data:     input data (list or numpy.array)
         :param int P:
         :param int Q:
         :param int lag:
-        :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+        :param int NFFT: total length of the final data sets (padded with
+            zero if needed; default is 4096)
         :param float sampling: sampling frequency of the input :attr:`data`.
-                
+
         """
-        super(parma, self).__init__(data, ma_order=Q, ar_order=P, lag=lag, 
-                                    NFFT=NFFT, sampling=sampling, 
+        super(parma, self).__init__(data, ma_order=Q, ar_order=P, lag=lag,
+                                    NFFT=NFFT, sampling=sampling,
                                     scale_by_freq=scale_by_freq)
         self.lag = lag
 
     def __call__(self):
-        ar_params, ma_params, rho = arma_estimate(self.data, self.ar_order, 
+        ar_params, ma_params, rho = arma_estimate(self.data, self.ar_order,
                                          self.ma_order, self.lag)
         self.ma = ma_params
         self.ar = ar_params
         self.rho = rho
-        psd = arma2psd(A=self.ar, B=self.ma, rho=self.rho, 
+        psd = arma2psd(A=self.ar, B=self.ma, rho=self.rho,
                       T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
@@ -277,7 +280,6 @@ class parma(ParametricSpectrum):
         return super(parma, self).__str__()
 
 
-
 class pma(ParametricSpectrum):
     """Class to create PSD using MA estimator.
 
@@ -291,23 +293,23 @@ class pma(ParametricSpectrum):
         p = pma(marple_data, 15, 30, NFFT=4096)
         p()
         p.plot(sides='centerdc')
-    
-    
+
+
     """
-    def __init__(self, data, Q, M, NFFT=None, sampling=1., scale_by_freq=False):
+    def __init__(self, data, Q, M, NFFT=None, sampling=1.,
+            scale_by_freq=False):
         """**Constructor:**
-        
+
         For a detailed description of the parameters, see :func:`ma`.
-        
+
         :param array data:     input data (list or numpy.array)
         :param int Q:          MA order
         :param int M:          AR model used to estimate the MA parameters
         :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
         :param float sampling: sampling frequency of the input :attr:`data`.
 
-                
         """
-        super(pma, self).__init__(data, ma_order=Q, ar_order=M, 
+        super(pma, self).__init__(data, ma_order=Q, ar_order=M,
                                   NFFT=NFFT, sampling=sampling,
                                   scale_by_freq=scale_by_freq)
 
@@ -315,7 +317,7 @@ class pma(ParametricSpectrum):
         ma_params, rho = ma(self.data, self.ma_order, self.ar_order)
         self.ma = ma_params
         self.rho = rho
-        psd = arma2psd(A=None, B=self.ma, rho=self.rho, 
+        psd = arma2psd(A=None, B=self.ma, rho=self.rho,
                       T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
@@ -330,14 +332,12 @@ class pma(ParametricSpectrum):
         if self.scale_by_freq is True:
             self.scale()
         self.modified = False
-        
+
     def _str_title(self):
         return "Periodogram PSD estimate\n"
-    
+
     def __str__(self):
         return super(pma, self).__str__()
-    
-        
 
 
 def ma(X, Q, M):
@@ -352,7 +352,7 @@ def ma(X, Q, M):
     :param int M: Order of "long" AR model (suggest at least 2*Q )
 
     :return:
-        * MA    - Array of Q complex MA parameter estimates 
+        * MA    - Array of Q complex MA parameter estimates
         * RHO   - Real scalar of white noise variance estimate
 
     .. plot::

@@ -1,23 +1,23 @@
 """Criteria for parametric methods.
 
-.. topic:: This module provides criteria to automatically select order in 
-    parametric PSD estimate or pseudo spectrum estimates (e.g, music). 
+.. topic:: This module provides criteria to automatically select order in
+    parametric PSD estimate or pseudo spectrum estimates (e.g, music).
 
-    Some criteria such as the AIC criterion helps to chose the order of PSD 
+    Some criteria such as the AIC criterion helps to chose the order of PSD
     models such as the ARMA model. Nevertheless, it is difficult to estimate
-    correctly the order of an ARMA model even by using these criteria. The 
-    reason being that even the Akaike criteria (AIC) does not provide the 
-    proper order with a probability of 1 with infinite samples. 
+    correctly the order of an ARMA model even by using these criteria. The
+    reason being that even the Akaike criteria (AIC) does not provide the
+    proper order with a probability of 1 with infinite samples.
 
-    The order choice is related to an expertise of the signal. There is no 
+    The order choice is related to an expertise of the signal. There is no
     exact criteria. However, they may provide useful information.
 
     AIC, AICc, KIC and AKICc are based on information theory.  They  attempt
     to balance the complexity (or length) of the model against how well the
     model fits the data.  AIC and KIC are biased estimates of the asymmetric
     and the symmetric Kullback-Leibler divergence respectively.  AICc and
-    AKICc attempt to correct the bias. 
-    
+    AKICc attempt to correct the bias.
+
     There are also criteria related to eigen analysis, which takes as input
     the eigen values of any PSD estimate method.
 
@@ -65,14 +65,14 @@ class Criteria(object):
     error_incorrect_name = 'Invalid name provided. Correct names are %s ' \
         % valid_criteria_names
     error_no_criteria_found = 'No names match the valid criteria names (%s)' \
-        % valid_criteria_names 
+        % valid_criteria_names
     def __init__(self, name, N):
         """Create a criteria object
 
-        :param name: a string or list of strings containing valid criteria 
+        :param name: a string or list of strings containing valid criteria
             method's name
         :param int N: size of the data sample.
-            
+
         """
         #valid attributes
         self.__name = name
@@ -82,7 +82,7 @@ class Criteria(object):
         self.__old_data = None
         self.__data = None
         self.__norm = True
-        
+
     def _getName(self):
         return self.__name
     def _setName(self, name):
@@ -90,7 +90,7 @@ class Criteria(object):
         if name in self.valid_criteria_names:
             self.__name = name
         else:
-            raise ValueError(self.error_no_criteria_found) 
+            raise ValueError(self.error_no_criteria_found)
     name = property(fget=_getName, fset=_setName, doc="Getter/Setter for the criteria name")
 
     def _getData(self):
@@ -104,22 +104,22 @@ class Criteria(object):
             self.__old_data = self.data
             self.__data = data
     data = property(fget=_getData, fset=_setData, doc="Getter/Setter for the criteria output")
-    
+
     def _getOldData(self):
         return self.__old_data
     old_data = property(fget=_getOldData, doc="Getter/Setter for the previous value")
-    
+
     def _getK(self):
         return self.__k
     k = property(fget=_getK, doc="Getter for k the order of evaluation")
-    
+
     def _getN(self):
         return self.__N
     def _setN(self, N):
         assert N>0, 'N must be positive'
         self.__N = N
     N = property(fget=_getN, fset=_setN, doc="Getter/Setter for N")
-    
+
     def _getRho(self):
         return self.__rho
     def _setRho(self, rho):
@@ -130,52 +130,52 @@ class Criteria(object):
     def __call__(self, rho=None, k=None, N=None, norm=True):
         """Call the criteria function correspondign to :attr:`name`."""
         self.__norm = norm
-        if N != None:
+        if N is not None:
             self.N = N
-        
+
         # we update rho only if it is needed (input different from self.rho)
         # if such case, we also update k
-        if rho != None: 
+        if rho is not None:
             self.rho = rho
-        if k != None:
-            self.__k = k        
+        if k is not None:
+            self.__k = k
         self.__norm = norm
         #used to check if the criteria is reached or not
-            
+
         f = eval(self.name)
         self.data = f(self.N, self.rho, self.k)
         # compare the new data with the previous one and return
         # False if the new value is larger so as to stop the iteration
-        if self.old_data != None and self.data != None:
+        if self.old_data is not None and self.data is not None:
             if self.data > self.old_data:
                 return False
             else:
                 return True
         return True
-        
+
     def plot(self):
         from pylab import plot
         plot(self.data)
 
     def plot_all(self):
-        _ar_criteria(self.__rho, self.N)                    
-        
+        _ar_criteria(self.__rho, self.N)
+
 
 def AIC(N, rho, k):
     r"""Akaike Information Criterion
 
     :param rho: rho at order k
     :param N: sample size
-    :param k: AR order. 
+    :param k: AR order.
 
     If k is the AR order and N the size of the sample, then Akaike criterion is
 
     .. math:: AIC(k) = \log(\rho_k) + 2\frac{k+1}{N}
-    
+
     ::
-    
+
         AIC(64, [0.5,0.3,0.2], [1,2,3])
-    
+
     :validation: double checked versus octave.
     """
     from numpy import log, array
@@ -185,22 +185,22 @@ def AIC(N, rho, k):
 
 def AICc(N, rho, k, norm=True):
     r"""corrected Akaike information criterion
-    
+
     .. math:: AICc(k) = log(\rho_k) + 2 \frac{k+1}{N-k-2}
-    
-    
+
+
     :validation: double checked versus octave.
     """
     from numpy import log, array
-    p = k  #todo check convention. agrees with octave 
+    p = k  #todo check convention. agrees with octave
     res = log(rho) + 2. * (p+1) / (N-p-2)
     return res
-        
+
 def KIC(N, rho, k):
     r"""Kullback information criterion
-    
+
     .. math:: KIC(k) = log(\rho_k) + 3 \frac{k+1}{N}
-    
+
     :validation: double checked versus octave.
     """
     from numpy import log, array
@@ -209,9 +209,9 @@ def KIC(N, rho, k):
 
 def AKICc(N, rho, k):
     r"""approximate corrected Kullback information
-    
+
     .. math:: AKICc(k) = log(rho_k) + \frac{p}{N*(N-k)} + (3-\frac{k+2}{N})*\frac{k+1}{N-k-2}
-    
+
     """
     from numpy import log, array
     p = k
@@ -233,14 +233,14 @@ def FPE(N,rho, k=None):
     fpe = rho * (N + k + 1.) / (N- k -1)
     return fpe
 
-    
+
 
 def MDL(N, rho, k):
     r"""Minimum Description Length
 
     .. math:: MDL(k) = N log \rho_k + p \log N
 
-    :validation: results 
+    :validation: results
     """
     from numpy import log
     #p = arange(1, len(rho)+1)
@@ -250,8 +250,8 @@ def MDL(N, rho, k):
 def CAT(N, rho, k):
     r"""Criterion Autoregressive Transfer Function :
 
-    .. math::  CAT(k) = \frac{1}{N} \sum_{i=1}^k \frac{1}{\rho_i} - \frac{\rho_i}{\rho_k} 
-    
+    .. math::  CAT(k) = \frac{1}{N} \sum_{i=1}^k \frac{1}{\rho_i} - \frac{\rho_i}{\rho_k}
+
     .. todo:: validation
     """
     from numpy import zeros, arange
@@ -265,7 +265,7 @@ def CAT(N, rho, k):
         print(s, s/float(N), 1./rho_p)
         cat[p-1] = s/float(N) - 1./rho_p
     return cat
-    
+
 
 def _ar_criteria(rho, N):
     pass
@@ -286,80 +286,80 @@ def _ar_criteria(rho, N):
     #plot(mdl/mdl[0], '.-', label='MDL')
     #plot(cat/cat[-1], 's-', label='CAT')
     #legend()
-    
+
 
 
 
 def aic_eigen(s, N):
     r"""AIC order-selection using eigen values
-    
+
     :param s: a list of `p` sorted eigen values
-    :param N: the size of the input data. To be defined precisely. 
-    
-    :return: 
+    :param N: the size of the input data. To be defined precisely.
+
+    :return:
         * an array containing the AIC values
-    
-    Given :math:`n` sorted eigen values :math:`\lambda_i` with 
-    :math:`0 <= i < n`, the proposed criterion from Wax and Kailath (1985) 
+
+    Given :math:`n` sorted eigen values :math:`\lambda_i` with
+    :math:`0 <= i < n`, the proposed criterion from Wax and Kailath (1985)
     is:
-      
+
     .. math:: AIC(k) = -2(n-k)N \ln \frac{g(k)}{a(k)} + 2k(2n-k)
-    
-    where the arithmetic sum :math:`a(k)` is: 
-    
+
+    where the arithmetic sum :math:`a(k)` is:
+
     .. math:: a(k) = \sum_{i=k+1}^{n}\lambda_i
-    
+
     and the geometric sum :math:`g(k)` is:
-    
+
     .. math:: g(k) = \prod_{i=k+1}^{n} \lambda_i^{-(n-k)}
-    
-    The number of relevant sinusoids in the signal subspace is determined by 
+
+    The number of relevant sinusoids in the signal subspace is determined by
     selecting the minimum of `AIC`.
-    
+
     .. seealso:: :func:`~spectrum.eigenfreq.eigen`
     .. todo:: define precisely the input parameter N. Should be the input
-       data length but when using correlation matrix (SVD), I suspect it 
-       should be the length of the correlation matrix rather than the 
+       data length but when using correlation matrix (SVD), I suspect it
+       should be the length of the correlation matrix rather than the
        original data.
-       
-    :References: 
-        * [Marple]_ Chap 13, 
+
+    :References:
+        * [Marple]_ Chap 13,
         * [Wax]_
     """
     import numpy as np
-    
+
     kaic = []
     n = len(s)
-    for k in range(0, n-1):         
+    for k in range(0, n-1):
         ak = 1./(n-k) * np.sum(s[k+1:])
-        gk = np.prod(s[k+1:]**(1./(n-k))) 
+        gk = np.prod(s[k+1:]**(1./(n-k)))
         kaic.append( -2.*(n-k)*N * np.log(gk/ak) + 2.*k*(2.*n-k))
-         
+
     return kaic
 
 def mdl_eigen(s, N):
     r"""MDL order-selection using eigen values
-    
+
     :param s: a list of `p` sorted eigen values
-    :param N: the size of the input data. To be defined precisely. 
-    
-    :return: 
+    :param N: the size of the input data. To be defined precisely.
+
+    :return:
         * an array containing the AIC values
-        
+
     .. math:: MDL(k) = (n-k)N \ln \frac{g(k)}{a(k)} + 0.5k(2n-k) log(N)
-    
+
     .. seealso:: :func:`aic_eigen` for details
-    
-    :References: 
-        * [Marple]_ Chap 13, 
+
+    :References:
+        * [Marple]_ Chap 13,
         * [Wax]_
     """
     import numpy as np
     kmdl = []
     n = len(s)
-    for k in range(0, n-1):         
+    for k in range(0, n-1):
         ak = 1./(n-k) * np.sum(s[k+1:])
-        gk = np.prod(s[k+1:]**(1./(n-k))) 
+        gk = np.prod(s[k+1:]**(1./(n-k)))
         kmdl.append( -(n-k)*N * np.log(gk/ak) + 0.5*k*(2.*n-k)*np.log(N))
     return kmdl
-        
+

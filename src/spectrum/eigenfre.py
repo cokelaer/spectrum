@@ -200,7 +200,7 @@ def eigen(X, P, NSIG=None, method='music', threshold=None, NFFT=default_NFFT,
     if NSIG!=None and threshold!=None:
         raise ValueError("NSIG and threshold cannot be provided together")
     
-    if NSIG != None:
+    if NSIG is not None:
         if NSIG < 0:
             raise ValueError('NSIG must be positive')
         if NSIG >= P:
