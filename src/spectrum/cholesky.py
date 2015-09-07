@@ -4,12 +4,14 @@
     .. autosummary::
 
         CHOLESKY
-        
+
     .. codeauthor:: Thomas Cokelaer, 2011
 """
 import numpy
 
+
 __all__ = ["CHOLESKY"]
+
 
 def _numpy_cholesky(A, B):
     """Solve Ax=B using numpy cholesky solver
@@ -46,35 +48,35 @@ def _numpy_solver(A, B):
 
 def CHOLESKY(A, B, method='scipy'):
     """Solve linear system `AX=B` using CHOLESKY method.
-    
+
     :param A: an input Hermitian matrix
     :param B: an array
     :param str method: a choice of method in [numpy, scipy, numpy_solver]
-        
+
         * `numpy_solver` relies entirely on numpy.solver (no cholesky decomposition)
         * `numpy` relies on the numpy.linalg.cholesky for the decomposition and
           numpy.linalg.solve for the inversion.
-        * `scipy` uses scipy.linalg.cholesky for the decomposition and 
+        * `scipy` uses scipy.linalg.cholesky for the decomposition and
           scipy.linalg.cho_solve for the inversion.
-    
+
     .. rubric:: Description
-    
-    When a matrix is square and Hermitian (symmetric with lower part being 
+
+    When a matrix is square and Hermitian (symmetric with lower part being
     the complex conjugate of the upper one), then the usual triangular
     factorization takes on the special form:
-    
-    .. math:: A = R R^H 
-    
+
+    .. math:: A = R R^H
+
     where :math:`R` is a lower triangular matrix with nonzero real principal
-    diagonal element. The input matrix can be made of complex data. Then, the 
-    inversion to find :math:`x` is made as follows: 
-    
+    diagonal element. The input matrix can be made of complex data. Then, the
+    inversion to find :math:`x` is made as follows:
+
     .. math::  Ry = B
-    
-    and 
-    
+
+    and
+
     .. math::   Rx = y
-    
+
     .. doctest::
 
         >>> import numpy
