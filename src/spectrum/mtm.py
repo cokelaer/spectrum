@@ -59,7 +59,7 @@ elif platform.system() == 'Darwin':
         # under python 3.X
         major = sys.version_info.major
         minor = sys.version_info.minor
-        lib_name = 'mydpss.cpython-{0}{1}m.so'.format(major, minor)
+        lib_name = 'mydpss.cpython-{0}{1}m-darwin.so'.format(major, minor)
         mtspeclib = ctypes.cdll.LoadLibrary(pj(p, lib_name))
 else:
     try:
