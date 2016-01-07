@@ -21,6 +21,7 @@ import os
 from os.path import join as pj
 from spectrum.tools import nextpow2
 from pylab import semilogy
+from numpy.ctypeslib import load_library
 
 """
 
@@ -39,38 +40,13 @@ Note that on OSX -shared should be replaced by -dynamiclib and sum.so should be 
 
 """
 
+# Import shared mtspec library
 p = os.path.abspath(os.path.dirname(__file__))
-# Import shared mtspec library depending on the platform.
-if platform.system() == 'Windows':
-    try:
-        lib_name = 'mydpss.pyd'
-        mtspeclib = ctypes.cdll.LoadLibrary(pj(p, lib_name))
-    except:
-        # under python 3.X
-        major = sys.version_info.major
-        minor = sys.version_info.minor
-        lib_name = 'mydpss.cpython-{0}{1}m.so'.format(major, minor)
-        mtspeclib = ctypes.cdll.LoadLibrary(pj(p, lib_name))
-elif platform.system() == 'Darwin':
-    try:
-        lib_name = 'mydpss.so'
-        mtspeclib = ctypes.cdll.LoadLibrary(pj(p, lib_name))
-    except:
-        # under python 3.X
-        major = sys.version_info.major
-        minor = sys.version_info.minor
-        lib_name = 'mydpss.cpython-{0}{1}m-darwin.so'.format(major, minor)
-        mtspeclib = ctypes.cdll.LoadLibrary(pj(p, lib_name))
-else:
-    try:
-        lib_name = 'mydpss.so'
-        mtspeclib = ctypes.cdll.LoadLibrary(pj(p, lib_name))
-    except:
-        # under python 3.X
-        major = sys.version_info.major
-        minor = sys.version_info.minor
-        lib_name = 'mydpss.cpython-{0}{1}m.so'.format(major, minor)
-        mtspeclib = ctypes.cdll.LoadLibrary(pj(p, lib_name))
+lib_name = 'mydpss'
+try:
+    mtspeclib = load_library(libname, p)
+except:
+    print("Library %s not found" % lib_name)
 
 
 def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=True):

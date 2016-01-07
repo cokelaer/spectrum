@@ -37,7 +37,7 @@ setup(
     package_dir={ '' : 'src' },
 
     # Dependencies
-    install_requires = ['matplotlib', 'numpy', 'scipy', 'easydev'],
+    install_requires = ['matplotlib', 'numpy', 'scipy'],
     data_files = data_files,
     platforms=["Linux"],
     classifiers=["Development Status :: 1 - Planning",
