@@ -39,7 +39,13 @@ Note that on OSX -shared should be replaced by -dynamiclib and sum.so should be 
 
 """
 
-p = os.path.abspath(os.path.dirname(__file__))
+print(sys.executable)
+print(os.path.dirname(__file__))
+if hasattr(sys, 'frozen'):
+	p = os.path.abspath(os.path.dirname(sys.executable))
+else:
+	p = os.path.abspath(os.path.dirname(__file__))
+
 # Import shared mtspec library depending on the platform.
 if platform.system() == 'Windows':
     try:
