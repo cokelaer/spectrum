@@ -1,12 +1,18 @@
 ChangeLog Summary
 ===================
 
-Sept 2014
------------
+Version 0.6
+----------------
+
+* 0.6.1:
+
+  * BUG fixes
+      * Issue #5 in pyule sampling not initialised is now fixed
 
 * 0.6.0:
     * After a while without development, I moved the source on github
-    * plots accept the ax argument in psd module. It is a bit of a hack but seems to work.
+    * plots accept the ax argument in psd module. It is a bit of a 
+      hack but seems to work.
 
 Sept 2012
 ----------

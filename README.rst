@@ -23,7 +23,7 @@ SPECTRUM : Spectral Analysis in Python
 
 
 :contributions: Please join https://github.com/cokelaer/spectrum
-:issues: Please use https://github.com/cokelaer/spetrum/issues
+:issues: Please use https://github.com/cokelaer/spectrum/issues
 
 
 
@@ -51,3 +51,9 @@ Contributions
 ==================
 
 Please see `github <http://github.com/cokelaer/spectrum>`_ for any issues/bugs/comments/contributions.
+
+
+Some notebooks (external contributions)
+-------------------------------------------
+
+* http://nbviewer.ipython.org/gist/juhasch/5182528

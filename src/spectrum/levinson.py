@@ -10,7 +10,6 @@
 import numpy
 
 
-
 def LEVINSON(r, order=None, allow_singularity=False):
     r"""Levinson-Durbin recursion.
 
@@ -268,7 +267,7 @@ def levdown(anxt, enxt=None):
     # A Matrix formulation from Stoica is used to avoid looping 
     acur = (anxt[0:-1]-knxt*numpy.conj(anxt[-2::-1]))/(1.-abs(knxt)**2)
     ecur = None
-    if enxt != None:
+    if enxt is not None:
         ecur = enxt/(1.-numpy.dot(knxt.conj().transpose(),knxt))
 
     acur = numpy.insert(acur, 0, 1)
@@ -298,7 +297,7 @@ def levup(acur, knxt, ecur=None):
     anxt = numpy.concatenate((acur, [0])) + knxt * numpy.concatenate((numpy.conj(acur[-1::-1]), [1]))
 
     enxt = None
-    if ecur != None:
+    if ecur is not None:
         # matlab version enxt = (1-knxt'.*knxt)*ecur
         enxt = (1. - numpy.dot(numpy.conj(knxt), knxt)) * ecur
 

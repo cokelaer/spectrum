@@ -124,11 +124,11 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Tru
 
     # if dpss not provided, compute them
     if e is None and v is None:
-        if NW != None:
+        if NW is not None:
             [tapers, eigenvalues] = dpss(N, NW, k=k)
         else:
             raise ValueError("NW must be provided (e.g. 2.5, 3, 3.5, 4")
-    elif e != None and v != None:
+    elif e is not None and v is not None:
         eigenvalues = v[:]
         tapers = e[:]
     else:
