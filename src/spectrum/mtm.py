@@ -114,6 +114,9 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Tru
         res = pmtm(data, NW=2.5, show=False)
         res = pmtm(data, NW=2.5, k=4, show=True)
 
+
+    APN: modify method to return each Sk as complex values, the eigenvalues and the weights
+
     """
     assert method in ['adapt','eigen','unity']
 
@@ -134,7 +137,12 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Tru
 
     # set the NFFT
     if NFFT==None:
-        NFFT = max(256, 2**nextpow2(N))
+        NFFT = max(256, 2**nextpow2(N)) 
+        
+
+    Sk_complex = np.fft.fft(np.multiply(tapers.transpose(), x), NFFT)
+    Sk = abs(Sk_complex)**2
+
     # si nfft smaller thqn N, cut otherwise add wero.
     # compute 
     if method in ['eigen', 'unity']:
@@ -145,8 +153,8 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Tru
             weights = np.array([_x/float(i+1) for i,_x in enumerate(eigenvalues)])
             weights = weights.reshape(nwin,1)
 
-        Sk = abs(np.fft.fft(np.multiply(tapers.transpose(), x), NFFT))**2
-        Sk = np.mean(Sk * weights, axis=0)
+        #Sk = abs(np.fft.fft(np.multiply(tapers.transpose(), x), NFFT))**2
+        #Sk = np.mean(Sk * weights, axis=0)
 
 
     elif method == 'adapt':
@@ -180,11 +188,11 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Tru
             Stemp = S1
             S1 = S
             S = Stemp   # swap S and S1
-        Sk = S
-    #clf(); p.plot(); plot(arange(0,0.5,1./512),20*log10(res[0:256]))
-    if show==True:
-        semilogy(Sk)
-    return Sk
+        #Sk = S
+        
+        weights=wk
+
+    return Sk_complex,weights,eigenvalues
 
 
 
