@@ -44,7 +44,7 @@ Note that on OSX -shared should be replaced by -dynamiclib and sum.so should be 
 p = os.path.abspath(os.path.dirname(__file__))
 lib_name = 'mydpss'
 try:
-    mtspeclib = load_library(libname, p)
+    mtspeclib = load_library(lib_name, p)
 except:
     print("Library %s not found" % lib_name)
 
@@ -359,7 +359,7 @@ def _autocov(s, **kwargs):
     debias = kwargs.pop('debias', True)
     axis = kwargs.get('axis', -1)
     if debias:
-        s = remove_bias(s, axis)
+        s = _remove_bias(s, axis)
     kwargs['debias'] = False
     return _crosscov(s, s, **kwargs)
 
