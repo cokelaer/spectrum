@@ -1,8 +1,8 @@
 """Multitapering method.
 
-This module provides a multi-tapering method for spectral estimation. 
-The computation of the tapering windows being computationally expensive, a C 
-module is used to compute the tapering window (see :func:`spectrum.mtm.dpss`). 
+This module provides a multi-tapering method for spectral estimation.
+The computation of the tapering windows being computationally expensive, a C
+module is used to compute the tapering window (see :func:`spectrum.mtm.dpss`).
 
 The estimation itself can be performed with the :func:`spectrum.mtm.pmtm` function
 
@@ -40,11 +40,11 @@ Note that on OSX -shared should be replaced by -dynamiclib and sum.so should be 
 
 """
 
-# Import shared mtspec library 
+# Import shared mtspec library
 if hasattr(sys, 'frozen'):
-	p = os.path.abspath(os.path.dirname(sys.executable))
+    p = os.path.abspath(os.path.dirname(sys.executable))
 else:
-	p = os.path.abspath(os.path.dirname(__file__))
+    p = os.path.abspath(os.path.dirname(__file__))
 
 lib_name = 'mydpss'
 try:
@@ -57,26 +57,30 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Tru
     """Multitapering spectral estimation
 
     :param array x: the data
-    :param float NW: The time half bandwidth parameter (typical values are 2.5,3,3.5,4). Must be provided otherwise the tapering windows and eigen values (outputs of dpss) must be provided  
-    :param int k: uses the first k Slepian sequences. If *k* is not provided, *k* is set to *NW*2*.
-    :param NW
+    :param float NW: The time half bandwidth parameter (typical values are 
+        2.5,3,3.5,4). Must be provided otherwise the tapering windows and
+        eigen values (outputs of dpss) must be provided
+    :param int k: uses the first k Slepian sequences. If *k* is not provided, 
+        *k* is set to *NW*2*.
+    :param NW:
     :param e: the matrix containing the tapering windows
     :param v: the window concentrations (eigenvalues)
-    :param str method: set how the eigenvalues are used. Must be in ['unity', 'adapt', 'eigen']
+    :param str method: set how the eigenvalues are used. Must be 
+        in ['unity', 'adapt', 'eigen']
     :param bool show: plot results
+    :return: Sk (complex), weights, eigenvalues
 
-
-    Usually in spectral estimation the mean to reduce bias is to use tapering window. 
-    In order to reduce variance we need to average different spectrum. The problem 
-    is that we have only one set of data. Thus we need to decompose a set into several 
+    Usually in spectral estimation the mean to reduce bias is to use tapering window.
+    In order to reduce variance we need to average different spectrum. The problem
+    is that we have only one set of data. Thus we need to decompose a set into several
     segments. Such method are well-known: simple daniell's periodogram, Welch's method
-    and so on. The drawback of such methods is a loss of resolution since the segments 
-    used to compute the spectrum are smaller than the data set. 
-    The interest of multitapering method is to keep a good resolution while reducing 
-    bias and variance. 
+    and so on. The drawback of such methods is a loss of resolution since the segments
+    used to compute the spectrum are smaller than the data set.
+    The interest of multitapering method is to keep a good resolution while reducing
+    bias and variance.
 
-    How does it work? First we compute different simple periodogram with the whole data 
-    set (to keep good resolution) but each periodgram is computed with a different 
+    How does it work? First we compute different simple periodogram with the whole data
+    set (to keep good resolution) but each periodgram is computed with a different
     tapering windows. Then, we average all these spectrum. To avoid redundancy and bias
     due to the tapers mtm use special tapers.
 
@@ -95,7 +99,10 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Tru
         res = pmtm(data, NW=2.5, k=4, show=True)
 
 
-    APN: modify method to return each Sk as complex values, the eigenvalues and the weights
+    .. versionchanged:: 0.6.2
+
+        APN modified method to return each Sk as complex values, the eigenvalues 
+        and the weights
 
     """
     assert method in ['adapt','eigen','unity']
@@ -117,25 +124,20 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Tru
 
     # set the NFFT
     if NFFT==None:
-        NFFT = max(256, 2**nextpow2(N)) 
-        
+        NFFT = max(256, 2**nextpow2(N))
 
     Sk_complex = np.fft.fft(np.multiply(tapers.transpose(), x), NFFT)
     Sk = abs(Sk_complex)**2
 
     # si nfft smaller thqn N, cut otherwise add wero.
-    # compute 
+    # compute
     if method in ['eigen', 'unity']:
         if method == 'unity':
             weights = np.ones((nwin, 1))
         elif method == 'eigen':
-            # The S_k spectrum can be weighted by the eigenvalues, as in Park et al. 
+            # The S_k spectrum can be weighted by the eigenvalues, as in Park et al.
             weights = np.array([_x/float(i+1) for i,_x in enumerate(eigenvalues)])
             weights = weights.reshape(nwin,1)
-
-        #Sk = abs(np.fft.fft(np.multiply(tapers.transpose(), x), NFFT))**2
-        #Sk = np.mean(Sk * weights, axis=0)
-
 
     elif method == 'adapt':
         # This version uses the equations from [2] (P&W pp 368-370).
@@ -157,10 +159,10 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Tru
         while sum(np.abs(S-S1))/NFFT > tol and i<100:
             i = i + 1
             # calculate weights
-            b1 = np.multiply(S, np.ones((1,nwin))) 
+            b1 = np.multiply(S, np.ones((1,nwin)))
             b2 = np.multiply(S,eigenvalues.transpose()) + np.ones((NFFT,1))*eigenvalues.transpose()
             b = b1/b2
-            
+
             # calculate new spectral estimate
             wk=(b**2)*(np.ones((NFFT,1))*eigenvalues.transpose())
             S1 = sum(wk.transpose()*Sk.transpose())/ sum(wk.transpose())
@@ -168,53 +170,61 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Tru
             Stemp = S1
             S1 = S
             S = Stemp   # swap S and S1
-        #Sk = S
-        
         weights=wk
 
-    return Sk_complex,weights,eigenvalues
+    if show is True:
+        if method == "adapt":
+            Sk = np.mean(Sk * weights, axis=1)
+        else:
+            Sk = np.mean(Sk * weights, axis=0)
+        semilogy(Sk)
 
+    return Sk_complex, weights, eigenvalues
 
 
 def dpss(N, NW=None, k=None):
     r"""Discrete prolate spheroidal (Slepian) sequences
 
     Calculation of the Discrete Prolate Spheroidal Sequences also known as the
-    slepian sequences, and the corresponding eigenvalues. 
+    slepian sequences, and the corresponding eigenvalues.
 
     :param int N: desired window length
-    :param float NW: The time half bandwidth parameter (typical values are 2.5,3,3.5,4). 
-    :param int k: returns the first k Slepian sequences. If *k* is not provided, *k* is set to *NW*2*.
+    :param float NW: The time half bandwidth parameter (typical values are 
+        2.5,3,3.5,4).
+    :param int k: returns the first k Slepian sequences. If *k* is not 
+        provided, *k* is set to *NW*2*.
     :return:
-        * tapers, a matrix of tapering windows. Matrix is a N by *k* (k is the number of windows)
+        * tapers, a matrix of tapering windows. Matrix is a N by *k* (k 
+          is the number of windows)
         * eigen, a vector of eigenvalues of length *k*
 
-    The discrete prolate spheroidal or Slepian sequences derive from the following 
-    time-frequency concentration problem. For all finite-energy sequences index 
+    The discrete prolate spheroidal or Slepian sequences derive from the following
+    time-frequency concentration problem. For all finite-energy sequences index
     limited to some set , which sequence maximizes the following ratio:
 
     .. math::
 
-        \lambda = \frac{\int_{-W}^{W}\left| X(f) \right|^2 df} 
+        \lambda = \frac{\int_{-W}^{W}\left| X(f) \right|^2 df}
             {\int_{-F_s/2}^{F_s/2}\left| X(f) \right|^2 df}
-   
-    where :math:`F_s` is the sampling frequency and :math:`|W| < F_s/2`. 
-    This ratio determines which index-limited sequence has the largest proportion of its 
-    energy in the band :math:`[-W,W]` with :math:`0  < \lambda < 1`. 
-    The sequence maximizing the ratio is the first 
-    discrete prolate spheroidal or Slepian sequence. The second Slepian sequence  
-    maximizes the ratio and is orthogonal to the first Slepian sequence. The third 
-    Slepian sequence maximizes the ratio of integrals and is orthogonal to both 
+
+    where :math:`F_s` is the sampling frequency and :math:`|W| < F_s/2`.
+    This ratio determines which index-limited sequence has the largest proportion of its
+    energy in the band :math:`[-W,W]` with :math:`0  < \lambda < 1`.
+    The sequence maximizing the ratio is the first
+    discrete prolate spheroidal or Slepian sequence. The second Slepian sequence
+    maximizes the ratio and is orthogonal to the first Slepian sequence. The third
+    Slepian sequence maximizes the ratio of integrals and is orthogonal to both
     the first and second Slepian sequences and so on.
 
-    .. note:: Note about the implementation. Since the slepian generation is computationally expensive, 
-        we use a C implementation based on the C code written by Lees as published in:
+    .. note:: Note about the implementation. Since the slepian generation is 
+        computationally expensive, we use a C implementation based on the C 
+        code written by Lees as published in:
 
-            Lees, J. M. and J. Park (1995): Multiple-taper spectral analysis: A stand-alone 
+            Lees, J. M. and J. Park (1995): Multiple-taper spectral analysis: A stand-alone
             C-subroutine: Computers & Geology: 21, 199-236.
 
-        However, the original C code has been trimmed. Indeed, we only require the multitap 
-        function (that depends on jtridib, jtinvit functions only).
+        However, the original C code has been trimmed. Indeed, we only require the 
+        multitap function (that depends on jtridib, jtinvit functions only).
 
     .. plot::
         :width: 80%
@@ -232,15 +242,15 @@ def dpss(N, NW=None, k=None):
     Windows are normalised:
 
     .. math::  \sum_k h_k h_k = 1
-     
+
     :references: [Percival]_
 
         Slepian, D. Prolate spheroidal wave functions, Fourier analysis, and
         uncertainty V: The discrete case. Bell System Technical Journal,
         Volume 57 (1978), 1371430
-    
-    .. note:: the C code to create the slepian windows is extracted from original C code 
-        from Lees and Park (1995) and uses the conventions of Percival and Walden (1993). 
+
+    .. note:: the C code to create the slepian windows is extracted from original C code
+        from Lees and Park (1995) and uses the conventions of Percival and Walden (1993).
         Functions that are not used here were removed.
 
     """
@@ -258,13 +268,13 @@ def dpss(N, NW=None, k=None):
     res = mtspeclib.multitap(
         c_int(N),
         c_int(k),
-        lam.ctypes.data_as(c_void_p), 
-        c_float(NW), 
-        tapers.ctypes.data_as(c_void_p), 
+        lam.ctypes.data_as(c_void_p),
+        c_float(NW),
+        tapers.ctypes.data_as(c_void_p),
         tapsum.ctypes.data_as(c_void_p),
         )
 
-    # normalisation by sqtr(N). It is required to have normalised windows 
+    # normalisation by sqtr(N). It is required to have normalised windows
     tapers = tapers.reshape(k,N).transpose() / sqrt(N)
 
     for i in range(k):
@@ -272,15 +282,15 @@ def dpss(N, NW=None, k=None):
         # * symmetric tapers (k=0,2,4,...) should have a positive average.
         # * antisymmetric tapers should begin with a positive lobe
         if i%2 == 0:
-            if tapsum[i]<0: 
+            if tapsum[i]<0:
                 tapsum[i] *= -1
                 tapers[:,i] *= -1
         else:
             if tapers[0,i] < 0:
                 tapsum[i] *= -1
                 tapers[:,i] *= -1
-    
-    # Now find the eigenvalues of the original 
+
+    # Now find the eigenvalues of the original
     # Use the autocovariance sequence technique from Percival and Walden, 1993
     # pg 390 to get the eigenvalues more precisely (same as matlab output)
 
@@ -300,9 +310,9 @@ def dpss(N, NW=None, k=None):
 
 def _other_dpss_method(N, NW, Kmax):
     """Returns the Discrete Prolate Spheroidal Sequences of orders [0,Kmax-1]
-    for a given frequency-spacing multiple NW and sequence length N. 
+    for a given frequency-spacing multiple NW and sequence length N.
 
-    See dpss function that is the official version. This version is indepedant 
+    See dpss function that is the official version. This version is indepedant
     of the C code and relies on Scipy function. However, it is slower by a factor 3
 
     Tridiagonal form of DPSS calculation from:
@@ -318,7 +328,7 @@ def _other_dpss_method(N, NW, Kmax):
     # or discrete prolate spheroidal sequences (DPSS). Only the first K,
     # K = 2NW/dt orders of DPSS will exhibit good spectral concentration
     # [see http://en.wikipedia.org/wiki/Spectral_concentration_problem]
-    
+
     # Here I set up an alternative symmetric tri-diagonal eigenvalue problem
     # such that
     # (B - (l2)I)v = 0, and v are our DPSS (but eigenvalues l2 != l1)
@@ -348,7 +358,7 @@ def _other_dpss_method(N, NW, Kmax):
         if f:
             dpss[2*i+1] *= -1
 
-    # Now find the eigenvalues of the original 
+    # Now find the eigenvalues of the original
     # Use the autocovariance sequence technique from Percival and Walden, 1993
     # pg 390
     # XXX : why debias false? it's all messed up o.w., even with means
@@ -416,7 +426,7 @@ def _crosscov(x, y, axis=-1, all_lags=False, debias=True):
         return sxy
     slicing[axis] = slice(N-1,2*N-1)
     return sxy[tuple(slicing)]
-    
+
 def _crosscorr(x, y, **kwargs):
     """
     Returns the crosscorrelation sequence between two ndarrays.
@@ -460,7 +470,7 @@ def _fftconvolve(in1, in2, mode="full", axis=None):
 
     This is a fix of scipy.signal.fftconvolve, adding an axis argument and
     importing locally the stuff only needed for this function
-    
+
     """
     #Locally import stuff only required for this:
     from scipy.fftpack import fftn, fft, ifftn, ifft
