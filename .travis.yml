@@ -8,23 +8,25 @@ matrix:
     - python: 2.7
     - python: 3.3
     - python: 3.4
+    - python: 3.5
 
 before_install:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sudo apt-get install -q libatlas3gf-base libatlas-dev liblapack-dev gfortran
-  - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
-  - chmod +x miniconda.sh
-  - ./miniconda.sh -b
-  - export PATH=$HOME/miniconda/bin:$PATH
-  - conda update --yes conda
-  - conda config --add channels r
-  - conda config --add channels bioconda
+    - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+    - chmod +x miniconda.sh
+    - ./miniconda.sh -b
+    - export PATH=$HOME/miniconda/bin:$PATH
+    - hash -r
+    - conda update --yes conda
+    - conda config --add channels r
+    - conda config --add channels bioconda
+    - "export DISPLAY=:99.0"
+    - "sh -e /etc/init.d/xvfb start"
+    - sudo apt-get install -q libatlas3gf-base libatlas-dev liblapack-dev gfortran
 
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: 
-  - conda install --yes python=$TRAVIS_PYTHON_VERSION numpy matplotlib nose coverage 
+install:
+  - conda install --yes python=$TRAVIS_PYTHON_VERSION numpy matplotlib nose coverage cython
   - pip install coveralls
 # # command to run tests, e.g. python setup.py test
 script:
