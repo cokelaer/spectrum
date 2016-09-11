@@ -15,6 +15,7 @@ before_install:
     - chmod +x miniconda.sh
     - ./miniconda.sh -b
     - export PATH=$HOME/miniconda/bin:$PATH
+    - export PATH=$HOME/miniconda2/bin:$PATH
     - hash -r
     - conda update --yes conda
     - conda config --add channels r
