@@ -52,10 +52,9 @@ extensions = [
     'sphinx.ext.intersphinx', 
     'sphinx.ext.todo', 
     'sphinx.ext.coverage', 
-    'sphinx.ext.pngmath', 
+    'sphinx.ext.imgmath', 
     'sphinx.ext.ifconfig',
     'sphinx.ext.inheritance_diagram',
-    'easydev.copybutton',
     'matplotlib.sphinxext.only_directives',
     'matplotlib.sphinxext.plot_directive',
     ]

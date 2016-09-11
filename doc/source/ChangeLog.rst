@@ -2,15 +2,21 @@ ChangeLog Summary
 ===================
 
 Version 0.6
-----------------
+---------------
+
+* 0.6.2:
+    * Bug Fixes:
+        * Issue #11: fixes loading mydpss library using numpy helper
+        * Issue #12: Allow loading the shared library for frozen projects. Tested with py2exe.
+    * Changes:
+        * pmtm returns Sk_complex, weights and eigenvalues instead of just Sk
 
 * 0.6.1:
-
-  * BUG fixes
-      * Issue #5 in pyule sampling not initialised is now fixed
+    * BUG fixes
+        * Issue #5 in pyule sampling not initialised is now fixed
 
 * 0.6.0:
-    * After a while without development, I moved the source on github
+    * Code moved to github
     * plots accept the ax argument in psd module. It is a bit of a 
       hack but seems to work.
 
