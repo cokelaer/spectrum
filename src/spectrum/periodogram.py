@@ -284,25 +284,23 @@ def DaniellPeriodogram(data, P, NFFT=None, detrend='mean', sampling=1.,
         datatype = 'complex'
 
     N = len(psd)
-    slice = 2 * P + 1
+    _slice = 2 * P + 1
     if datatype== 'real': #must get odd value
-        newN = ceil(psd.size/float(slice))
+        newN = ceil(psd.size/float(_slice))
         if newN%2 == 0:
-            newN = psd.size/slice
+            newN = psd.size/_slice
     else:
-        newN = ceil(psd.size/float(slice))
+        newN = ceil(psd.size/float(_slice))
         if newN%2 == 1:
-            newN = psd.size/slice
+            newN = psd.size/_slice
 
-    newpsd = numpy.zeros(newN) # keep integer division
+    newpsd = numpy.zeros(int(newN)) # keep integer division
     for i in range(0, newpsd.size):
-        #print i,
         count = 0 #needed to know the number of valid averaged values
-        for n in range(i*slice-P, i*slice+P+1): #+1 to have P values on each sides
+        for n in range(i*_slice-P, i*_slice+P+1): #+1 to have P values on each sides
             if n > 0 and n<N: #needed to start the average
                 count += 1
                 newpsd[i] += psd[n]
-        #print count
         newpsd[i] /= float(count)
 
     #todo: check this

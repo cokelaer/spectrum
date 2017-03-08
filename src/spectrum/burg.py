@@ -126,7 +126,7 @@ class pburg(ParametricSpectrum):
                       T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
-            newpsd  = psd[0:self.NFFT/2]*2
+            newpsd  = psd[0:int(self.NFFT/2)]*2
             newpsd[0] /= 2.
             newpsd = numpy.append(newpsd, psd[-1])
             self.psd = newpsd

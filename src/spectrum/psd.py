@@ -579,7 +579,8 @@ class Spectrum(object):
                 print('--->Converting to centerdc')
                 newpsd = numpy.concatenate((self.psd[-1:0:-1]/2., self.psd[0:-1]/2.))
                 # so we need to multiply by 2 the 0 and F2/2 frequencies
-                newpsd[self.NFFT/2] *= 2.
+                
+                newpsd[int(self.NFFT/2)] *= 2.
                 newpsd[0] *= 2.
             self.NFFT = len(newpsd)
 
@@ -588,7 +589,7 @@ class Spectrum(object):
             if sides == 'onesided':
                 print('--->Converting to onesided')
                 N = self.NFFT
-                newpsd = numpy.array(self.psd[0:N/2+1]*2)
+                newpsd = numpy.array(self.psd[0:int(N/2)+1]*2)
                 newpsd[0] /= 2
                 newpsd[-1] = self.psd[-1]
             elif sides == 'centerdc':
@@ -599,8 +600,8 @@ class Spectrum(object):
             if sides == 'onesided':
                 print('--->Converting to onesided')
                 N = self.NFFT
-                newpsd = numpy.array(list(reversed(self.psd[0:N/2+1]*2)))
-                newpsd[0] = self.psd[N/2]
+                newpsd = numpy.array(list(reversed(self.psd[0:int(N/2)+1]*2)))
+                newpsd[0] = self.psd[int(N/2)]
                 newpsd[-1] = self.psd[0]
             elif sides == 'twosided':
                 newpsd = tools.centerdc_2_twosided(self.psd)
