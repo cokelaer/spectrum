@@ -497,7 +497,7 @@ def _fftconvolve(in1, in2, mode="full", axis=None):
         fslice = tuple(fslice)
 
     # Always use 2**n-sized FFT
-    fsize = 2**np.ceil(np.log2(size))
+    fsize = (2**np.ceil(np.log2(size))).astype(np.int64)
     if axis is None:
         IN1 = fftn(in1,fsize)
         IN1 *= fftn(in2,fsize)
