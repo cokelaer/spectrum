@@ -26,7 +26,8 @@ before_install:
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
-  - conda install --yes python=$TRAVIS_PYTHON_VERSION numpy matplotlib nose coverage cython scipy
+  #- conda install --yes python=$TRAVIS_PYTHON_VERSION numpy matplotlib nose coverage cython scipy
+  - conda install --yes numpy matplotlib nose coverage cython scipy
   - pip install coveralls
 # # command to run tests, e.g. python setup.py test
 script:
