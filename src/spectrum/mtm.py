@@ -303,7 +303,7 @@ def dpss(N, NW=None, k=None):
     eigvals = dot(acvs, r)
 
     #return (tapers, lam)
-    return (tapers, eigvals)
+    return [tapers, eigvals]
 
 
 
