@@ -4,7 +4,7 @@ from spectrum.datasets import marple_data, data_cosine
 from spectrum.tools import cshift
 from spectrum.criteria import *
 
-from numpy.testing import *
+from numpy.testing import assert_array_almost_equal, assert_almost_equal
 import numpy
 import pylab
 
@@ -77,5 +77,3 @@ def create_figure():
     pylab.savefig('psd_burg.png')
 
 
-if __name__ == "__main__":
-    create_figure()

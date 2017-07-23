@@ -1,6 +1,6 @@
 from spectrum import *
 import pylab
-from numpy.testing import *
+from numpy.testing import assert_array_almost_equal, assert_almost_equal
 
 def test_modcovar_ip_null():
     a, p, pv = modcovar_marple(marple_data, 0)

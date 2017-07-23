@@ -1,8 +1,8 @@
 from spectrum import *
-from nose.tools import assert_almost_equal
+from numpy.testing import assert_almost_equal
+import pytest
 
 
-#unittest the class Window
 
 class test_class_Window():
     def __init__(self):
@@ -35,31 +35,25 @@ def test_create_window_error():
         assert True
 
 #test that create_window(N, name) works for all valid names
-def test_create_window():
-    for name in list(window_names.keys()):
-        yield check_window, name
-def check_window(name):
-    create_window(52, name=name)
-    create_window(51, name=name)
-    create_window(1, name=name)
+@pytest.mark.parametrize('test_window_name,length', 
+    [(name, size) for name, size in zip(window_names.keys(), [1,51,52])])
+def test_create_window(test_window_name, length):
+    create_window(length, name=test_window_name)
+
+
 
 #test that create_window(N, name) is indeed equivalent to the direct call window_name
-def test_create_window_switch():
-    param = {
-            'blackman': {'alpha':2}, 
-            'kaiser':   {'beta':8.6},
-            'gaussian': {'alpha':2.5}, 
-            'chebwin':  {'attenuation': 50},
-            'flattop':  {'mode':'symmetric'},
-            'tukey':    {'r': 0.5},
-            'poisson':      {'alpha': 2},
-            'poisson_hanning': {'alpha': 2},
-            'cauchy':   {'alpha': 3},
-            }
-    names = list(param.keys())
-    for name in names:
-        yield check_window_switch, name, param[name]
-def check_window_switch(name, param):
+@pytest.mark.parametrize("name,param",
+    [('blackman', {'alpha':2}),
+      ('kaiser',   {'beta':8.6}),
+      ('gaussian', {'alpha':2.5}),
+      ('chebwin',  {'attenuation': 50}),
+      ('flattop',  {'mode':'symmetric'}),
+      ('tukey',    {'r': 0.5}),
+      ('poisson',      {'alpha': 2}),
+      ('poisson_hanning', {'alpha': 2}),
+      ('cauchy',   {'alpha': 3})])
+def test_check_window_switch(name, param):
     f = eval('window_'+name)
     w1 = f(64, **param)
     w2 = create_window(64, name, **param)

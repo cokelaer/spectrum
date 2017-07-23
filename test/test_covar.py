@@ -1,7 +1,8 @@
-from spectrum import *
+from spectrum import arcovar_marple, pcovar, marple_data, data_cosine, arma2psd
+from spectrum import cshift, arcovar_marple, arcovar
 import pylab
-from nose.tools import assert_almost_equal
-from numpy.testing import *
+from numpy.testing import assert_array_almost_equal, assert_almost_equal
+from numpy import array
 
 def test_covar_null_ip():
     af, pf, ab, pb, c = arcovar_marple(marple_data, 0)
@@ -63,7 +64,6 @@ def create_figure():
     psd = test_pcovar()
     pylab.axis([-0.5,0.5,-60,0])
     pylab.savefig('psd_covar.png')
-
 
 if __name__ == "__main__":
     create_figure()

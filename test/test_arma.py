@@ -1,15 +1,16 @@
 from spectrum import *
 from pylab import linspace, log10, plot, ylim, savefig
-from nose.tools import assert_almost_equal
 from spectrum.arma import arma_estimate, arma2psd, parma, pma, ma
 from numpy.testing import assert_array_almost_equal, assert_almost_equal
 import numpy
+import pytest
+
 
 def test_arma_values():
     a, b, rho = arma_estimate(marple_data, 15, 15, 30)
-    assert_almost_equal(rho, 0.20050144053393698, decimal=6)
+    assert_almost_equal(rho, 0.20050144053393698, 1e-6)
 
-    assert_array_almost_equal(a, numpy.array([ 
+    assert_array_almost_equal(a, numpy.array([
         1.47857824-0.16358208j,  4.32139091-0.86231938j,
         6.04115773-1.77030183j,  6.09285854-3.96367752j,
         4.70699008-3.27199141j,  3.45467782-1.59183506j,
@@ -17,8 +18,7 @@ def test_arma_values():
         1.05148353+2.2720917j ,  1.68042547+4.9737292j ,
         3.22899406+6.39981425j,  3.16557650+5.92783737j,
         3.47120865+5.48246963j,  2.79508215+3.3238971j ,
-        2.13174602+1.51034329j  
-        ]), decimal=4)
+        2.13174602+1.51034329j]), decimal=4)
     
 
 def test_arma():

@@ -1,7 +1,6 @@
 from spectrum import *
 import numpy
-from numpy.testing import *
-
+from numpy.testing import assert_almost_equal, assert_array_almost_equal
 
 def test_lpc_real():
     a, e = lpc([1,2,3,4,5,6,7,8], 3)

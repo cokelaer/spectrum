@@ -1,8 +1,7 @@
 from spectrum import *
 from spectrum.levinson import *
-from nose.tools import assert_almost_equal
 import numpy
-from numpy.testing import assert_array_almost_equal
+from numpy.testing import assert_array_almost_equal, assert_almost_equal
 
 
 #LEVINSON

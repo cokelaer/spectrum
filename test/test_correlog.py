@@ -1,8 +1,7 @@
-from spectrum import *
+from spectrum import CORRELOGRAMPSD, CORRELATION, pcorrelogram, marple_data
 
-from nose.tools import assert_almost_equal
-from pylab import *
-from numpy.testing import assert_array_almost_equal
+from pylab import log10, plot, savefig, linspace 
+from numpy.testing import assert_array_almost_equal, assert_almost_equal
 
 def test_correlog():
     psd = CORRELOGRAMPSD(marple_data, marple_data, lag=15)

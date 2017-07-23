@@ -1,9 +1,7 @@
 from spectrum import *
 
 from pylab import linspace, log10, plot, ylim, savefig
-from nose.tools import assert_almost_equal
 from spectrum.periodogram import *
-
 
 def test_Periodogram():
     p = Periodogram(marple_data)

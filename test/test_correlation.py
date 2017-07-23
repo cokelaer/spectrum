@@ -1,8 +1,6 @@
 from spectrum import CORRELATION, marple_data, xcorr
-from nose.tools import assert_almost_equal
-from numpy.testing import assert_array_almost_equal
+from numpy.testing import assert_array_almost_equal, assert_almost_equal
 from numpy import array
-from spectrum.correlation import * # just for nosetests to scan the docstrings
 
 def test_CORRELATION():
     R15 = CORRELATION(marple_data, maxlags=15, norm='biased')
@@ -17,11 +15,11 @@ def test_CORRELATION_biased():
 
     assert_almost_equal(R15[0], 1.7804598944893049+0j)
     assert_almost_equal(R15[1], 0.32076613+1.50586147j)
-    assert_almost_equal(R15[2], -1.29947785+0.74815755j, places=6)
+    assert_almost_equal(R15[2], -1.29947785+0.74815755j)
 
 
     R30 = CORRELATION(marple_data, maxlags=30, norm='biased')
-    assert_almost_equal(R30[0], 1.7804598944893049+0j, places=7)
+    assert_almost_equal(R30[0], 1.7804598944893049+0j)
     assert_almost_equal(R30[1], R15[1])
     assert_almost_equal(R30[2], R15[2])
 
@@ -33,7 +31,7 @@ def test_CORRELATION_unbiased():
 
 
     R30 = CORRELATION(marple_data, maxlags=30, norm='unbiased')
-    assert_almost_equal(R30[0], 1.7804598944893049+0j, places=7)
+    assert_almost_equal(R30[0], 1.7804598944893049+0j )
     assert_almost_equal(R30[1], R15[1])
     assert_almost_equal(R30[2], R15[2])
 

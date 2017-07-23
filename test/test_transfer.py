@@ -1,5 +1,5 @@
 from spectrum import transfer
-from nose.tools import assert_almost_equal
+from numpy.testing import assert_almost_equal
 
 def test_tf2zpk():
     from scipy import signal

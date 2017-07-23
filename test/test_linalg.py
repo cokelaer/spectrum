@@ -1,6 +1,6 @@
 import numpy
-from spectrum import *
-from numpy.testing import *
+from spectrum import corrmtx, csvd, pascal
+from numpy.testing import assert_array_almost_equal
 
 def test_pascal():
     res = pascal(6) 

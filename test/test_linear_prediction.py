@@ -1,6 +1,6 @@
 from spectrum.linear_prediction import *
 import numpy
-from numpy.testing import *
+from numpy.testing import assert_array_almost_equal, assert_almost_equal
 
 ri = [5.0000, -1.5450, -3.9547, 3.9331, 1.4681, -4.7500]
 ki = [0.3090 ,   0.9800    ,0.0031  ,  0.0082 ,  -0.0082];

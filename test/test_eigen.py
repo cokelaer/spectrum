@@ -1,7 +1,7 @@
 from spectrum import *
 import numpy
 #from spectrum import MINEIGVAL
-from nose.tools import assert_almost_equal
+from numpy.testing  import assert_almost_equal
 
 
 

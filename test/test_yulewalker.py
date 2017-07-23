@@ -2,7 +2,7 @@ from spectrum import *
 #from spectrum import yulewalker 
 #from yulewalker import *
 from pylab import linspace, plot, savefig, axis, log10
-from nose.tools import assert_almost_equal
+from numpy.testing import assert_almost_equal
 
 
 

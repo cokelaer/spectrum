@@ -1,8 +1,8 @@
 import numpy
-from nose.tools import assert_almost_equal
 from spectrum import toeplitz
-from spectrum.toeplitz import * #so that nosetests scans te docstrings as well
-from spectrum.toeplitz import TOEPLITZ
+#from spectrum.toeplitz import * #so that nosetests scans te docstrings as well
+from spectrum.toeplitz import TOEPLITZ, HERMTOEP
+from numpy.testing import assert_almost_equal
 
 def test_toeplitz():
     T0 = 3+0j
