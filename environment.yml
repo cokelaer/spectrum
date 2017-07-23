@@ -9,5 +9,6 @@ dependencies:
 - matplotlib
 - scipy
 - easydev
+- numpydoc
 #- pip:
 #  - easydev>=0.9.21
