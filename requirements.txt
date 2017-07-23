@@ -1,0 +1,5 @@
+easydev
+numpy
+scipy
+matplotlib
+sphinx

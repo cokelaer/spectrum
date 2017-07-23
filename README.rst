@@ -6,9 +6,6 @@ SPECTRUM : Spectral Analysis in Python
 .. image:: https://badge.fury.io/py/spectrum.svg
     :target: https://badge.fury.io/py/spectrum.svg
 
-.. image:: https://pypip.in/d/spectrum/badge.png
-    :target: https://crate.io/packages/spectrum/
-
 .. image:: https://secure.travis-ci.org/cokelaer/spectrum.png
     :target: http://travis-ci.org/cokelaer/spectrum
 

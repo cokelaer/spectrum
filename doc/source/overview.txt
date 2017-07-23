@@ -6,7 +6,7 @@
 
 
 
-**Spectrum** contains tools to estimate Power Spectral Densities using methods based on Fourier transform, Parametric methods or eigenvalues analysis:
+**Spectrum** is a Python library that contains tools to estimate Power Spectral Densities based on Fourier transform, Parametric methods or eigenvalues analysis:
 
     * The Fourier methods are based upon correlogram, periodogram and Welch estimates. Standard tapering windows (Hann, Hamming, Blackman) and more exotic ones are available (DPSS, Taylor, ...). 
     * The parametric methods are based on Yule-Walker, BURG, MA and ARMA, covariance and modified covariance methods.

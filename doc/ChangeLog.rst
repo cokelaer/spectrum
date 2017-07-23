@@ -5,6 +5,7 @@ ChangeLog Summary
 Version 0.6.3
 --------------
 
+* CHANGES: portage nosetests suite to pytest
 * BUG Fixes:
   * Fix issues https://github.com/cokelaer/spectrum/issues/21 and 
     https://github.com/cokelaer/spectrum/issues/20 mostly related to

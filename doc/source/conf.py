@@ -14,7 +14,11 @@
 #
 # All configuration values have a default; values that are commented out
 # serve to show the default.
-import os, sys
+
+import sys, os
+import sphinx
+
+sys.path.insert(0, os.path.abspath('sphinxext'))
 
 ###########################ADDON############################
 try:
@@ -24,12 +28,13 @@ except Exception, e:
     print "Install easydev or set your PYTHONPATH properly"
     raise Exception
 
+
 import pkg_resources
 version = pkg_resources.require("spectrum")[0].version
 release = version
 author = "Thomas Cokelaer"
 title = "spectrum"
-copyright = author + ", 2012"
+copyright = author + ", 2012-2017"
 project = "spectrum"
 
 
@@ -44,19 +49,20 @@ project = "spectrum"
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
-    'sphinx.ext.autodoc', 
-    'sphinx.ext.autosummary', 
-    'sphinx.ext.coverage', 
-    'sphinx.ext.graphviz',
-    'sphinx.ext.doctest', 
-    'sphinx.ext.intersphinx', 
-    'sphinx.ext.todo', 
-    'sphinx.ext.coverage', 
-    'sphinx.ext.imgmath', 
+    'sphinx.ext.autodoc',
+
+    ('sphinx.ext.imgmath'  # only available for sphinx >= 1.4
+                  if sphinx.version_info[:2] >= (1, 4)
+                  else 'sphinx.ext.pngmath'),
+    'sphinx.ext.coverage',
+    'sphinx.ext.doctest',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.todo',
     'sphinx.ext.ifconfig',
-    'sphinx.ext.inheritance_diagram',
-    'matplotlib.sphinxext.only_directives',
+    'sphinx.ext.viewcode',
+    "numpydoc.numpydoc",
     'matplotlib.sphinxext.plot_directive',
+    'sphinx.ext.autosummary',
     ]
 # note that the numpy directives is buggy. Example: class and init are not recognised as two entities for the autoclass_content=both here below
 
@@ -81,7 +87,6 @@ source_suffix = '.rst'
 
 # The master toctree document.
 master_doc = 'index'
-
 
 # General information about the project.
 project = project
