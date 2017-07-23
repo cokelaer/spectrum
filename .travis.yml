@@ -8,6 +8,7 @@ matrix:
     - python: 2.7
     - python: 3.4
     - python: 3.5
+    - python: 3.6
 
 before_install:
     - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
@@ -27,11 +28,13 @@ before_install:
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
   #- conda install --yes python=$TRAVIS_PYTHON_VERSION numpy matplotlib nose coverage cython scipy
-  - conda install --yes numpy matplotlib nose coverage cython scipy
+  - conda install --yes numpy matplotlib nose coverage cython scipy 
+  - pip install pytest pytest-cov pytest-xdist pytest-mock pytest-timeout
   - pip install coveralls
+  - pip install .
 # # command to run tests, e.g. python setup.py test
 script:
-  - python setup.py nosetests --with-coverage --cover-package spectrum
+  - pytest -v --durations=10  test/ --cov=spectrum --cov-report term --timeout 300 
 
 after_success:
   coveralls
