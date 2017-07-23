@@ -1,0 +1,13 @@
+name: spectrum_env
+
+channels:
+- bioconda
+
+dependencies:
+- numpy
+- pandas
+- matplotlib
+- scipy
+- easydev
+#- pip:
+#  - easydev>=0.9.21
