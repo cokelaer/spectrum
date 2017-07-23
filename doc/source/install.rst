@@ -1,7 +1,7 @@
 Installation and source 
 =========================
 
-**Spectrum** is available on `PYPI <http://pypi.python.org/pypi>`_, so you should be able to type::
+**Spectrum** is available on `PYPi <http://pypi.python.org/pypi>`_, so you should be able to type::
 
     easy_install -U spectrum 
 
@@ -18,8 +18,18 @@ You can also install them yourself by typing::
 .. note:: the -U option updates the libraries that are already installed.
 
 
-**Spectrum** source code (SVN repository) is available here:
+**Spectrum** source code is available on Github https://github.com/cokelaer/spectrum
 
-https://www.assembla.com/code/PySpectrum/subversion/nodes/trunk/
+
+Conda installation
+========================
+
+Spectrum is not available on CONDA. However, you can install dependencies as
+follows::
+
+    conda install numpy matplotlib scipy 
+
+I put a todo issue on the github account if you want to do the full portage on
+conda-forge for instance (https://github.com/cokelaer/spectrum/issues/28)
 
 
