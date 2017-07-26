@@ -882,7 +882,7 @@ class ParametricSpectrum(Spectrum):
                       T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
-            newpsd  = psd[self.NFFT/2:]*2
+            newpsd  = psd[int(self.NFFT/2):]*2
             newpsd[0] /= 2.
             newpsd = numpy.append(newpsd, psd[0])
             self.psd = newpsd
@@ -901,7 +901,7 @@ class ParametricSpectrum(Spectrum):
                       T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
-            newpsd  = psd[0:self.NFFT/2]*2
+            newpsd  = psd[0:int(self.NFFT/2)]*2
             newpsd[0] /= 2.
             newpsd = numpy.append(newpsd, psd[-1])
             self.psd = newpsd
@@ -922,7 +922,7 @@ class ParametricSpectrum(Spectrum):
                       T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
-            newpsd  = psd[0:self.NFFT/2]*2
+            newpsd  = psd[0:iint(self.NFFT/2)]*2
             newpsd[0] /= 2.
             newpsd = numpy.append(newpsd, psd[-1])
             self.psd = newpsd
@@ -936,7 +936,7 @@ class ParametricSpectrum(Spectrum):
         psd = minvar(self.data, self.ar_order, sampling=self.sampling,
                      NFFT=self.NFFT)
         if self.datatype == 'real':
-            newpsd  = psd[0:self.NFFT/2]*2
+            newpsd  = psd[0:int(self.NFFT/2)]*2
             newpsd[0] /= 2.
             newpsd = numpy.append(newpsd, psd[-1])
             self.psd = newpsd
@@ -1088,7 +1088,7 @@ class FourierSpectrum(Spectrum):
                              #   scale_by_freq=self.scale_by_freq,
                              )
         if self.datatype == 'real':
-            newpsd  = psd[0:self.NFFT/2]*2
+            newpsd  = psd[0:int(self.NFFT/2)]*2
             newpsd[0] /= 2.
             newpsd = numpy.append(newpsd, psd[-1])
             self.psd = newpsd

@@ -4,7 +4,8 @@ SPECTRUM : Spectral Analysis in Python
 
 
 .. image:: https://badge.fury.io/py/spectrum.svg
-    :target: https://badge.fury.io/py/spectrum.svg
+    :target: https://pypi.python.org/pypi/spectrum
+
 
 .. image:: https://secure.travis-ci.org/cokelaer/spectrum.png
     :target: http://travis-ci.org/cokelaer/spectrum
@@ -42,6 +43,12 @@ Installation
 ::
 
     pip install spectrum
+
+For Linux and MAC users, if you prefer to use conda (avoiding
+ compilation of dependencies), please use::
+
+    conda config --add channels conda-forge 
+    conda install spectrum
 
 
 Contributions

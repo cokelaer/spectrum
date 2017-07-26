@@ -264,7 +264,7 @@ class parma(ParametricSpectrum):
                       T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
-            newpsd  = psd[0:self.NFFT/2]*2
+            newpsd  = psd[0:int(self.NFFT/2)]*2
             newpsd[0] /= 2.
             newpsd = append(newpsd, psd[-1])
             self.psd = newpsd
@@ -305,7 +305,8 @@ class pma(ParametricSpectrum):
         :param array data:     input data (list or numpy.array)
         :param int Q:          MA order
         :param int M:          AR model used to estimate the MA parameters
-        :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+        :param int NFFT:       total length of the final data sets (padded with zero 
+                               if needed; default is 4096)
         :param float sampling: sampling frequency of the input :attr:`data`.
 
         """

@@ -81,8 +81,6 @@ def _arburg2(X, order):
     return a, E[-1], ref
 
 
-
-
 class pburg(ParametricSpectrum):
     """Class to create PSD based on Burg algorithm
 

@@ -2,6 +2,15 @@ ChangeLog Summary
 #####################
 
 
+Version 0.6.4
+---------------
+
+* CHANGES: the bug reported in https://github.com/cokelaer/spectrum/issues/24 is
+  obsolet for the reported module (pburg), which was fixed earlier but the issue
+  was fixed in other module such as psd, parma, correlog
+* add LICENSE file
+* fix warning in cpp code (adding void in func() prototypes)
+
 Version 0.6.3
 --------------
 

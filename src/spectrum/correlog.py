@@ -193,7 +193,7 @@ class pcorrelogram(FourierSpectrum):
                              #   scale_by_freq=self.scale_by_freq,
                              )
         if self.datatype == 'real':
-            newpsd  = psd[self.NFFT/2:]*2
+            newpsd  = psd[int(self.NFFT/2):]*2
             newpsd[0] /= 2.
             newpsd = numpy.append(newpsd, psd[0])
             self.psd = newpsd

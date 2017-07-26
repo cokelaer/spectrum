@@ -3,22 +3,18 @@ Installation and source
 
 **Spectrum** is available on `PYPi <http://pypi.python.org/pypi>`_, so you should be able to type::
 
-    easy_install -U spectrum 
+    pip install spectrum 
 
 
 Since spectrum depends on other python packages such as Numpy, Matplotlib and Scipy they will be installed automatically (if not already installed). 
 
 You can also install them yourself by typing::
 
-    easy_install -U numpy
-    easy_install -U matplotlib
-    easy_install -U scipy
-
-
-.. note:: the -U option updates the libraries that are already installed.
-
+    pip numpy matplotlib scipy
 
 **Spectrum** source code is available on Github https://github.com/cokelaer/spectrum
+
+
 
 
 Conda installation
@@ -31,5 +27,12 @@ follows::
 
 I put a todo issue on the github account if you want to do the full portage on
 conda-forge for instance (https://github.com/cokelaer/spectrum/issues/28)
+
+For Linux and MAC users, if you prefer to use conda (avoiding 
+compilation of dependencies), please use::
+
+    conda config --add channels conda-forge 
+    conda install spectrum
+
 
 

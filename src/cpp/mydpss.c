@@ -2,6 +2,10 @@
 
 Lees, J. M. and J. Park (1995): Multiple-taper spectral analysis: A stand-alone C-subroutine: 
 Computers & Geology: 21, 199-236.
+
+Note TC 2017. This file is different from the original version.
+One diff is the inclusion of the initmydpss() function and 
+void PyInit_mydpss() {} related to the Python extension framework.
 */
 
 
@@ -20,7 +24,7 @@ Computers & Geology: 21, 199-236.
 /*#include "jl.h"*/
 
 /* under windows, Pythonxy requires this function apparently*/
-void initmydpss()
+void initmydpss(void)
 {}
 
 float *alloc_fvec(long first , long last)
@@ -63,7 +67,7 @@ jtinvit_(int *nm, int *n, double *d, double *e, double *e2,
 int
 multitap(int n, int nwin, double *el, float npi, double *tapers, double *tapsum);
 
-void PyInit_mydpss() {}
+void PyInit_mydpss(void) {}
 
 
 /***************************************************************/
@@ -253,7 +257,7 @@ jtinvit_(int *nm, int *n, double *d, double *e, double *e2, int *m, double *w, i
 	double          d1, d2;
 
 	/* Builtin functions */
-	double          sqrt();
+	double          sqrt(void);
 
 	/* Local variables */
 	static double   norm;
