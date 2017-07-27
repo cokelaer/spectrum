@@ -31,5 +31,5 @@ Documentation
 License
 =======
 
-**Spectrum** is released under a LGPL License.
+**Spectrum** is released under a BSD3 license
 

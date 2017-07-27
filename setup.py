@@ -9,7 +9,7 @@ from distutils.core import Extension
 
 _MAJOR               = 0
 _MINOR               = 6
-_MICRO               = 5
+_MICRO               = 6
 version              = '%d.%d.%d' % (_MAJOR, _MINOR, _MICRO)
 release              = '%d.%d' % (_MAJOR, _MINOR)
 
@@ -28,7 +28,7 @@ setup(
     author="Thomas Cokelaer",
     author_email="cokelaer@gmail.com",
     url='http://github.com/cokelaer/spectrum',
-    license='LGPL',
+    license='new BSD',
 
     ext_modules=[Extension('spectrum.mydpss', ['src/cpp/mydpss.c', ],
         export_symbols=['multitap'])],
@@ -48,7 +48,7 @@ setup(
         "Intended Audience :: Information Technology",
         "Intended Audience :: Science/Research",
         "Intended Audience :: Telecommunications Industry",
-        "License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
+        "License :: OSI Approved :: BSD License",
         "Operating System :: POSIX :: Linux",
         "Operating System :: Unix",
         "Programming Language :: Python :: 2.7",
