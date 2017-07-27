@@ -4,6 +4,23 @@ ChangeLog Summary
 Version 0.6
 ---------------
 
+* 0.6.4:
+
+    * CHANGES: the bug reported in https://github.com/cokelaer/spectrum/issues/24 is
+      obsolet for the reported module (pburg), which was fixed earlier but the issue
+      was fixed in other module such as psd, parma, correlog
+    * add LICENSE file
+    * fix warning in cpp code (adding void in func() prototypes)
+
+*0.6.3:
+
+
+    * CHANGES: portage nosetests suite to pytest
+    * BUG Fixes:
+    * Fix issues https://github.com/cokelaer/spectrum/issues/21 and 
+      https://github.com/cokelaer/spectrum/issues/20 mostly related to
+      compatibility with newest numpy version (1.12)
+
 * 0.6.2:
     * Bug Fixes:
         * Issue #11: fixes loading mydpss library using numpy helper
