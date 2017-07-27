@@ -24,7 +24,7 @@ void PyInit_mydpss() {} related to the Python extension framework.
 /*#include "jl.h"*/
 
 /* under windows, Pythonxy requires this function apparently*/
-void initmydpss()
+void initmydpss(void)
 {}
 
 float *alloc_fvec(long first , long last)
@@ -67,7 +67,7 @@ jtinvit_(int *nm, int *n, double *d, double *e, double *e2,
 int
 multitap(int n, int nwin, double *el, float npi, double *tapers, double *tapsum);
 
-void PyInit_mydpss() {}
+void PyInit_mydpss(void) {}
 
 
 /***************************************************************/
