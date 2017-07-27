@@ -9,7 +9,7 @@ from distutils.core import Extension
 
 _MAJOR               = 0
 _MINOR               = 6
-_MICRO               = 4
+_MICRO               = 5
 version              = '%d.%d.%d' % (_MAJOR, _MINOR, _MICRO)
 release              = '%d.%d' % (_MAJOR, _MINOR)
 
@@ -53,6 +53,7 @@ setup(
         "Operating System :: Unix",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
         "Topic :: Scientific/Engineering",
         ]   
 )
