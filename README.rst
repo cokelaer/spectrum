@@ -1,11 +1,8 @@
 SPECTRUM : Spectral Analysis in Python
 ==========================================
 
-
-
 .. image:: https://badge.fury.io/py/spectrum.svg
     :target: https://pypi.python.org/pypi/spectrum
-
 
 .. image:: https://secure.travis-ci.org/cokelaer/spectrum.png
     :target: http://travis-ci.org/cokelaer/spectrum
@@ -22,7 +19,7 @@ SPECTRUM : Spectral Analysis in Python
 
 :contributions: Please join https://github.com/cokelaer/spectrum
 :issues: Please use https://github.com/cokelaer/spectrum/issues
-
+:documentation on RTD: http://pyspectrum.readthedocs.io/ 
 
 
 
