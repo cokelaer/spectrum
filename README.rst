@@ -13,8 +13,6 @@ SPECTRUM : Spectral Analysis in Python
 .. image:: https://landscape.io/github/cokelaer/spectrum/master/landscape.png
     :target: https://landscape.io/github/cokelaer/spectrum/master
 
-.. image:: https://badge.waffle.io/cokelaer/spectrum.png?label=ready&title=Ready 
-    :target: https://waffle.io/cokelaer/spectrum
 
 
 :contributions: Please join https://github.com/cokelaer/spectrum
@@ -47,6 +45,7 @@ For Linux and MAC users, if you prefer to use conda (avoiding
     conda config --add channels conda-forge 
     conda install spectrum
 
+To install the **conda** executable, please see https://www.continuum.io/downloads .
 
 Contributions
 ==================
