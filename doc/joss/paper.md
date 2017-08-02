@@ -30,7 +30,6 @@ available are based on Fourier transform, parametric methods or eigenvalues anal
 - Non-parametric methods based on eigen analysis (e.g., MUSIC) and minimum variance analysis are also implemented.
 - Multitapering is also available
 
--![Fidgit deposited in figshare.](figshare_article.png)
+-![https://doi.org/10.6084/m9.figshare.5270866.v1](psd_all.png)
 
 # References
-  
