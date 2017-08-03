@@ -31,6 +31,8 @@ available are based on Fourier transform, parametric methods or eigenvalues anal
 - Multitapering is also available [percival:1993]
 - Classical tools useful to spectral analysis and more generally signal processing such as window tapering [harris:1978] or transfer function are also available within the library.
 
+The following image shows the different methods of spectral estimation that are available in **Spectrum**.
+
 -![https://doi.org/10.6084/m9.figshare.5270866.v1](psd_all.png)
 
 # References
