@@ -16,7 +16,7 @@ authors:
  affiliations:
  - name: Institut Pasteur
    index: 1
- date: 2 August 2017
+date: 2 August 2017
 bibliography: paper.bib
 ---
 
