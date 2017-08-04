@@ -22,10 +22,18 @@
 """#from numpy.fft import fft, ifft
 import numpy
 from numpy import  arange, isrealobj
-from pylab import rms_flat
+# from pylab import rms_flat
 
 
 __all__ = ['CORRELATION', 'xcorr']
+
+
+def pylab_rms_flat(a):
+    """
+    Return the root mean square of all the elements of *a*, flattened out.
+    (Copied 1:1 from matplotlib.mlab.)
+    """
+    return numpy.sqrt(numpy.mean(numpy.absolute(a) ** 2))
 
 
 def CORRELATION(x, y=None, maxlags=None, norm='unbiased'):
@@ -104,8 +112,8 @@ def CORRELATION(x, y=None, maxlags=None, norm='unbiased'):
         r = numpy.zeros(maxlags, dtype=complex)
 
     if norm == 'coeff':
-        rmsx = rms_flat(x)
-        rmsy = rms_flat(y)
+        rmsx = pylab_rms_flat(x)
+        rmsy = pylab_rms_flat(y)
 
     for k in range(0, maxlags+1):
         nk = N - k - 1
@@ -208,7 +216,7 @@ def xcorr(x, y=None, maxlags=None, norm='biased'):
         res = res[lags] / (float(N)-abs(arange(-N+1, N)))[lags]
     elif norm == 'coeff':
         Nf = float(N)
-        rms = rms_flat(x) * rms_flat(y)
+        rms = pylab_rms_flat(x) * pylab_rms_flat(y)
         res = res[lags] / rms / Nf
     else:
         res = res[lags]

@@ -199,7 +199,8 @@ class Window(object):
 
 
         """
-        from pylab import fft, fftshift, log10
+        from numpy import log10
+        from numpy.fft import fft, fftshift
 
         norm = kargs.get('norm', self.norm)
 

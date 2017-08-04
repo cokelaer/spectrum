@@ -1,6 +1,4 @@
 """This module provides the Base class for PSDs"""
-import pylab as plt
-import pylab
 import numpy
 
 from spectrum.tools import nextpow2
@@ -521,7 +519,7 @@ class Spectrum(object):
 
     def scale(self):
         if self.scale_by_freq is True:
-            self.psd *= 2*plt.pi/self.df
+            self.psd *= 2*numpy.pi/self.df
 
     def frequencies(self, sides=None):
 
@@ -632,6 +630,7 @@ class Spectrum(object):
             p.plot(norm=True, marker='o')
 
         """
+        import pylab
         #First, check that psd attribute is up-to-date
         if self.modified is True:
             raise errors.SpectrumModifiedError
@@ -667,8 +666,8 @@ class Spectrum(object):
         from pylab import ylim as plt_ylim
 
         if 'ax' in list(kargs.keys()):
-            save_ax = plt.gca()
-            plt.sca(kargs['ax'])
+            save_ax = pylab.gca()
+            pylab.sca(kargs['ax'])
             rollback = True
             del kargs['ax']
         else:
@@ -679,8 +678,8 @@ class Spectrum(object):
         else:
             pylab.plot(frequencies, 10*pylab.log10(psd),**kargs)
 
-        plt.xlabel('Frequency')
-        plt.ylabel('Power (dB)')
+        pylab.xlabel('Frequency')
+        pylab.ylabel('Power (dB)')
         pylab.grid(True)
         if ylim:
             plt_ylim(ylim)
@@ -693,7 +692,7 @@ class Spectrum(object):
         if filename:
             pylab.savefig(filename)
         if rollback:
-            plt.sca(save_ax)
+            pylab.sca(save_ax)
         del psd, frequencies #is it needed?
 
     def power(self):
@@ -714,7 +713,7 @@ class Spectrum(object):
         if self.scale_by_freq == False:
             return sum(self.psd) * len(self.psd)
         else:
-            return sum(self.psd) * self.df/(2.*plt.pi)
+            return sum(self.psd) * self.df/(2.*numpy.pi)
 
     def _str_title(self):
         return "Spectrum summary\n"
