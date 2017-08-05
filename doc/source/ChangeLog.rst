@@ -4,6 +4,10 @@ ChangeLog Summary
 Version 0.6
 ---------------
 
+* 0.6.5:
+
+    * minor updates to port spectrum on travis
+
 * 0.6.4:
 
     * CHANGES: the bug reported in https://github.com/cokelaer/spectrum/issues/24 is
@@ -12,8 +16,7 @@ Version 0.6
     * add LICENSE file
     * fix warning in cpp code (adding void in func() prototypes)
 
-*0.6.3:
-
+* 0.6.3:
 
     * CHANGES: portage nosetests suite to pytest
     * BUG Fixes:
