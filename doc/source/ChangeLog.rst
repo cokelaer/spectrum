@@ -4,6 +4,12 @@ ChangeLog Summary
 Version 0.6
 ---------------
 
+* 0.6.6:
+
+   * integration pull request https://github.com/cokelaer/spectrum/pull/29 from
+     moritz-ritter to allow spectrum to run indepdently of matplotlib (for
+     server head-less integration)
+
 * 0.6.5:
 
     * minor updates to port spectrum on travis
