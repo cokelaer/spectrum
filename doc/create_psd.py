@@ -14,41 +14,41 @@ def create_all_psd():
     #MA 15 order
     b, rho = ma(data, 15, 30)
     psd = arma2psd(B=b, rho=rho)
-    newpsd = tools.cshift(psd, len(psd)/2) # switch positive and negative freq
+    newpsd = tools.cshift(psd, len(psd)//2) # switch positive and negative freq
     pylab.plot(f, 10 * pylab.log10(newpsd/max(newpsd)), label='MA 15')
     pylab.hold(True)
-    
+
     #ARMA 15 order
     a, b, rho = arma_estimate(data, 15,15, 30)
     psd = arma2psd(A=a,B=b, rho=rho)
-    newpsd = tools.cshift(psd, len(psd)/2) # switch positive and negative freq
+    newpsd = tools.cshift(psd, len(psd)//2) # switch positive and negative freq
     pylab.plot(f, 10 * pylab.log10(newpsd/max(newpsd)), label='ARMA 15,15')
-    pylab.hold(True)
+    #pylab.hold(True)
 
     #yulewalker
     ar, P,c = aryule(data, 15, norm='biased')
     psd = arma2psd(A=ar, rho=P)
-    newpsd = tools.cshift(psd, len(psd)/2) # switch positive and negative freq
+    newpsd = tools.cshift(psd, len(psd)//2) # switch positive and negative freq
 
     pylab.plot(f, 10 * pylab.log10(newpsd/max(newpsd)), label='YuleWalker 15')
 
     #burg method
     ar, P,k = arburg(data, order=15)
     psd = arma2psd(A=ar, rho=P)
-    newpsd = tools.cshift(psd, len(psd)/2) # switch positive and negative freq
+    newpsd = tools.cshift(psd, len(psd)//2) # switch positive and negative freq
 
     pylab.plot(f, 10 * pylab.log10(newpsd/max(newpsd)), label='Burg 15')
-    
+
     #covar method
     af, pf, ab, pb, pv = arcovar_marple(data, 15)
     psd = arma2psd(A=af, B=ab, rho=pf)
-    newpsd = tools.cshift(psd, len(psd)/2) # switch positive and negative freq
+    newpsd = tools.cshift(psd, len(psd)//2) # switch positive and negative freq
     pylab.plot(f, 10 * pylab.log10(newpsd/max(newpsd)), label='covar 15')
 
     #modcovar method
     a, p, pv = modcovar_marple(data, 15)
     psd = arma2psd(A=a)
-    newpsd = tools.cshift(psd, len(psd)/2) # switch positive and negative freq
+    newpsd = tools.cshift(psd, len(psd)//2) # switch positive and negative freq
     pylab.plot(f, 10 * pylab.log10(newpsd/max(newpsd)), label='modcovar 15')
 
     #correlogram

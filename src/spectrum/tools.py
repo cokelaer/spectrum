@@ -12,7 +12,7 @@
         twosided_2_onesided
         centerdc_2_twosided
         twosided_2_centerdc
-        
+
     .. codeauthor:: Thomas Cokelaer, 2011
 """
 import numpy
@@ -20,34 +20,34 @@ from numpy import ceil, log2
 from collections import deque
 
 
-#__all__ = ["cshift", "pow2dB", "nextpow2", "twosided", "twosided_zerolag", 
+#__all__ = ["cshift", "pow2dB", "nextpow2", "twosided", "twosided_zerolag",
 #           "fftshift"]
 
 
 def fftshift(x):
     """wrapper to numpy.fft.fftshift
-    
+
     .. doctest::
-    
+
         >>> from spectrum import fftshift
         >>> x = [100, 2, 3, 4, 5]
         >>> fftshift(x)
         array([  4,   5, 100,   2,   3])
     """
     return numpy.fft.fftshift(x)
-    
+
 def _swapsides(data):
-    """todo is it really useful ? 
-    
+    """todo is it really useful ?
+
     Swap  sides
-    
+
     .. doctest::
-    
+
         >>> from spectrum import swapsides
         >>> x = [-2, -1, 1, 2]
         >>> swapsides(x)
         array([ 2, -2, -1])
-    
+
     """
     N = len(data)
     from numpy import concatenate
@@ -58,7 +58,7 @@ def twosided_2_onesided(data):
 
     In order to keep the power in the onesided PSD the same
     as in the twosided version, the onesided values are twice
-    as much as in the input data (except for the zero-lag value). 
+    as much as in the input data (except for the zero-lag value).
 
     ::
 
@@ -67,7 +67,7 @@ def twosided_2_onesided(data):
 
     """
     assert len(data)%2 == 0
-    N = len(data) 
+    N = len(data)
     psd = numpy.array(data[0:N//2+1])*2.
     psd[0]/=2.
     psd[-1] = data[-1]
@@ -78,7 +78,7 @@ def onesided_2_twosided(data):
 
     In order to keep the power in the twosided PSD the same
     as in the onesided version, the twosided values are 2 times
-    lower than the input data (except for the zero-lag and N-lag 
+    lower than the input data (except for the zero-lag and N-lag
     values).
 
     ::
@@ -95,7 +95,7 @@ def onesided_2_twosided(data):
 def twosided_2_centerdc(data):
     """Convert a two-sided PSD to a center-dc PSD"""
     N = len(data)
-    # could us int() or // in python 3 
+    # could us int() or // in python 3
     newpsd = numpy.concatenate((cshift(data[N//2:], 1), data[0:N//2]))
     newpsd[0] = data[-1]
     return newpsd
@@ -108,7 +108,7 @@ def centerdc_2_twosided(data):
 
 
 def twosided(data):
-    """return a twosided vector with non-duplication of the first element 
+    """return a twosided vector with non-duplication of the first element
 
     .. doctest::
 
@@ -123,15 +123,15 @@ def twosided(data):
 
 
 def _twosided_zerolag(data, zerolag):
-    """Build a symmetric vector out of stricly positive lag vector and zero-lag  
-    
+    """Build a symmetric vector out of stricly positive lag vector and zero-lag
+
     .. doctest::
-    
+
         >>> data = [3,2,1]
         >>> zerolag = 4
         >>> twosided_zerolag(data, zerolag)
         array([1, 2, 3, 4, 3, 2, 1])
-    
+
     .. seealso:: Same behaviou as :func:`twosided_zerolag`
     """
     res = twosided(numpy.insert(data, 0, zerolag))
@@ -143,7 +143,7 @@ def cshift(data, offset):
 
     :param array data: input data (list or numpy.array)
     :param int offset: shift the array with the offset
-    
+
     .. doctest::
 
         >>> from spectrum import cshift
@@ -153,13 +153,15 @@ def cshift(data, offset):
     """
     # the deque method is suppose to be optimal when using rotate to shift the
     # data that playing with the data to build a new list.
+    if isinstance(offset, float):
+        offset = int(offset)
     a = deque(data)
     a.rotate(offset)
     return numpy.array(a)  #convert back to an array. Is it necessary?
 
 
 def pow2db(x):
-    """returns the corresponding decibel (dB) value for a power value x. 
+    """returns the corresponding decibel (dB) value for a power value x.
 
     The relationship between power and decibels is:
 
@@ -176,29 +178,29 @@ def pow2db(x):
 
 def db2pow(xdb):
     """Convert decibels (dB) to power
-    
+
     .. doctest::
-    
+
         >>> p = db2pow(-10)
         >>> p
         0.1
-        
+
     .. seealso:: :func:`pow2db`
     """
     return 10.**(xdb/10.)
-     
+
 
 def nextpow2(x):
-    """returns the smallest power of two that is greater than or equal to the 
+    """returns the smallest power of two that is greater than or equal to the
     absolute value of x.
 
-    This function is useful for optimizing FFT operations, which are 
+    This function is useful for optimizing FFT operations, which are
     most efficient when sequence length is an exact power of two.
 
     :Example:
 
     .. doctest::
-    
+
         >>> x = [255, 256, 257]
         >>> nextpow2(x)
         array([8, 8, 9])
@@ -210,31 +212,31 @@ def nextpow2(x):
 
 def db2mag(xdb):
     """Convert decibels (dB) to magnitude
-    
+
     .. doctest::
-    
+
         >>> db2mag(-20)
         0.1
-        
+
     .. seealso:: :func:`pow2db`
     """
     return 10.**(xdb/20.)
-    
-    
+
+
 def mag2db(x):
     """Convert magnitude to decibels (dB)
 
     The relationship between magnitude and decibels is:
 
     .. math::    X_{dB} = 20 * \log_{10}(x)
-    
+
     .. doctest::
-    
+
         >>> mag2db(0.1)
         -20.0
-    
+
     .. seealso:: :func:`db2mag`
     """
-    
+
     return 20. * numpy.log10(x)
 
