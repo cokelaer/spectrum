@@ -2,6 +2,7 @@ name: spectrum_env
 
 channels:
 - bioconda
+- conda-forge
 
 dependencies:
 - numpy
