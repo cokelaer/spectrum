@@ -20,7 +20,6 @@ from ctypes import POINTER
 import os
 from os.path import join as pj
 from spectrum.tools import nextpow2
-from pylab import semilogy
 from numpy.ctypeslib import load_library
 
 """
@@ -53,7 +52,7 @@ except:
     print("Library %s not found" % lib_name)
 
 
-def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=True):
+def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=False):
     """Multitapering spectral estimation
 
     :param array x: the data
@@ -173,6 +172,7 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Tru
         weights=wk
 
     if show is True:
+        from pylab import semilogy
         if method == "adapt":
             Sk = np.mean(Sk * weights, axis=1)
         else:

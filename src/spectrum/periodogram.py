@@ -39,10 +39,9 @@ the computation. For instance, if you can change the output easily::
 """
 from .window import Window
 from .psd import Spectrum, FourierSpectrum
-from pylab import pi, fft, mean, rfft
-from numpy import array, ceil
+from numpy import array, ceil, pi, mean, linspace
+from numpy.fft import fft, rfft
 import numpy
-import pylab as plt
 
 
 
@@ -191,9 +190,10 @@ def WelchPeriodogram(data, NFFT=None,  sampling=1., **kargs):
 
 
     """
+    from pylab import psd
     spectrum = Spectrum(data, sampling=1.)
 
-    P = plt.psd(data, NFFT, Fs=sampling, **kargs)
+    P = psd(data, NFFT, Fs=sampling, **kargs)
     spectrum.psd = P[0]
     #spectrum.__Spectrum_sides = 'twosided'
 
@@ -305,10 +305,10 @@ def DaniellPeriodogram(data, P, NFFT=None, detrend='mean', sampling=1.,
 
     #todo: check this
     if datatype == 'complex':
-        freq = plt.linspace(0,sampling, len(newpsd))
+        freq = linspace(0,sampling, len(newpsd))
     else:
         df = 1./sampling
-        freq = plt.linspace(0,sampling/2., len(newpsd))
+        freq = linspace(0,sampling/2., len(newpsd))
     #psd.refreq(2*psd.size()/A.freq());
     #psd.retime(-1./psd.freq()+1./A.size());
 
