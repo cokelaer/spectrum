@@ -37,10 +37,13 @@ setup(
     package_dir={ '' : 'src' },
 
     # Dependencies
-    install_requires=['numpy', 'scipy', 'easydev'],
+    install_requires=open("requirements.txt").read(),
     extras_require={
         'plot': ['matplotlib']
     },
+    # specific packages for testing
+    tests_require = open('requirements-dev.txt').read().split(),
+
     data_files = data_files,
     platforms=["Linux"],
     classifiers=["Development Status :: 1 - Planning",

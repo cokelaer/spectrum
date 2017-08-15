@@ -4,6 +4,11 @@ ChangeLog Summary
 Version 0.6
 ---------------
 
+* 0.6.7:
+
+   * refactored the requirements files (add a requirements-dev.txt) and 
+     update the documentation (installation)      accordingly
+
 * 0.6.6:
 
    * integration pull request https://github.com/cokelaer/spectrum/pull/29 from

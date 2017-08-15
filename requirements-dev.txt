@@ -1,0 +1,10 @@
+easydev
+pytest
+pytest-cov
+pytest-xdist
+pytest-mock
+pytest-timeout
+pytest-runner
+sphinx
+sphinx_rtd_theme
+coveralls
