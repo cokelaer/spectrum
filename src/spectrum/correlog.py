@@ -16,7 +16,7 @@ from spectrum.correlation import CORRELATION, xcorr
 from spectrum.window import Window
 from numpy.fft import fft
 from spectrum.psd import FourierSpectrum
-
+from spectrum import tools
 
 __all__ = ["CORRELOGRAMPSD", "pcorrelogram"]
 
@@ -27,13 +27,15 @@ def CORRELOGRAMPSD(X, Y=None, lag=-1, window='hamming',
     """PSD estimate using correlogram method.
 
 
-    :param array X:        complex or real data samples X(1) to X(N)
-    :param array Y:        complex data samples Y(1) to Y(N). If provided, computes
+    :param array X: complex or real data samples X(1) to X(N)
+    :param array Y: complex data samples Y(1) to Y(N). If provided, computes
         the cross PSD, otherwise the PSD is returned
-    :param int lag:         highest lag index to compute. Must be less than N
+    :param int lag: highest lag index to compute. Must be less than N
     :param str window_name: see :mod:`window` for list of valid names
-    :param str norm:        one of the valid normalisation of :func:`xcorr` (biased, unbiased, coeff, None)
-    :param int NFFT:        total length of the final data sets (padded with zero if needed; default is 4096)
+    :param str norm: one of the valid normalisation of :func:`xcorr` (biased, 
+        unbiased, coeff, None)
+    :param int NFFT: total length of the final data sets (padded with zero 
+        if needed; default is 4096)
     :param str correlation_method: either `xcorr` or `CORRELATION`.
         CORRELATION should be removed in the future.
 
@@ -77,8 +79,9 @@ def CORRELOGRAMPSD(X, Y=None, lag=-1, window='hamming',
         :width: 80%
         :include-source:
 
-        from spectrum import *
-        from pylab import *
+        from spectrum import CORRELOGRAMPSD, marple_data
+        from spectrum.tools import cshift
+        from pylab import log10, axis, grid, plot,linspace
 
         psd = CORRELOGRAMPSD(marple_data, marple_data, lag=15)
         f = linspace(-0.5, 0.5, len(psd))
@@ -122,7 +125,6 @@ def CORRELOGRAMPSD(X, Y=None, lag=-1, window='hamming',
     # create the first part of the PSD
     psd[1:lag+1] = rxy[1:] * w
 
-
     # create the second part.
     # First, we need to compute the auto or cross correlation ryx
     if crosscorrelation is True:
@@ -138,11 +140,9 @@ def CORRELOGRAMPSD(X, Y=None, lag=-1, window='hamming',
     else: #autocorrelation no additional correlation call required
         psd[-1:NFFT-lag-1:-1] = rxy[1:].conjugate() * w
 
-
     psd = numpy.real(fft(psd))
 
     return psd
-
 
 
 class pcorrelogram(FourierSpectrum):
@@ -155,12 +155,11 @@ class pcorrelogram(FourierSpectrum):
         :width: 80%
         :include-source:
 
-        from spectrum import *
+        from spectrum import pcorrelogram, data_cosine
         p = pcorrelogram(data_cosine(N=1024), lag=15)
         p()
         p.plot()
         p.plot(sides='twosided')
-
 
     """
     def __init__(self, data, sampling=1., lag=-1,
@@ -168,14 +167,14 @@ class pcorrelogram(FourierSpectrum):
                  detrend=None):
         """**Correlogram Constructor**
 
-        :param array data:     input data (list or numpy.array)
+        :param array data: input data (list or numpy.array)
         :param float sampling: sampling frequency of the input :attr:`data`.
         :param int lag:
-        :param str window:     a tapering window. See :class:`~spectrum.window.Window`.
-        :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+        :param str window: a tapering window. See :class:`~spectrum.window.Window`.
+        :param int NFFT: total length of the final data sets (padded with 
+            zero if needed; default is 4096)
         :param bool scale_by_freq:
         :param str detrend:
-
         """
         super(pcorrelogram, self).__init__(data,
                                           window=window,
@@ -193,10 +192,11 @@ class pcorrelogram(FourierSpectrum):
                              #   scale_by_freq=self.scale_by_freq,
                              )
         if self.datatype == 'real':
-            newpsd  = psd[int(self.NFFT/2):]*2
-            newpsd[0] /= 2.
-            newpsd = numpy.append(newpsd, psd[0])
-            self.psd = newpsd
+            #newpsd  = psd[int(self.NFFT//2):]*2
+            #newpsd[0] /= 2.
+            #newpsd = numpy.append(newpsd, psd[0])
+            #self.psd = newpsd
+            self.psd = tools.twosided_2_onesided(psd)
         else:
             self.psd = psd
         self.scale()
