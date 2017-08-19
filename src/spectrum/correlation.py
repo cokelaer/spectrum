@@ -75,7 +75,7 @@ def CORRELATION(x, y=None, maxlags=None, norm='unbiased'):
 
     .. doctest::
 
-        >>> from spectrum import *
+        >>> from spectrum import CORRELATION
         >>> x = [1,2,3,4,5]
         >>> res = CORRELATION(x,x, maxlags=0, norm='biased')
         >>> res[0]
@@ -187,7 +187,7 @@ def xcorr(x, y=None, maxlags=None, norm='biased'):
 
     .. doctest::
 
-        >>> from spectrum import *
+        >>> from spectrum import xcorr
         >>> x = [1,2,3,4,5]
         >>> c, l = xcorr(x,x, maxlags=0, norm='biased')
         >>> c
