@@ -1,21 +1,20 @@
 import numpy
 from .psd import ParametricSpectrum
-debug = False
 
 
 __all__ = ["arcovar", "arcovar_marple", "pcovar", 'arcovar_marple']
 
-def arcovar_marple(x, order):
+def arcovar_marple(x, order, debug=False):
     r"""Estimate AR model parameters using covariance method
-    
-    This implementation is based on [Marple]_. This code is far more 
+
+    This implementation is based on [Marple]_. This code is far more
     complicated and slower than :func:`arcovar` function, which is now the official version.
     See :func:`arcovar` for a detailed description of Covariance method.
-    
-    This function should be used in place of arcovar only if order<=4, for 
-    which :func:`arcovar` does not work. 
 
-    Fast algorithm for the solution of the covariance least squares normal 
+    This function should be used in place of arcovar only if order<=4, for
+    which :func:`arcovar` does not work.
+
+    Fast algorithm for the solution of the covariance least squares normal
     equations from Marple.
 
     :param array X:  Array of complex data samples
@@ -29,51 +28,51 @@ def arcovar_marple(x, order):
         * PV   - store linear prediction coefficients
 
     .. note:: this code and the original code in Marple diverge for ip>10.
-        it seems that this is related to single precision used with 
-        complex type in fortran whereas numpy uses double precision for 
+        it seems that this is related to single precision used with
+        complex type in fortran whereas numpy uses double precision for
         complex type.
 
-    :validation: the AR parameters are the same as those returned by 
+    :validation: the AR parameters are the same as those returned by
         a completely different function :func:`arcovar`.
-        
+
     :References: [Marple]_
     """
     assert len(x) >= order, "X must be dimensioned >=N"
-    
+
     #   ----------------------------------------------------- Initialization
     x = numpy.array(x)
     N = len(x)
-    
-    
+
+
     # Equations 8.C.42
     r0 = sum(abs(x)**2.)
     r1 = abs(x[0])**2
     rN = abs(x[N-1])**2
-    
+
     pf = r0 - r1
     pb = r0 - rN
-    
+
     delta = 1. - r1 / r0
-    gamma = 1. - rN / r0 
+    gamma = 1. - rN / r0
 
     c = numpy.zeros(N, dtype=complex)
     d = numpy.zeros(N, dtype=complex)
     r = numpy.zeros(N, dtype=complex)
     af = numpy.zeros(N, dtype=complex)
     ab = numpy.zeros(N, dtype=complex)
-    
+
     c[0] = x[N-1].conjugate() / r0
     d[0] = x[0].conjugate() / r0
-    
+
     # special case
     if order == 0:
         pf = r0 / float(N)
         pb = pf
         return af, pf, ab, pb, 0
-    
+
     # ----------------------------------------------------------  MAIN LOOP
 
-    #ip +1 because we want to enter in the loop to run the first part of the code. 
+    #ip +1 because we want to enter in the loop to run the first part of the code.
     pbv = []
     for m in range(0, order+1):
         if debug:
@@ -138,7 +137,7 @@ def arcovar_marple(x, order):
                 save = af[k]
                 af[k] = save + c1 * ab[m-k-1] # Eq. (8.C.18)
                 ab[m-k-1] = ab[m-k-1] + c2 * save   # Eq. (8.C.21)
-                
+
                 save = c[k]
                 c[k] = save + c3*d[k]       # Eq. (8.C.37)
                 d[k] = d[k] + c4*save       # Eq. (8.C.38)
@@ -174,7 +173,7 @@ def arcovar_marple(x, order):
             print('pf and pb', pf, pb)
         if pf > 0 and pb > 0:
             pass
-        else: 
+        else:
             ValueError("Negative PF or PB value")
         if (delta > 0. and delta <=1 and gamma > 0. and gamma <=1):
             pass
@@ -195,16 +194,16 @@ def arcovar_marple(x, order):
             print('delta, gamma=', delta, gamma)
         if debug:
             print('before eb=', eb, ' ef=', ef)
-            
-            
+
+
         for k in range(0,m+1):
             #print 'k=', k, 'ef=', ef, ' eb=',eb,' af=',af[k], ab[k]
             #print x[m-k],x[N-m+k-1]
             ef = ef + af[k] * x[m-k]             # Eq. (8.C.1)
             eb = eb + ab[k] * x[N-m+k-1]                   # Eq. (8.C.2)
-           
+
         #ef = sum(af)
-            
+
         if debug:
             print('efweb', ef , eb)
         c1 = ef*r3
@@ -232,7 +231,7 @@ def arcovar_marple(x, order):
         #r5 = abs(ef)**2
         r5 = ef.real**2 + ef.imag**2
         pf = pf - r5 * r3                              # Eq. (8.C.34)
-        
+
         delta = delta-r5 * r1                        # Eq. (8.C.30)
         #r5 = abs(eb)**2
         r5 = eb.real**2 + eb.imag**2
@@ -261,8 +260,8 @@ def arcovar_marple(x, order):
             ValueError("Invalid delta or gamma value")
 
 
-    #af=array of forward coeff   
-    #ab=array of barward coeff   
+    #af=array of forward coeff
+    #ab=array of barward coeff
     #pb=backward variance
     #pf=forward variance
     return af, pf, ab, pb, pbv
@@ -270,7 +269,7 @@ def arcovar_marple(x, order):
 
 def arcovar(x, order):
     r"""Simple and fast implementation of the covariance AR estimate
-    
+
     This code is 10 times faster than :func:`arcovar_marple` and more importantly
     only 10 lines of code, compared to a 200 loc for :func:`arcovar_marple`
 
@@ -282,19 +281,19 @@ def arcovar(x, order):
         * a - Array of complex forward linear prediction coefficients
         * e - error
 
-    The covariance method fits a Pth order autoregressive (AR) model to the 
-    input signal, which is assumed to be the output of 
-    an AR system driven by white noise. This method minimizes the forward 
-    prediction error in the least-squares sense. The output vector 
+    The covariance method fits a Pth order autoregressive (AR) model to the
+    input signal, which is assumed to be the output of
+    an AR system driven by white noise. This method minimizes the forward
+    prediction error in the least-squares sense. The output vector
     contains the normalized estimate of the AR system parameters
-    
+
     The white noise input variance estimate is also returned.
-    
+
     If is the power spectral density of y(n), then:
-    
+
     .. math:: \frac{e}{\left| A(e^{jw}) \right|^2} = \frac{e}{\left| 1+\sum_{k-1}^P a(k)e^{-jwk}\right|^2}
-    
-    Because the method characterizes the input data using an all-pole model, 
+
+    Because the method characterizes the input data using an all-pole model,
     the correct choice of the model order p is important.
 
     .. plot::
@@ -309,38 +308,38 @@ def arcovar(x, order):
         axis([-0.5, 0.5, -60, 0])
 
     .. seealso:: :class:`pcovar`
-    
-    :validation: the AR parameters are the same as those returned by 
+
+    :validation: the AR parameters are the same as those returned by
         a completely different function :func:`arcovar_marple`.
-        
-    :References: [Mathworks]_ 
+
+    :References: [Mathworks]_
     """
-    
+
     from spectrum import corrmtx
     import scipy.linalg
-    
+
     X = corrmtx(x, order, 'covariance')
-    Xc = numpy.matrix(X[:, 1:]) 
+    Xc = numpy.matrix(X[:, 1:])
     X1 = numpy.array(X[:, 0])
-    
+
     # Coefficients estimated via the covariance method
-    # Here we use lstsq rathre than solve function because Xc is not square 
+    # Here we use lstsq rathre than solve function because Xc is not square
     # matrix
 
     a, _residues, _rank, _singular_values = scipy.linalg.lstsq(-Xc, X1)
-    
+
     # Estimate the input white noise variance
     Cz = numpy.dot(X1.conj().transpose(), Xc)
     e = numpy.dot(X1.conj().transpose(), X1) + numpy.dot(Cz, a)
     assert e.imag < 1e-4, 'wierd behaviour'
     e = float(e.real) # ignore imag part that should be small
-    
+
     return a, e
 
 
 class pcovar(ParametricSpectrum):
-    """Class to create PSD based on covariance algorithm 
-    
+    """Class to create PSD based on covariance algorithm
+
     See :func:`arcovar` for description.
 
     .. plot::
@@ -354,21 +353,21 @@ class pcovar(ParametricSpectrum):
 
     .. seealso:: :class:`arcovar`
     """
-    def __init__(self, data, order, NFFT=None, sampling=1., 
+    def __init__(self, data, order, NFFT=None, sampling=1.,
                  scale_by_freq=False):
         """**Constructor**
 
         For a detailled description of the parameters, see :func:`arcovar`.
 
         :param array data:     input data (list or numpy.array)
-        :param int order:  
+        :param int order:
         :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
         :param float sampling: sampling frequency of the input :attr:`data`.
 
 
         """
-        super(pcovar, self).__init__(data, ar_order=order, 
-                                            NFFT=NFFT, sampling=sampling, 
+        super(pcovar, self).__init__(data, ar_order=order,
+                                            NFFT=NFFT, sampling=sampling,
                                             scale_by_freq=scale_by_freq)
 
     def __call__(self):
@@ -376,7 +375,7 @@ class pcovar(ParametricSpectrum):
         ar, _e = arcovar(self.data, self.ar_order)
         self.ar = ar
         psd = arma2psd(A=ar, T=self.sampling, NFFT=self.NFFT)
-        
+
         if self.datatype == 'real':
             from .tools import twosided_2_onesided
             newpsd  = twosided_2_onesided(psd)
@@ -388,10 +387,10 @@ class pcovar(ParametricSpectrum):
             self.psd = psd
         if self.scale_by_freq is True:
             self.scale()
-        
+
     def _str_title(self):
         return "Covariance PSD estimate\n"
-    
+
     def __str__(self):
         return super(pcovar, self).__str__()
 
