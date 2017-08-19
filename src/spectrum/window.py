@@ -454,9 +454,8 @@ def enbw(data):
 
     .. doctest::
 
-        >>> from spectrum import create_window
+        >>> from spectrum import create_window, enbw
         >>> w = create_window(64, 'rectangular')
-
         >>> enbw(w)
         1.0
 

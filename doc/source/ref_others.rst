@@ -19,8 +19,7 @@ Classes
 Correlation
 -------------
 
-.. .. module:: correlation
-    :synopsis: Correlation methods
+.. module:: correlation
 .. automodule:: spectrum.correlation
     :members:
     :undoc-members:

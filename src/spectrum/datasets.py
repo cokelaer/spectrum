@@ -110,7 +110,10 @@ def data_cosine(N=1024, A=0.1, sampling=1024., freq=200):
 
     where w[t] is a white noise of variance 1.
 
-    >>> a = data_cosine(N=1024, sampling=1024, A=0.5, freq=100)
+    .. doctest::
+
+        >>> from spectrum import data_cosine
+        >>> a = data_cosine(N=1024, sampling=1024, A=0.5, freq=100)
 
     """
     t = arange(0, float(N)/sampling, 1./sampling)
@@ -132,6 +135,7 @@ class TimeSeries():
 
     .. doctest::
 
+        >>> from spectrum import TimeSeries
         >>> data = [1, 2, 3, 4, 3, 2, 1, 0 ]
         >>> ts = TimeSeries(data, sampling=1)
         >>> ts.plot()

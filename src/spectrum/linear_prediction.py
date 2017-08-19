@@ -7,7 +7,7 @@ from .levinson import LEVINSON, rlevinson
 import numpy
 from scipy.signal import deconvolve
 
-__all__ = ['ac2poly', 'poly2ac', 'ac2rc', 'rc2poly', 'rc2ac', 'is2rc', 'rc2is', 
+__all__ = ['ac2poly', 'poly2ac', 'ac2rc', 'rc2poly', 'rc2ac', 'is2rc', 'rc2is',
     'rc2lar', 'lar2rc', 'poly2rc', 'lsf2poly', 'poly2lsf']
 
 """
@@ -20,7 +20,7 @@ def ac2poly(data):
     """Convert autocorrelation sequence to prediction polynomial
 
     :param array data:    input data (list or numpy.array)
-    :return: 
+    :return:
         * AR parameters
         * noise variance
 
@@ -32,16 +32,18 @@ def ac2poly(data):
 
     .. doctest::
 
-        >>> r = [5, -2, 1]
+        >>> from spectrum import ac2poly
+        >>> from numpy import array
+        >>> r = [5, -2, 1.01]
         >>> ar, e = ac2poly(r)
         >>> ar
-        array([ 1. ,  0. , -0.2])
+        array([ 1.  ,  0.38, -0.05])
         >>> e
-        4.7999999999999998
+        4.1895000000
 
     """
     a, e, _c = LEVINSON(data)
-    a = numpy.insert(a, 0, 1) 
+    a = numpy.insert(a, 0, 1)
     return a, e
 
 
@@ -59,39 +61,44 @@ def ac2rc(data):
     """
     a, e, _c = LEVINSON(data)
     return a, data[0]
-    
-    
+
+
 def poly2ac(poly, efinal):
     """ Convert prediction filter polynomial to autocorrelation sequence
 
     :param array poly: the AR parameters
     :param efinal: an estimate of the final error
-    :return: the autocorrelation  sequence
+    :return: the autocorrelation  sequence in complex format.
 
     .. doctest::
 
-        >>> ar = [ 1. ,  0. , -0.2]
-        >>> efinal = 4.8
-        >>> r = poly2ac(ar, efinal)
+        >>> from numpy import array
+        >>> from spectrum import poly2ac
+        >>> poly = [ 1. ,  0.38 , -0.05]
+        >>> efinal = 4.1895
+        >>> poly2ac(poly, efinal)
+        array([ 5.00+0.j, -2.00+0.j,  1.01-0.j])
 
     """
     results = rlevinson(poly, efinal)
-    return results[0] 
-    
+    return results[0]
+
+
 def ar2rc(ar):
     """ Convert autoregressive parameters into reflection coefficients """
     raise NotImplementedError
-    
-    
+
+
 def poly2rc(a, efinal):
     """Convert prediction filter polynomial to reflection coefficients
 
     :param a: AR parameters
-    :param efinal: 
+    :param efinal:
     """
     results = rlevinson(a, efinal)
     return results[2]
-    
+
+
 def rc2poly(kr, r0=None):
     """convert reflection coefficients to prediction filter polynomial
 
@@ -114,7 +121,7 @@ def rc2poly(kr, r0=None):
 
     e[0] = e0 * (1. - numpy.conj(numpy.conjugate(kr[0])*kr[0]))
 
-    # Continue the recursion for k=2,3,...,p, where p is the order of the 
+    # Continue the recursion for k=2,3,...,p, where p is the order of the
     # prediction polynomial.
 
     for k in range(1, p):
@@ -144,17 +151,17 @@ def is2rc(inv_sin):
 
     :param inv_sin: inverse sine parameters
     :return: reflection coefficients
-    
+
     .. seealso::  :func:`rc2is`, :func:`poly2rc`, :func:`ac2rc`, :func:`lar2rc`.
 
-    :Reference: J.R. Deller, J.G. Proakis, J.H.L. Hansen, "Discrete-Time Processing of Speech Signals", Prentice Hall, Section 7.4.5.
+    :Reference: J.R. Deller, J.G. Proakis, J.H.L. Hansen, 
+        "Discrete-Time Processing of Speech Signals", Prentice Hall, Section 7.4.5.
 
     """
     return numpy.sin(numpy.array(inv_sin)*numpy.pi/2);
 
 
-
-def  rc2is(k):
+def rc2is(k):
     """Convert reflection coefficients to inverse sine parameters.
 
     :param k: reflection coefficients
@@ -162,7 +169,7 @@ def  rc2is(k):
 
     .. seealso:: :func:`is2rc`, :func:`rc2poly`, :func:`rc2acC`, :func:`rc2lar`.
 
-    Reference: J.R. Deller, J.G. Proakis, J.H.L. Hansen, "Discrete-Time 
+    Reference: J.R. Deller, J.G. Proakis, J.H.L. Hansen, "Discrete-Time
        Processing of Speech Signals", Prentice Hall, Section 7.4.5.
 
     """
@@ -178,7 +185,8 @@ def rc2lar(k):
     :param k: reflection coefficients
     :return: inverse sine parameters
 
-    The log area ratio is defined by G = log((1+k)/(1-k)) , where the K is the reflection coefficient.
+    The log area ratio is defined by G = log((1+k)/(1-k)) , where the K
+    parameter is the reflection coefficient.
 
     .. seealso:: :func:`lar2rc`, :func:`rc2poly`, :func:`rc2ac`, :func:`rc2ic`.
 
@@ -220,15 +228,17 @@ def lsf2poly(lsf):
 
     .. doctest::
 
+        >>> from spectrum import lsf2poly
         >>> lsf = [0.7842 ,   1.5605  ,  1.8776 ,   1.8984,    2.3593]
         >>> a = lsf2poly(lsf)
-        array([  1.00000000e+00,   6.14837835e-01,   9.89884967e-01,
-            9.31594056e-05,   3.13713832e-03,  -8.12002261e-03 ])
+
+    # array([  1.00000000e+00,   6.14837835e-01,   9.89884967e-01,
+    # 9.31594056e-05,   3.13713832e-03,  -8.12002261e-03 ])
 
     .. seealso:: poly2lsf, rc2poly, ac2poly, rc2is
     """
     #   Reference: A.M. Kondoz, "Digital Speech: Coding for Low Bit Rate Communications
-    #   Systems" John Wiley & Sons 1994 ,Chapter 4 
+    #   Systems" John Wiley & Sons 1994 ,Chapter 4
 
     # Line spectral frequencies must be real.
 
@@ -245,18 +255,18 @@ def lsf2poly(lsf):
     # Separate the zeros to those belonging to P and Q
     rQ = z[0::2]
     rP = z[1::2]
-    
+
     # Include the conjugates as well
     rQ = numpy.concatenate((rQ, rQ.conjugate()))
     rP = numpy.concatenate((rP, rP.conjugate()))
-    
+
     # Form the polynomials P and Q, note that these should be real
     Q  = numpy.poly(rQ);
     P  = numpy.poly(rP);
-    
+
     # Form the sum and difference filters by including known roots at z = 1 and
-    # z = -1 
-    
+    # z = -1
+
     if p%2:
         # Odd order: z = +1 and z = -1 are roots of the difference filter, P1(z)
         P1 = numpy.convolve(P, [1, 0, -1])
@@ -270,21 +280,22 @@ def lsf2poly(lsf):
     # Prediction polynomial is formed by averaging P1 and Q1
 
     a = .5 * (P1+Q1)
-    return a[0:-1:1] # do not return last element 
+    return a[0:-1:1] # do not return last element
 
 
 def poly2lsf(a):
     """Prediction polynomial to line spectral frequencies.
 
     converts the prediction polynomial specified by A,
-    into the corresponding line spectral frequencies, LSF. 
+    into the corresponding line spectral frequencies, LSF.
     normalizes the prediction polynomial by A(1).
 
     .. doctest::
 
-        >>> a = [1.0000  ,  0.6149   , 0.9899   , 0.0000 ,   0.0031,   -0.0082
+        >>> from spectrum import poly2lsf
+        >>> a = [1.0000,  0.6149, 0.9899, 0.0000 ,0.0031, -0.0082]
         >>> lsf = poly2lsf(a)
-        >>> lsf =  array([  0.7842,    1.5605 ,   1.8776 ,   1.8984,    2.3593])
+        >>> lsf =  array([0.7842, 1.5605, 1.8776, 1.8984, 2.3593])
 
     .. seealso:: lsf2poly, poly2rc, poly2qc, rc2is
     """
@@ -304,10 +315,10 @@ def poly2lsf(a):
     # Form the sum and differnce filters
 
     p  = len(a)-1   # The leading one in the polynomial is not used
-    a1 = numpy.concatenate((a, numpy.array([0])))        
+    a1 = numpy.concatenate((a, numpy.array([0])))
     a2 = a1[-1::-1]
     P1 = a1 - a2        # Difference filter
-    Q1 = a1 + a2        # Sum Filter 
+    Q1 = a1 + a2        # Sum Filter
 
     # If order is even, remove the known root at z = 1 for P1 and z = -1 for Q1
     # If odd, remove both the roots from P1
@@ -315,10 +326,10 @@ def poly2lsf(a):
     if p%2: # Odd order
         P, r = deconvolve(P1,[1, 0 ,-1])
         Q = Q1
-    else:          # Even order 
+    else:          # Even order
         P, r = deconvolve(P1, [1, -1])
         Q, r = deconvolve(Q1, [1,  1])
-    
+
     rP  = numpy.roots(P)
     rQ  = numpy.roots(Q)
 

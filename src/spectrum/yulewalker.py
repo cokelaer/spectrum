@@ -14,7 +14,7 @@
 from .correlation import CORRELATION
 from .levinson import LEVINSON
 from .psd import ParametricSpectrum
-
+from spectrum import tools
 
 __all__ = ['aryule', 'pyule']
 

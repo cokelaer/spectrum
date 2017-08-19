@@ -73,6 +73,7 @@ def twosided_2_onesided(data):
     psd[-1] = data[-1]
     return psd
 
+
 def onesided_2_twosided(data):
     """Convert a two-sided PSD to a one-sided PSD
 
@@ -92,6 +93,7 @@ def onesided_2_twosided(data):
     psd[-1] *= 2.
     return psd
 
+
 def twosided_2_centerdc(data):
     """Convert a two-sided PSD to a center-dc PSD"""
     N = len(data)
@@ -99,6 +101,7 @@ def twosided_2_centerdc(data):
     newpsd = numpy.concatenate((cshift(data[N//2:], 1), data[0:N//2]))
     newpsd[0] = data[-1]
     return newpsd
+
 
 def centerdc_2_twosided(data):
     """Convert a center-dc PSD to a twosided PSD"""
@@ -169,6 +172,7 @@ def pow2db(x):
 
     .. doctest::
 
+        >>> from spectrum import pow2db
         >>> x = pow2db(0.1)
         >>> x
         -10.0
@@ -181,6 +185,7 @@ def db2pow(xdb):
 
     .. doctest::
 
+        >>> from spectrum import db2pow
         >>> p = db2pow(-10)
         >>> p
         0.1
@@ -201,6 +206,7 @@ def nextpow2(x):
 
     .. doctest::
 
+        >>> from spectrum import nextpow2
         >>> x = [255, 256, 257]
         >>> nextpow2(x)
         array([8, 8, 9])
@@ -215,6 +221,7 @@ def db2mag(xdb):
 
     .. doctest::
 
+        >>> from spectrum import db2mag
         >>> db2mag(-20)
         0.1
 
@@ -232,11 +239,11 @@ def mag2db(x):
 
     .. doctest::
 
+        >>> from spectrum import mag2db
         >>> mag2db(0.1)
         -20.0
 
     .. seealso:: :func:`db2mag`
     """
-
     return 20. * numpy.log10(x)
 

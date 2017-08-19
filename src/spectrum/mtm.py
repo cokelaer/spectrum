@@ -87,7 +87,7 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Fal
         :width: 80%
         :include-source:
 
-        from spectrum import *
+        from spectrum import data_as, dpss, pmtm
 
         data = data_cosine(N=2048, A=0.1, sampling=1024, freq=200)
         # If you already have the DPSS windows
