@@ -69,6 +69,7 @@ window_names = {
                  'cauchy':'window_cauchy',
                  }
 
+
 class Window(object):
     r"""Window tapering object
 
@@ -80,7 +81,7 @@ class Window(object):
     The following examples illustrates the usage. First, we create the window
     by providing a name and a size::
 
-        from spectrum import *
+        from spectrum import Window
         w = Window(64, 'hamming')
 
     The window has been computed and the data is stored in::
@@ -190,13 +191,12 @@ class Window(object):
         """Compute the window data frequency response
 
         :param norm: True by default. normalised the frequency data.
-        :param int NFFT:       total length of the final data sets( 2048 by default. if less than data length, then
-            NFFT is set to the data length*2).
+        :param int NFFT: total length of the final data sets( 2048 by default. 
+            if less than data length, then NFFT is set to the data length*2).
 
         The response is stored in :attr:`response`.
 
         .. note:: Units are dB (20 log10) since we plot the frequency response)
-
 
         """
         from numpy import log10
@@ -369,12 +369,11 @@ def create_window(N, name=None, **kargs):
         :width: 80%
         :include-source:
 
-        from pylab import plot, hold, legend
+        from pylab import plot, legend
         from spectrum import create_window
 
         data = create_window(51, 'hamming')
         plot(data, label='hamming')
-        hold(True)
         data = create_window(51, 'kaiser')
         plot(data, label='kaiser')
         legend()
@@ -383,13 +382,13 @@ def create_window(N, name=None, **kargs):
         :width: 80%
         :include-source:
 
-        from pylab import *
+        from pylab import plot, log10, linspace, fft, clip
         from spectrum import create_window
 
         A = fft(create_window(51, 'hamming'), 2048) / 25.5
         mag = abs(fftshift(A))
         freq = linspace(-0.5,0.5,len(A))
-        response = 20*log10(mag)
+        response = 20 * log10(mag)
         mindB = -60
         response = clip(response,mindB,100)
         plot(freq, response)
@@ -418,11 +417,11 @@ def create_window(N, name=None, **kargs):
      'poisson': {'alpha': eval(window_names['poisson']).__defaults__[0]},
      'poisson_hanning': {'alpha':
                          eval(window_names['poisson_hanning']).__defaults__[0]},
-         }
+    }
 
     if name not in list(windows_with_parameters.keys()):
         if len(kargs) == 0:
-            # not parameters, so we directly call the function
+            # no parameters, so we directly call the function
             w = f(N)
         else:
             raise ValueError("""
@@ -455,7 +454,7 @@ def enbw(data):
 
     .. doctest::
 
-        >>> from spectrum import *
+        >>> from spectrum import create_window
         >>> w = create_window(64, 'rectangular')
 
         >>> enbw(w)
@@ -576,11 +575,13 @@ def window_kaiser(N, beta=8.6, method='numpy'):
     where
 
       * :math:`I_0` is the zeroth order Modified Bessel function of the first kind.
-      * :math:`\alpha` is a real number that determines the shape of the window. It determines
-        the trade-off between main-lobe width and side lobe level.
+      * :math:`\alpha` is a real number that determines the shape of the 
+        window. It determines the trade-off between main-lobe width and side 
+        lobe level.
       * the length of the sequence is N=M+1.
 
-    The Kaiser window can approximate many other windows by varying the :math:`\beta` parameter
+    The Kaiser window can approximate many other windows by varying 
+    the :math:`\beta` parameter:
 
     ===== ========================
     beta  Window shape
@@ -595,15 +596,13 @@ def window_kaiser(N, beta=8.6, method='numpy'):
         :width: 80%
         :include-source:
 
-        from pylab import plot, legend, hold, xlim
+        from pylab import plot, legend, xlim
         from spectrum import window_kaiser
         N = 64
         for beta in [1,2,4,8,16]:
             plot(window_kaiser(N, beta), label='beta='+str(beta))
-            hold(True)
         xlim(0,N)
         legend()
-
 
     .. plot::
         :width: 80%
@@ -1127,6 +1126,8 @@ def window_flattop(N, mode='symmetric',precision=None):
     """
     assert mode in ['periodic', 'symmetric']
     t = arange(0, N)
+
+    # FIXME: N=1 for mode = periodic ?
     if mode == 'periodic':
         x = 2*pi*t/float(N)
     else:
