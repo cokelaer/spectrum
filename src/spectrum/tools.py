@@ -68,8 +68,8 @@ def twosided_2_onesided(data):
     """
     assert len(data)%2 == 0
     N = len(data)
-    psd = numpy.array(data[0:N//2+1])*2.
-    psd[0]/=2.
+    psd = numpy.array(data[0:N//2+1]) * 2.
+    psd[0] /= 2.
     psd[-1] = data[-1]
     return psd
 
@@ -88,8 +88,8 @@ def onesided_2_twosided(data):
 
     """
     psd = numpy.concatenate((data[0:-1], cshift(data[-1:0:-1], -1)))/2.
-    psd[0]*=2.
-    psd[-1]*=2.
+    psd[0] *= 2.
+    psd[-1] *= 2.
     return psd
 
 def twosided_2_centerdc(data):
