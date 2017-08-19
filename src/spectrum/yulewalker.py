@@ -160,13 +160,7 @@ class pyule(ParametricSpectrum):
 
         # save the PSD
         if self.datatype == 'real':
-            from . import tools
             self.psd = tools.twosided_2_onesided(psd)
-            #psd = res[0]
-            #newpsd  = psd[0:self.NFFT/2]*2
-            #newpsd[0] /= 2.
-            #newpsd = numpy.append(newpsd, res[-1])
-            #self.psd = newpsd
         else:
             self.psd = psd
         if self.scale_by_freq is True:
@@ -177,6 +171,4 @@ class pyule(ParametricSpectrum):
 
     def __str__(self):
         return super(pyule, self).__str__()
-
-
 
