@@ -10,11 +10,9 @@
     .. codeauthor:: Thomas Cokelaer 2011
 
 """
-
-
 #TODO: convert arburg into arburg2 to get a nicer and faster algorithm.
 
-import numpy
+import numpy as np
 from spectrum.psd import ParametricSpectrum
 
 
@@ -28,7 +26,7 @@ def _arburg2(X, order):
     returns [1 a0,a1, an-1]
 
     """
-    x = numpy.array(X)
+    x = np.array(X)
     N = len(x)
 
     if order == 0.:
@@ -40,20 +38,20 @@ def _arburg2(X, order):
     den = rho * 2. * N
 
     # ------ backward and forward errors
-    ef = numpy.zeros(N, dtype=complex)
-    eb = numpy.zeros(N, dtype=complex)
+    ef = np.zeros(N, dtype=complex)
+    eb = np.zeros(N, dtype=complex)
     for j in range(0, N):  #eq 8.11
         ef[j] = x[j]
         eb[j] = x[j]
 
     # AR order to be stored
-    a = numpy.zeros(1, dtype=complex)
+    a = np.zeros(1, dtype=complex)
     a[0] = 1
     # ---- rflection coeff to be stored
-    ref = numpy.zeros(order, dtype=complex)
+    ref = np.zeros(order, dtype=complex)
 
     temp = 1.
-    E = numpy.zeros(order+1)
+    E = np.zeros(order+1)
     E[0] = rho
 
     for m in range(0, order):
@@ -62,9 +60,9 @@ def _arburg2(X, order):
         efp = ef[1:]
         ebp = eb[0:-1]
         #print efp, ebp
-        num = -2.* numpy.dot(ebp.conj().transpose(),  efp)
-        den = numpy.dot(efp.conj().transpose(),  efp)
-        den += numpy.dot(ebp,  ebp.conj().transpose())
+        num = -2.* np.dot(ebp.conj().transpose(),  efp)
+        den = np.dot(efp.conj().transpose(),  efp)
+        den += np.dot(ebp,  ebp.conj().transpose())
         ref[m] = num / den
 
         # Update the forward and backward prediction errors
@@ -73,7 +71,7 @@ def _arburg2(X, order):
 
         # Update the AR coeff.
         a.resize(len(a)+1)
-        a = a + ref[m] * numpy.flipud(a).conjugate()
+        a = a + ref[m] * np.flipud(a).conjugate()
 
         # Update the prediction error
         E[m+1] = (1 - ref[m].conj().transpose()*ref[m]) * E[m]
@@ -102,10 +100,11 @@ class pburg(ParametricSpectrum):
 
         For a detailled description of the parameters, see :func:`burg`.
 
-        :param array data:     input data (list or numpy.array)
+        :param array data:     input data (list or np.array)
         :param int order:
         :param str criteria:
-        :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+        :param int NFFT: total length of the final data sets (padded with zero if 
+            needed; default is 4096)
 
         :param float sampling: sampling frequency of the input :attr:`data`.
 
@@ -124,9 +123,9 @@ class pburg(ParametricSpectrum):
                       T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
-            newpsd  = psd[0:int(self.NFFT/2)]*2
+            newpsd  = psd[0:int(self.NFFT//2)] * 2
             newpsd[0] /= 2.
-            newpsd = numpy.append(newpsd, psd[-1])
+            newpsd = np.append(newpsd, psd[-1])
             self.psd = newpsd
         else:
             self.psd = psd
@@ -137,8 +136,6 @@ class pburg(ParametricSpectrum):
 
     def __str__(self):
         return super(pburg, self).__str__()
-
-
 
 
 def arburg(X, order, criteria=None):
@@ -170,7 +167,6 @@ def arburg(X, order, criteria=None):
         plot(linspace(-0.5, 0.5, len(PSD)), 10*log10(PSD/max(PSD)))
         axis([-0.5,0.5,-60,0])
 
-
     .. note::
         1. no detrend. Should remove the mean trend to get PSD. Be careful if
            presence of large mean.
@@ -188,7 +184,7 @@ def arburg(X, order, criteria=None):
     if order == 0.:
         raise ValueError("order must be > 0")
 
-    x = numpy.array(X)
+    x = np.array(X)
     N = len(x)
 
     # Initialisation
@@ -204,8 +200,8 @@ def arburg(X, order, criteria=None):
         print((0, 'old criteria=',crit.old_data, 'new criteria=',crit.data, 'new_rho=', rho))
 
     #p =0
-    a = numpy.zeros(0, dtype=complex)
-    ref = numpy.zeros(0, dtype=complex)
+    a = np.zeros(0, dtype=complex)
+    ref = np.zeros(0, dtype=complex)
     ef = x.astype(complex)
     eb = x.astype(complex)
     temp = 1.
@@ -259,4 +255,5 @@ def arburg(X, order, criteria=None):
         # save the reflection coefficient
         ref.resize(ref.size+1)
         ref[k] = kp
+
     return a, rho, ref
