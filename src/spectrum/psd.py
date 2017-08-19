@@ -8,7 +8,7 @@ from spectrum import tools
 
 
 __all__ = ["Spectrum", "FourierSpectrum", "ParametricSpectrum"]
-debug = False
+debug = True
 
 
 class Range(object):
@@ -94,7 +94,7 @@ class Range(object):
     def _setsampling(self, sampling):
         self.__sampling = sampling
         self.__df = self.__sampling/float(self.__N)
-    sampling = property(fget=_getsampling, fset=_setsampling, 
+    sampling = property(fget=_getsampling, fset=_setsampling,
         doc="""Getter/Setter of the sampling frequency. If changed, :attr:`df` is updated.""")
 
     def centerdc_gen(self):
@@ -326,7 +326,7 @@ class Spectrum(object):
 
     def _get_range(self):
         return self._range
-    range = property(fget=_get_range, 
+    range = property(fget=_get_range,
             doc="""Read only attribute to a :class:`Range` object.""")
 
     def _getScale(self):
@@ -577,7 +577,7 @@ class Spectrum(object):
                 print('--->Converting to centerdc')
                 newpsd = numpy.concatenate((self.psd[-1:0:-1]/2., self.psd[0:-1]/2.))
                 # so we need to multiply by 2 the 0 and F2/2 frequencies
-                
+
                 newpsd[int(self.NFFT/2)] *= 2.
                 newpsd[0] *= 2.
             self.NFFT = len(newpsd)
@@ -681,18 +681,23 @@ class Spectrum(object):
         pylab.xlabel('Frequency')
         pylab.ylabel('Power (dB)')
         pylab.grid(True)
+
         if ylim:
             plt_ylim(ylim)
+
         if sides == 'onesided':
-            pylab.xlim(0,self.sampling/2.)
+            pylab.xlim(0, self.sampling/2.)
         elif sides == 'twosided':
             pylab.xlim(0, self.sampling)
         elif sides == 'centerdc':
             pylab.xlim(-self.sampling/2., self.sampling/2.)
+
         if filename:
             pylab.savefig(filename)
+
         if rollback:
             pylab.sca(save_ax)
+
         del psd, frequencies #is it needed?
 
     def power(self):
@@ -769,13 +774,13 @@ class ParametricSpectrum(Spectrum):
         #s.plot(sides='twosided')
 
     """
-    def __init__(self, data, sampling=1., ar_order=None, ma_order=None, 
+    def __init__(self, data, sampling=1., ar_order=None, ma_order=None,
             lag=-1, NFFT=None, detrend=None, scale_by_freq=True):
         """**Constructor**
 
         See the class documentation for the parameters.
 
-        .. rubric:: Additional attributes to those inherited 
+        .. rubric:: Additional attributes to those inherited
             from :class:`Spectrum`:
 
         * :attr:`ar_order`, the ar order of the PSD estimates
