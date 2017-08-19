@@ -180,8 +180,10 @@ def AIC(N, rho, k):
     """
     from numpy import log, array
     #k+1 #todo check convention. agrees with octave
+
     res = N * log(array(rho)) + 2.* (array(k)+1)
     return res
+
 
 def AICc(N, rho, k, norm=True):
     r"""corrected Akaike information criterion
@@ -196,6 +198,7 @@ def AICc(N, rho, k, norm=True):
     res = log(rho) + 2. * (p+1) / (N-p-2)
     return res
 
+
 def KIC(N, rho, k):
     r"""Kullback information criterion
 
@@ -207,6 +210,7 @@ def KIC(N, rho, k):
     res = log(rho) + 3. * (k+1.) /float(N)
     return res
 
+
 def AKICc(N, rho, k):
     r"""approximate corrected Kullback information
 
@@ -215,10 +219,8 @@ def AKICc(N, rho, k):
     """
     from numpy import log, array
     p = k
-    res = log(rho) + +float(p)/N/(N-p) + (3.-(p+2.)/N) * (p+1.) / (N-p-2.)
+    res = log(rho) + p/N/(N-p) + (3.-(p+2.)/N) * (p+1.) / (N-p-2.)
     return res
-
-
 
 
 def FPE(N,rho, k=None):
@@ -234,7 +236,6 @@ def FPE(N,rho, k=None):
     return fpe
 
 
-
 def MDL(N, rho, k):
     r"""Minimum Description Length
 
@@ -246,6 +247,7 @@ def MDL(N, rho, k):
     #p = arange(1, len(rho)+1)
     mdl = N* log(rho) + k * log(N)
     return mdl
+
 
 def CAT(N, rho, k):
     r"""Criterion Autoregressive Transfer Function :
@@ -262,7 +264,7 @@ def CAT(N, rho, k):
         for j in range(1, p+1):
             rho_j = float(N)/(N-j)*rho[j-1]
             s = s + 1./rho_j
-        print(s, s/float(N), 1./rho_p)
+        #print(s, s/float(N), 1./rho_p)
         cat[p-1] = s/float(N) - 1./rho_p
     return cat
 
@@ -271,7 +273,7 @@ def _ar_criteria(rho, N):
     pass
     #from pylab import plot, legend, hold, clf
     #fpe = FPE(N, rho)
-    #aic = AIC(N, rho, )
+    #aic = AIC(N, rho, len(rho))
     #mdl = MDL(rho, N)
     #cat = CAT(rho, N)
     #print fpe/max(fpe)
@@ -282,7 +284,7 @@ def _ar_criteria(rho, N):
     #clf()
     #plot(fpe/fpe[0], 'o-', label='FPE')
     #hold(True)
-    #plot(aic/aic[0], 'x-', label='AIC')
+    i#plot(aic/aic[0], 'x-', label='AIC')
     #plot(mdl/mdl[0], '.-', label='MDL')
     #plot(cat/cat[-1], 's-', label='CAT')
     #legend()
