@@ -12,10 +12,10 @@ Documentation
     :maxdepth: 2
     :numbered:
 
-    Installation<install.rst>   
-    Quick Start<quickstart.rst>   
-    Overview of available PSD methods <spectral_analysis.rst>   
-    Tutorials <tutorials.rst>   
+    Installation<install.rst>
+    Quick Start<quickstart.rst>
+    Overview of available PSD methods <spectral_analysis.rst>
+    Tutorials <tutorials.rst>
     Reference Guide<autosum.rst>
     ChangeLog <ChangeLog.rst>
     Contributions <contributions.rst>

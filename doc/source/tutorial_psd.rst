@@ -11,7 +11,7 @@ Yet, it may be useful for some advanced users and developers to know that all PS
 
 The following example shows how to use :class:`Spectrum`. First, let us create a Spectrum instance (first argument is the time series/data)::
 
-    from spectrum import *
+    from spectrum import Spectrum, data_cosine, speriodogram, minvar
     p = Spectrum(data_cosine(), sampling=1024)
 
 Some information are stored and can be retrieved later on::

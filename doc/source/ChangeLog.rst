@@ -8,6 +8,13 @@ Version 0.6
 
    * refactored the requirements files (add a requirements-dev.txt) and 
      update the documentation (installation)      accordingly
+   * BUG fixes: 
+       * correlogram: real-data case had the data flipped
+       * pmusic/pev: real-data case had the data flipped
+       * fix the AKICc criteria code
+   * Updates:
+       * pmusic/pev: add the threshold and criteria arguments
+       * more tests for the criteria and eigenfre modules
 
 * 0.6.6:
 

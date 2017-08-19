@@ -10,9 +10,9 @@ The following example plots the estimated variance (using arburg function) versu
     :width: 80%
     :include-source:
 
-    from pylab import *
+    from pylab import plot, xlabel, ylabel, plot, axis, linspace, randn
     import scipy.signal
-    from spectrum import *
+    from spectrum import arburg
 
     # Define AR filter coefficients
     a = [1, -2.2137, 2.9403, -2.1697, 0.9606];

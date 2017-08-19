@@ -6,19 +6,19 @@ User Guide
 QuickStart (Periodogram example)
 --------------------------------
 
-
 **Spectrum** can be invoked from a python shell. No GUI interface is provided yet. We recommend to use `ipython <http://ipython.org/>`_, which should be started with the pylab option::
 
     ipython --pylab
 
- 
-Then, the simplest way to start with **Spectrum** is to import everything from the library:
+
+Then, you can import tools from **Spectrum** as follows:
 
 .. doctest::
 
-    from spectrum import *
+    from spectrum import Periodogram, data_cosine
 
-In the following examples, we will use :func:`~spectrum.datasets.data_cosine` to generate a toy data sets::
+Here we import a tool to compute a periodogram, and a tool to create some data.
+Indeed, we will use :func:`~spectrum.datasets.data_cosine` to generate a toy data sets::
 
     data = data_cosine(N=1024, A=0.1, sampling=1024, freq=200)
 

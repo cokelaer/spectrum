@@ -1,5 +1,8 @@
-Installation and source
-=========================
+Installation
+=================
+
+Using pip 
+--------------
 
 **Spectrum** is available on `PYPi <http://pypi.python.org/pypi>`_, so you should be able to type::
 
@@ -16,7 +19,7 @@ You can also install them yourself by typing::
 
 
 Conda installation
-========================
+---------------------
 
 **Spectrum** is now available on CONDA. For Linux and MAC users, if you prefer to use conda, please use::
 
@@ -24,8 +27,8 @@ Conda installation
     conda install spectrum
 
 
-Note for developers
-========================
+From source and notes for developers
+-----------------------------------------
 
 Developpers who want to get the source code can clone the repository::
 

@@ -8,9 +8,8 @@ packages:
 
 .. doctest::
 
-    from pylab import *
     import scipy.signal
-    from spectrum import *
+    from spectrum import aryule
 
 Then, we define a list of AR filter coefficients::
 
@@ -27,17 +26,17 @@ This array will be our data to test the Yule-Walker function, namely :func:`aryu
 By looking at the `coeff_reflection` output, it appears that the AR coefficient are rather small for order>4 (see following plot). From the plot, chosing an order 4 seems a reasonable choice. 
 
 
-.. plot::  
+.. plot::
     :width: 80%
 
-    from pylab import *
+    import pylab
     import scipy.signal
-    from spectrum import *
+    from spectrum import aryule
     a = [1, -2.2137, 2.9403, -2.1697, 0.9606]
-    y = scipy.signal.lfilter([1], a, randn(1, 1024))
+    y = scipy.signal.lfilter([1], a, pylab.randn(1, 1024))
     ar, variance, coeff_reflection = aryule(y[0], 20)
-    stem(range(1,21), ar)
-    title('Evolution of the first AR parameters')
+    pylab.stem(range(1,21), ar)
+    pylab.title('Evolution of the first AR parameters')
 
 
 It is possible to plot the PSD from the `ar` values using this:
@@ -46,9 +45,9 @@ It is possible to plot the PSD from the `ar` values using this:
     :width: 80%
     :include-source:
 
-    from pylab import *
+    from pylab import log10, linspace, plot, xlabel, ylabel, legend, randn, pi
     import scipy.signal
-    from spectrum import *
+    from spectrum import aryule, Periodogram, arma2psd 
     # Create a AR model
     a = [1, -2.2137, 2.9403, -2.1697, 0.9606]
     # create some data based on these AR parameters
@@ -60,7 +59,7 @@ It is possible to plot the PSD from the `ar` values using this:
     # now, let us try to estimate the original AR parameters
     AR, P, k = aryule(y[0], 4) 
     PSD = arma2psd(AR, NFFT=512)
-    PSD = PSD[len(PSD):len(PSD)/2:-1]
+    PSD = PSD[len(PSD):len(PSD)//2:-1]
     plot(linspace(0, 1, len(PSD)), 10*log10(abs(PSD)*2./(2.*pi)), 
         label='Estimate of y using Yule-Walker AR(4)')
     xlabel(r'Normalized frequency (\times \pi rad/sample)')
@@ -74,15 +73,15 @@ This example uses the functional approach. Again, it is recommended to use the o
     :width: 80%
     :include-source:
 
-    from pylab import *
+    from pylab import legend, randn
     import scipy.signal
-    from spectrum import *
+    from spectrum import Periodogram, pyule
     a = [1, -2.2137, 2.9403, -2.1697, 0.9606]
     y = scipy.signal.lfilter([1], a, randn(1, 1024))
-    p = Periodogram(y[0])
-    p(); 
+    p = Periodogram(y[0], sampling=2)
+    p();
     p.plot()
-    p = pyule(y[0], 4) 
+    p = pyule(y[0], 4, sampling=2)
     p()
     p.plot()
     legend(['PSD of model output','PSD estimate of x using Yule-Walker AR(4)'])

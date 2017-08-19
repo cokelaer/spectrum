@@ -12,12 +12,13 @@ Let us consider a data set (the Marple data already used earlier). We use the ar
     :width: 80%
     :include-source:
 
-    from spectrum import *
-    from pylab import *
+    import spectrum
+    from spectrum.datasets import marple_data
+    import pylab
 
-    order = arange(1, 25)
-    rho = [aryule(marple_data, i, norm='biased')[1] for i in order]
-    plot(order, AIC(len(marple_data), rho, order), label='AIC')
+    order = pylab.arange(1, 25)
+    rho = [spectrum.aryule(marple_data, i, norm='biased')[1] for i in order]
+    pylab.plot(order, spectrum.AIC(len(marple_data), rho, order), label='AIC')
 
 
 The optimal order corresponds to the minimal of the plotted function.
@@ -30,18 +31,19 @@ We can look at another example that was look at earlier with a AR(4):
     :width: 80%
     :include-source:
 
+    import spectrum
+    from spectrum.datasets import marple_data
     import scipy.signal
-    from spectrum import *
-    from pylab import *
+    import pylab
 
     # Define AR filter coefficients and some data accordingly
     a = [1, -2.2137, 2.9403, -2.1697, 0.9606];
-    x = scipy.signal.lfilter([1], a, randn(1,256))
+    x = scipy.signal.lfilter([1], a, pylab.randn(1,256))
 
     # study different order
-    order = arange(1, 25)
-    rho = [aryule(x[0], i, norm='biased')[1] for i in order]
-    plot(order, AIC(len(x[0]), rho, order), label='AIC')
+    order = pylab.arange(1, 25)
+    rho = [spectrum.aryule(x[0], i, norm='biased')[1] for i in order]
+    pylab.plot(order, spectrum.AIC(len(x[0]), rho, order), label='AIC')
 
 
 Here, is appears that an order of 4 (at least) should be used, which correspond indeed to the original choice.
