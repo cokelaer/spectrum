@@ -18,7 +18,7 @@
 
 You can compute a periodogram using :func:`speriodogram`::
 
-    from spectrum import *
+    from spectrum import speriodogram, marple_data
     from pylab import plot
     p = speriodogram(marple_data)
     plot(p)
@@ -26,7 +26,7 @@ You can compute a periodogram using :func:`speriodogram`::
 However, the output is not always easy to manipulate or plot, therefore
 it is advised to use the class :class:`Periodogram` instead::
 
-    from spectrum import *
+    from spectrum import Periodogram, marple_data
     p = Periodogram(marple_data)
     p()
     p.plot()
@@ -74,8 +74,8 @@ def speriodogram(x, NFFT=None, detrend=True, sampling=1.,
         :width: 80%
         :include-source:
 
-        from pylab import *
-        from spectrum import *
+        from pylab import grid, semilogy
+        from spectrum import data_cosine, speriodogram
         data = data_cosine(N=1024, A=0.1, sampling=1024, freq=200)
         semilogy(speriodogram(data, detrend=False, sampling=1024), marker='o')
         grid(True)
@@ -85,11 +85,13 @@ def speriodogram(x, NFFT=None, detrend=True, sampling=1.,
         :width: 80%
         :include-source:
 
-        from spectrum import *
-        from pylab import *
+        import numpy
+        from spectrum import speriodogram, data_cosine
+        from pylab import figure, semilogy, figure ,imshow
         # create N data sets and make the frequency dependent on the time
         N = 100
-        m = numpy.concatenate([data_cosine(N=1024, A=0.1, sampling=1024, freq=x) for x in range(1, N)]);
+        m = numpy.concatenate([data_cosine(N=1024, A=0.1, sampling=1024, freq=x) 
+            for x in range(1, N)]);
         m.resize(N, 1024)
         res = speriodogram(m)
         figure(1)
@@ -137,19 +139,20 @@ def speriodogram(x, NFFT=None, detrend=True, sampling=1.,
     return res.transpose()
 
 
-
-
 def WelchPeriodogram(data, NFFT=None,  sampling=1., **kargs):
     r"""Simple periodogram wrapper of numpy.psd function.
 
-    :param A:              the input data
-    :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+    :param A: the input data
+    :param int NFFT: total length of the final data sets (padded 
+        with zero if needed; default is 4096)
     :param str window:
-
 
     :Technical documentation:
 
-    When we calculate the periodogram of a set of data we get an estimation of the spectral density. In fact as we use a Fourier transform and a truncated segments the spectrum is the convolution of the data with a rectangular window which Fourier transform is
+    When we calculate the periodogram of a set of data we get an estimation
+    of the spectral density. In fact as we use a Fourier transform and a
+    truncated segments the spectrum is the convolution of the data with a
+    rectangular window which Fourier transform is
 
     .. math::
 
@@ -185,9 +188,8 @@ def WelchPeriodogram(data, NFFT=None,  sampling=1., **kargs):
         :include-source:
 
 
-        from spectrum import *
+        from spectrum import WelchPeriodogram, marple_data
         psd = WelchPeriodogram(marple_data, 256)
-
 
     """
     from pylab import psd
@@ -207,7 +209,7 @@ class Periodogram(FourierSpectrum):
         :width: 80%
         :include-source:
 
-        from spectrum import *
+        from spectrum import Periodogram, data_cosine
         data = data_cosine(N=1024, A=0.1, sampling=1024, freq=200)
         p = Periodogram(data, sampling=1024)
         p()
@@ -220,10 +222,11 @@ class Periodogram(FourierSpectrum):
                  detrend=None):
         """**Periodogram Constructor**
 
-        :param array data:     input data (list or numpy.array)
+        :param array data: input data (list or numpy.array)
         :param float sampling: sampling frequency of the input :attr:`data`.
-        :param str window:  a tapering window. See :class:`~spectrum.window.Window`.
-        :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+        :param str window: a tapering window. See :class:`~spectrum.window.Window`.
+        :param int NFFT: total length of the final data sets (padded with zero
+            if needed; default is 4096)
         :param bool scale_by_freq:
         :param str detrend:
 
@@ -315,14 +318,12 @@ def DaniellPeriodogram(data, P, NFFT=None, detrend='mean', sampling=1.,
     return newpsd, freq
 
 
-
-
 class pdaniell(FourierSpectrum):
     """The pdaniell class provides an interface to DaniellPeriodogram
 
     ::
 
-        from spectrum import *
+        from spectrum import data_cosine, pdaniell
         data = data_cosine(N=4096, sampling=4096)
         p = pdaniell(data, 8, NFFT=4096)
         p()
@@ -339,7 +340,8 @@ class pdaniell(FourierSpectrum):
         :param int P:       number of neighbours to average over.
         :param float sampling: sampling frequency of the input :attr:`data`.
         :param str window:  a tapering window. See :class:`~spectrum.window.Window`.
-        :param int NFFT:    total length of the final data sets (padded with zero if needed; default is 4096)
+        :param int NFFT: total length of the final data sets (padded with 
+            zero if needed; default is 4096)
         :param bool scale_by_freq:
         :param str detrend:
 
