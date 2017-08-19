@@ -20,6 +20,25 @@ def test_daniell_periodogram():
     psd = DaniellPeriodogram(marple_data, 8, NFFT=1024)
 
 
+
+def test_periodogram_real_vs_octave():
+    # the periodogram is tested against the octave output that is "identical"
+    # for the following real example
+    import numpy as np
+    PSDs = []
+    for this in range(100):
+        xx = data_two_freqs()
+        p = Periodogram(xx, 4, window="hanning")
+        p()
+        PSDs.append(p.psd)
+    M = 10*log10(np.mean(PSDs, axis=0)) 
+    assert max(M)  > 10 # 10.939020375396096
+
+    assert  np.mean(M[M < -35]) > -50
+    assert  np.mean(M[M < -35]) < -40
+
+
+
 def create_figure():
     psd = test_periodogram()
     ylim([-50,0])

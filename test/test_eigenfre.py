@@ -1,4 +1,4 @@
-from spectrum import marple_data, ev, data_cosine, pmusic, music
+from spectrum import marple_data, ev, data_cosine, pmusic, music, pev
 
 from pylab import plot, linspace, log10, savefig
 import numpy
@@ -9,9 +9,37 @@ from numpy.testing import assert_array_almost_equal
 def test_pmusic():
     p = pmusic(marple_data, 15, NSIG=11)    
     p()
-    p = pmusic(data_cosine(), 15, NSIG=11)    
+    p = pmusic(data_cosine(), 15, NSIG=11, verbose=True)    
     p()
     print(p)
+
+
+def test_pev():
+    p = pev(marple_data, 15, NSIG=11)    
+    p()
+    p = pev(data_cosine(), 15, NSIG=11)    
+    p()
+    print(p)
+
+
+def test_eigen_constructor():
+    from spectrum.eigenfre import eigen
+    try:
+        eigen(marple_data, 8,4, method='dummy')
+        assert False
+    except:
+        assert True
+
+    # threshold and NSIG cannot be used together
+    p = pmusic(marple_data, 15, NSIG=11, threshold=2)
+
+    # NSIG must be less than IP and > 0
+    try:
+        p = pmusic(marple_data, 15, NSIG=110, threshold=2)
+        assert False
+    except:
+        assert True
+    p = pmusic(marple_data, 15, NSIG=-10)
 
 
 def test_eigenfre_music():
@@ -29,10 +57,12 @@ def test_eigenfre_ev():
          8.21242005e-01,   1.10463229e-01,   1.02225490e-02]))
     return psd
 
+
 def test_eigen_parameters():
     psd, s = ev(data_cosine(), 15)
     psd, s = ev(data_cosine(), 15, NSIG=11)
     psd, s = ev(data_cosine(), 15, threshold=2)
+
 
 def create_figure():
     psd = test_eigenfre_music()

@@ -22,11 +22,13 @@ def test_yule_data():
     assert_almost_equal(c[0], 0.0+0.j)
     assert_almost_equal(c[1], -0.2+0.j)
 
+
 def test_pyule():
     p = pyule(marple_data, 15)
     p()
     p.plot()
     print(p)
+
 
 #do not change. used to create figure
 def create_figure():
