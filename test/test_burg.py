@@ -9,6 +9,10 @@ import numpy
 import pylab
 
 
+def test_arburg2():
+    from spectrum.burg import _arburg2
+    ar, P, k = _arburg2(marple_data, order=15)
+
 def test_arburg_functional():
     ar, P, k = arburg(marple_data, order=15)
     PSD = arma2psd(ar)

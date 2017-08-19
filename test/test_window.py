@@ -4,26 +4,33 @@ import pytest
 
 
 
-class test_class_Window():
-    def __init__(self):
-        self.w = Window(65, name='hann')
-    def test_Window(self):
-        self.w.enbw
-        self.w.mean_square
-        self.w.frequencies
-        self.w.plot_time_freq()
-    def test_nfft(self):
-        self.w.compute_response(NFFT=32)
 
-    def test_error(self):
-        try:
-            w = Window(64, name='wrong')
-            assert False
-        except:
-            assert True
-    def test_info(self):
-        self.w.info()
-        print(self.w)
+def test_class_Window():
+    w = Window(65, name='hann')
+    w.enbw
+    w.mean_square
+    w.frequencies
+    w.plot_time_freq()
+    w.compute_response(NFFT=32)
+
+    try:
+        w = Window(64, name='wrong')
+        assert False
+    except:
+        assert True
+    w.info()
+    print(w)
+
+    # recompute response
+    w = Window(65, name='hann')
+    w.response
+    w.plot_frequencies(maxdB=120, mindB=-100)
+
+    try:
+        w = Window(65, name="dummy")
+        assert False
+    except:
+        assert True
 
 
 #unittest of create_window
@@ -33,6 +40,7 @@ def test_create_window_error():
         assert False
     except:
         assert True
+
 
 #test that create_window(N, name) works for all valid names
 @pytest.mark.parametrize('test_window_name,length', 
@@ -53,12 +61,30 @@ def test_create_window(test_window_name, length):
       ('poisson',      {'alpha': 2}),
       ('poisson_hanning', {'alpha': 2}),
       ('cauchy',   {'alpha': 3})])
+
+
 def test_check_window_switch(name, param):
     f = eval('window_'+name)
     w1 = f(64, **param)
     w2 = create_window(64, name, **param)
     for x,y in zip(w1,w2):
         assert x==y
+
+def test_create_window_others():
+    try:
+        create_window(11, "hamming", dummy=1)
+        assert False
+    except ValueError:
+        assert True
+
+    try:
+        create_window(11, "kaiser", beta=0.5)
+        create_window(11, "kaiser", dummy=1)
+        assert False
+    except ValueError:
+        assert True
+
+
 
 def test_bartlett():
     """unit and functional test window_bartlett"""
@@ -82,6 +108,8 @@ def test_kaiser():
     window_kaiser(8, method='other')
     window_kaiser(8, method='numpy')
 
+    assert window_kaiser(1, method='numpy') == np.array([1])
+
 
 def test_blackman():
     """unit and functional test window_bartlett"""
@@ -93,6 +121,8 @@ def test_blackman():
         assert_almost_equal(x, y)
     for x, y in zip(window_blackman(7, alpha=0.16), vec7):
         assert_almost_equal(x, y)
+
+    assert window_blackman(1, alpha=0.16) == np.array([1])
 
 
 def test_hann():
@@ -138,20 +168,29 @@ def test_gaussian():
 def test_cauchy():
     window_cauchy(64)
 
+
 def test_cosine():
     window_cosine(64)
+    assert window_cosine(1) == np.array([1.])
+
 
 def test_riemann():
     window_riemann(64)
 
+
 def test_lanczos():
     window_lanczos(64)
+    assert window_lanczos(1) == np.array([1.])
+
 
 def test_poisson():
     window_poisson(64)
+    #assert window_poisson(1) == np.array([1.])
+
 
 def test_poisson_hanning():
     window_poisson_hanning(64)
+
 
 def test_bartlett_hann():
     vec7 = array([ 0.  ,  0.27,  0.73,  1.  ,  0.73,  0.27,  0.  ])
@@ -160,6 +199,8 @@ def test_bartlett_hann():
         assert_almost_equal(x, y)
     for x, y in zip(window_bartlett_hann(7), vec7):
         assert_almost_equal(x, y)
+
+    assert window_bartlett_hann(1) == np.array([1.])
 
 def test_window_visu():
     window_visu(64, 'hamming')
@@ -186,6 +227,7 @@ def test_bohman():
     for x, y in zip(window_bohman(7), vec7):
         assert_almost_equal(x, y)
 
+
 def test_chebwin():
     vec8 = array([ 0.09455132,  0.34937508,  0.71822375,  1.,  1.,0.71822375,  0.34937508,  0.09455132])
     vec7 = array([ 0.1116911 ,  0.41962999,  0.81377359,  1.,  0.81377359, 0.41962999,  0.1116911 ])
@@ -193,6 +235,11 @@ def test_chebwin():
         assert_almost_equal(x, y)
     for x, y in zip(window_chebwin(7), vec7):
         assert_almost_equal(x, y)
+
+
+def test_nuttall():
+    window_nuttall(64)
+    assert window_nuttall(1) == np.array([1.])
 
 
 def test_blackman_nuttall():
@@ -218,6 +265,10 @@ def test_flattop():
     for x, y in zip(window_flattop(8, 'periodic', precision='octave'), vec8):
         assert_almost_equal(x, y)
 
+    assert window_flattop(1) == np.array([1.])
+    window_flattop(1, "periodic") 
+
+
 def test_tukey():
     vec8 = array([ 0.        ,  0.61126047,  1.        ,  1.        ,  1.        ,     1.        ,  0.61126047,  0.        ])
     vec7 = array([ 0.  ,  0.75,  1.  ,  1.  ,  1.  ,  0.75,  0.  ])
@@ -227,7 +278,10 @@ def test_tukey():
     for x, y in zip(window_tukey(7), vec7):
         assert_almost_equal(x, y)
 
-
-
     window_tukey(64, r=0)
     window_tukey(64, r=1)
+    assert window_tukey(1, r=1) == np.array([1.])
+
+
+def test_window_rietz():
+    window_riesz(64)

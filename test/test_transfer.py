@@ -1,5 +1,6 @@
 from spectrum import transfer
 from numpy.testing import assert_almost_equal
+import numpy as np
 
 def test_tf2zpk():
     from scipy import signal
@@ -12,5 +13,16 @@ def test_tf2zpk():
     assert_almost_equal(p[0],  0.20942804+0.55819948j)
     assert_almost_equal(p[1], 0.20942804-0.55819948j)
     assert_almost_equal(p[2], 0.15838444+0.j)
+
+
+
+def test_tf2zp():
+    b = [2, 3, 0]
+    a = [1, 0.4, 1]
+    [z,p,k] = transfer.tf2zp(b,a)
+    assert all(z == np.array([-1.5,0]))
+    assert k == 2
+    assert_almost_equal(p[0], -0.2000 + 0.9798j,4)
+    assert_almost_equal(p[1],  -0.2000 - 0.9798j,4)
 
 
