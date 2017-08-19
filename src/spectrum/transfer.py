@@ -1,8 +1,4 @@
 """Linear systems"""
-#import numpy
-
-#from levinson import *
-#from linear_prediction import *
 
 __all__ = ["tf2zp"]
 
@@ -38,16 +34,16 @@ def tf2zp(b,a):
     a = [1, 0.4, 1];
     [z,p,k] = tf2zp(b,a)          % Obtain zero-pole-gain form
     z =
-         0
-        -1.5000
+        1.5
+        0
     p =
        -0.2000 + 0.9798i
        -0.2000 - 0.9798i
     k =
        2
 
-    :param b:
-    :param a:
+    :param b: numerator
+    :param a: denominator
     :param fill: If True, check that the length of a and b are the same. If not, create a copy of the shortest element and append zeros to it.
     :return: z (zeros),p (poles) ,g (gain)
 
@@ -103,18 +99,21 @@ def allpole2latc(num, den):
     #return k, v
 
 
-
 def latc2tf():
     raise NotImplementedError
+
 
 def latcfilt():
     raise NotImplementedError
 
+
 def tf2sos():
     raise NotImplementedError
 
+
 def tf2ss():
     raise NotImplementedError
+
 
 def tf2zpk(b, a):
     """Return zero, pole, gain (z,p,k) representation from a numerator,
