@@ -56,15 +56,15 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Fal
     """Multitapering spectral estimation
 
     :param array x: the data
-    :param float NW: The time half bandwidth parameter (typical values are 
+    :param float NW: The time half bandwidth parameter (typical values are
         2.5,3,3.5,4). Must be provided otherwise the tapering windows and
         eigen values (outputs of dpss) must be provided
-    :param int k: uses the first k Slepian sequences. If *k* is not provided, 
+    :param int k: uses the first k Slepian sequences. If *k* is not provided,
         *k* is set to *NW*2*.
     :param NW:
     :param e: the matrix containing the tapering windows
     :param v: the window concentrations (eigenvalues)
-    :param str method: set how the eigenvalues are used. Must be 
+    :param str method: set how the eigenvalues are used. Must be
         in ['unity', 'adapt', 'eigen']
     :param bool show: plot results
     :return: Sk (complex), weights, eigenvalues
@@ -100,7 +100,7 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Fal
 
     .. versionchanged:: 0.6.2
 
-        APN modified method to return each Sk as complex values, the eigenvalues 
+        APN modified method to return each Sk as complex values, the eigenvalues
         and the weights
 
     """
@@ -189,12 +189,12 @@ def dpss(N, NW=None, k=None):
     slepian sequences, and the corresponding eigenvalues.
 
     :param int N: desired window length
-    :param float NW: The time half bandwidth parameter (typical values are 
+    :param float NW: The time half bandwidth parameter (typical values are
         2.5,3,3.5,4).
-    :param int k: returns the first k Slepian sequences. If *k* is not 
+    :param int k: returns the first k Slepian sequences. If *k* is not
         provided, *k* is set to *NW*2*.
     :return:
-        * tapers, a matrix of tapering windows. Matrix is a N by *k* (k 
+        * tapers, a matrix of tapering windows. Matrix is a N by *k* (k
           is the number of windows)
         * eigen, a vector of eigenvalues of length *k*
 
@@ -216,14 +216,14 @@ def dpss(N, NW=None, k=None):
     Slepian sequence maximizes the ratio of integrals and is orthogonal to both
     the first and second Slepian sequences and so on.
 
-    .. note:: Note about the implementation. Since the slepian generation is 
-        computationally expensive, we use a C implementation based on the C 
+    .. note:: Note about the implementation. Since the slepian generation is
+        computationally expensive, we use a C implementation based on the C
         code written by Lees as published in:
 
             Lees, J. M. and J. Park (1995): Multiple-taper spectral analysis: A stand-alone
             C-subroutine: Computers & Geology: 21, 199-236.
 
-        However, the original C code has been trimmed. Indeed, we only require the 
+        However, the original C code has been trimmed. Indeed, we only require the
         multitap function (that depends on jtridib, jtinvit functions only).
 
     .. plot::
@@ -304,8 +304,6 @@ def dpss(N, NW=None, k=None):
 
     #return (tapers, lam)
     return (tapers, eigvals)
-
-
 
 
 def _other_dpss_method(N, NW, Kmax):
@@ -427,6 +425,7 @@ def _crosscov(x, y, axis=-1, all_lags=False, debias=True):
     slicing[axis] = slice(N-1,2*N-1)
     return sxy[tuple(slicing)]
 
+
 def _crosscorr(x, y, **kwargs):
     """
     Returns the crosscorrelation sequence between two ndarrays.
@@ -456,6 +455,7 @@ def _crosscorr(x, y, **kwargs):
     sx = np.std(x)
     sy = np.std(y)
     return sxy/(sx*sy)
+
 
 def _remove_bias(x, axis):
     "Subtracts an estimate of the mean from signal x at axis"
