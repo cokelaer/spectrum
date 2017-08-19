@@ -71,7 +71,7 @@ def arma2psd(A=None, B=None, rho=1., T=1., NFFT=4096, sides='default',
         :include-source:
 
         import spectrum.arma
-        from pylab import plot, log10, hold, legend
+        from pylab import plot, log10, legend
         plot(10*log10(spectrum.arma.arma2psd([1,0.5],[0.5,0.5])), label='ARMA(2,2)')
         plot(10*log10(spectrum.arma.arma2psd([1,0.5],None)), label='AR(2)')
         plot(10*log10(spectrum.arma.arma2psd(None,[0.5,0.5])), label='MA(2)')
@@ -162,12 +162,13 @@ def arma_estimate(X, P, Q, lag):
         :width: 80%
         :include-source:
 
-        from spectrum import *
-        from pylab import *
+        from spectrum import arma_estimate, arma2psd, marple_data
+        import pylab
+
         a,b, rho = arma_estimate(marple_data, 15, 15, 30)
         psd = arma2psd(A=a, B=b, rho=rho, sides='centerdc', norm=True)
-        plot(10 * log10(psd))
-        ylim([-50,0])
+        pylab.plot(10 * pylab.log10(psd))
+        pylab.ylim([-50,0])
 
     :reference: [Marple]_
     """
@@ -227,7 +228,7 @@ class parma(ParametricSpectrum):
         :width: 80%
         :include-source:
 
-        from spectrum import *
+        from spectrum import parma
         p = parma(marple_data, 4, 4, 30, NFFT=4096)
         p()
         p.plot(sides='centerdc')
@@ -264,7 +265,7 @@ class parma(ParametricSpectrum):
                       T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
-            newpsd  = psd[0:int(self.NFFT/2)]*2
+            newpsd  = psd[0:int(self.NFFT//2)]*2
             newpsd[0] /= 2.
             newpsd = append(newpsd, psd[-1])
             self.psd = newpsd
@@ -289,7 +290,7 @@ class pma(ParametricSpectrum):
         :width: 80%
         :include-source:
 
-        from spectrum import *
+        from spectrum import pma
         p = pma(marple_data, 15, 30, NFFT=4096)
         p()
         p.plot(sides='centerdc')
@@ -360,15 +361,16 @@ def ma(X, Q, M):
         :width: 80%
         :include-source:
 
-        from pylab import *
-        from spectrum import *
+        from spectrum import arma2psd, ma, marple_data
+        import pylab
+
         # Estimate 15 Ma parameters
         b, rho = ma(marple_data, 15, 30)
         # Create the PSD from those MA parameters
         psd = arma2psd(B=b, rho=rho, sides='centerdc')
         # and finally plot the PSD
-        plot(linspace(-0.5, 0.5, 4096), 10 * log10(psd/max(psd)))
-        axis([-0.5, 0.5, -30, 0])
+        pylab.plot(pylab.linspace(-0.5, 0.5, 4096), 10 * pylab.log10(psd/max(psd)))
+        pylab.axis([-0.5, 0.5, -30, 0])
 
     :reference: [Marple]_
     """
