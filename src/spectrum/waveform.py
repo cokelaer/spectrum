@@ -6,7 +6,7 @@ __all__ = ['morlet', 'chirp', 'mexican', 'meyeraux']
 
 def morlet(lb, ub, n):
     r"""Generate the Morlet waveform
-    
+
 
     The Morlet waveform is defined as follows:
 
@@ -21,8 +21,8 @@ def morlet(lb, ub, n):
         :include-source:
         :width: 80%
 
-        from spectrum import *
-        from pylab import *
+        from spectrum import morlet
+        from pylab import plot
         plot(morlet(0,10,100))
 
     """
@@ -35,7 +35,7 @@ def morlet(lb, ub, n):
 
 
 def chirp(t, f0=0., t1=1., f1=100., form='linear', phase=0):
-    r"""Evaluate a chirp signal at time t.  
+    r"""Evaluate a chirp signal at time t.
 
     A chirp signal is a frequency swept cosine wave.
 
@@ -45,7 +45,7 @@ def chirp(t, f0=0., t1=1., f1=100., form='linear', phase=0):
 
     :param array t: times at which to evaluate the chirp signal
     :param float f0: frequency at time t=0 (Hz)
-    :param float t1: time t1 
+    :param float t1: time t1
     :param float f1: frequency at time t=t1 (Hz)
     :param str form: shape of frequency sweep in ['linear', 'quadratic', 'logarithmic']
     :param float phase: phase shift at t=0
@@ -62,19 +62,18 @@ def chirp(t, f0=0., t1=1., f1=100., form='linear', phase=0):
         :include-source:
         :width: 80%
 
-        from spectrum import *
-        from pylab import *
+        from spectrum import chirp
+        from pylab import linspace, plot
         t = linspace(0, 1, 1000)
         y = chirp(t, form='linear')
         plot(y)
-        hold(True)
         y = chirp(t, form='quadratic')
         plot(y, 'r')
 
     """
     valid_forms = ['linear', 'quadratic', 'logarithmic']
     if form not in valid_forms:
-        raise ValueError("Invalid form. Valid form are %s" 
+        raise ValueError("Invalid form. Valid form are %s"
             % valid_forms)
     t = numpy.array(t)
     phase = 2. * pi * phase / 360.
@@ -111,8 +110,8 @@ def mexican(lb, ub, n):
         :include-source:
         :width: 80%
 
-        from spectrum import *
-        from pylab import *
+        from spectrum import mexican
+        from pylab import plot
         plot(mexican(0, 10, 100))
 
     """
@@ -121,12 +120,12 @@ def mexican(lb, ub, n):
 
     x = numpy.linspace(lb, ub, n)
     psi = (1.-x**2.) * (2./(numpy.sqrt(3.)*pi**0.25)) * numpy.exp(-x**2/2.)
-    return psi 
+    return psi
 
 
 def meyeraux(x):
     r"""Compute the Meyer auxiliary function
-    
+
     The Meyer function is
 
     .. math:: y = 35 x^4-84 x^5+70 x^6-20 x^7
@@ -138,8 +137,8 @@ def meyeraux(x):
         :include-source:
         :width: 80%
 
-        from spectrum import *
-        from pylab import *
+        from spectrum import meyeraux
+        from pylab import linspace
         t = linspace(0, 1, 1000)
         plot(t, meyeraux(t))
 
