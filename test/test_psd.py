@@ -32,6 +32,94 @@ def test_psd_module_range():
     print(r)
 
 
+
+def test_spectrum_simple():
+    data = [1,2,3,4]
+    s = Spectrum(data)
+    s.N == 4
+    print(s)
+    assert s.range.df == 0.25
+    s.method
+
+    # test sampling property and detrend
+    s.sampling = 1024
+    # test detrend property
+    s.detrend = 'mean'
+    try:
+        s.detrend = s.detrend
+        s.detrend = 'dummy'
+        assert False
+    except SpectrumChoiceError:
+        assert True
+    try:
+        s.sides = s.sides
+        s.sides = 'dummy'
+        assert False
+    except SpectrumChoiceError:
+        assert True
+
+    # test nextpow2 and float values for NFFT attribute
+    data = [1,2,3,4,5]
+    s = Spectrum(data)
+    s.NFFT = "nextpow2"
+    assert s.NFFT == 8
+    try:
+        s.NFFT = -1.1
+        assert False
+    except:
+        assert True
+
+    # change the data
+    assert s.modified is True
+    s.modified = False
+    s.data = [1,2,3,4]
+    assert s.modified is True
+   
+    # test the data_y attribute
+    assert s.data_y is None
+    s.data_y = [1,2,3,4]
+    assert s.data_y == [1,2,3,4]
+    
+    try:
+        s.frequencies("dummy") 
+        assert False
+    except:
+        assert True
+
+    # test the one/two sided conversion
+    p = parma(data_two_freqs(), 8,4,15)
+    p()
+    aa = p.psd.copy()
+    p.sides = "twosided"
+    p.sides = "onesided"
+    p.sides = "centerdc"
+    p.sides = "twosided"
+    p.sides = "centerdc"
+    p.sides = "onesided"
+    assert all(p.psd == aa)
+
+    try:
+        p.sides = "dummy"
+        assert False
+    except:
+        assert True
+
+    p = parma(data_two_freqs(), 8,4,15)
+    try:
+        p.plot()
+        assert False
+    except:
+        assert True
+
+    # power method
+    p = parma(marple_data, 8,4,10)
+    p()
+    assert p.power() < 7381 and p.power() > 7380
+    p.scale_by_freq = True
+    assert p.power() > 0.286 and p.power() < 0.287
+
+
+
 class test_spectrum():
     def __init__(self):
         #create a spectrum
@@ -42,27 +130,7 @@ class test_spectrum():
     def init(self):
         self.s = Spectrum(self.data)
         print(self.s) #__str__ when psd is not yet computed
-        
-    def test_attributes(self):
-        self.init()
-        # test sampling property
-        self.s.sampling = 1024
-        # test detrend property
-        self.s.detrend = 'mean'
-        try:
-            self.s.detrend = self.s.detrend
-            self.s.detrend = 'dummy'
-            assert False
-        except SpectrumChoiceError:
-            assert True
-        try:
-            self.s.sides = self.s.sides
-            self.s.sides = 'dummy'
-            assert False
-        except SpectrumChoiceError:
-            assert True
-        
-    
+
     def test_sides(self):
         """Functional tests on p.sides = ..."""
         # test all sides cases by starting from a side, converting to anothre
@@ -73,24 +141,29 @@ class test_spectrum():
         self.s.psd = [10, 2, 3, 4, 6]
         for x in ['onesided', 'twosided', 'centerdc']:
             for y in ['onesided', 'twosided', 'centerdc']:
-                if x != y: 
+                if x != y:
                     self.s.sides = x
                     p0 = self.s.psd.copy()
                     self.s.sides = y
                     self.s.sides = x
                     assert_array_almost_equal(self.s.psd, p0)
-                            
+
     def test_frequencies(self):
         """Functional tests one s.frequencies(...)"""
         self.init()
         self.s.frequencies('onesided')
         self.s.frequencies('twosided')
         self.s.frequencies('centerdc')
+        try:
+            self.s.frequencies("dummy")
+            assert False
+        except:
+            assert True
 
     def test_set_psd(self):
         self.init()
         self.s.psd = [1,2,3]
-        assert self.s.NFFT == 4    
+        assert self.s.NFFT == 4
         self.s.psd = numpy.array([1,2,3])
         assert self.s.NFFT == 4
 
@@ -101,12 +174,12 @@ def test_fourier_spectrum():
     s = FourierSpectrum(datasets.data_cosine(), sampling=1024, NFFT=512)
     s.periodogram()
     s.plot()
-    
+
 
     s = FourierSpectrum(datasets.marple_data, sampling=1024, NFFT=512)
     s.periodogram()
     s.plot()
-    
+
     print(s)
 
 def test_arma_spectrum():
@@ -115,7 +188,7 @@ def test_arma_spectrum():
     s = ParametricSpectrum(datasets.data_cosine(), sampling=1024, ar_order=30, ma_order=15)
     #s.ma()
     #s.arma()
-    
+
 
 def _test_create_all_psd():
     f = pylab.linspace(0, 1, 4096)
@@ -147,7 +220,7 @@ def _test_create_all_psd():
     newpsd = tools.cshift(psd, len(psd)/2) # switch positive and negative freq
 
     pylab.plot(f, 10 * pylab.log10(newpsd/max(newpsd)), label='Burg 15')
-    
+
     #covar method
     af, pf, ab, pb, pv = arcovar(data, 15)
     psd = arma2psd(A=af, B=ab, rho=pf)

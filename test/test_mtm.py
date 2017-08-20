@@ -1,7 +1,7 @@
 from spectrum import *
 from spectrum.mtm import dpss, pmtm
 from spectrum import data_cosine
-
+from spectrum import mtm
 
 def test_dpss():
     dpss(64, 2.5, 4)
@@ -32,3 +32,7 @@ def test_crosscorr():
     from pylab import randn
     mtm._crosscorr(randn(128), randn(128), all_lags=True)
     mtm._crosscorr(randn(128), randn(128), all_lags=False)
+
+
+def test_mtm():
+    mtm._other_dpss_method(64,4,10)
