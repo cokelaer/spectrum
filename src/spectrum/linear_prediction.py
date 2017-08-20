@@ -39,7 +39,7 @@ def ac2poly(data):
         >>> ar
         array([ 1.  ,  0.38, -0.05])
         >>> e
-        4.1895000000
+        4.1895000000000007
 
     """
     a, e, _c = LEVINSON(data)

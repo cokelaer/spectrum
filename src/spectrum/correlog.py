@@ -157,7 +157,6 @@ class pcorrelogram(FourierSpectrum):
 
         from spectrum import pcorrelogram, data_cosine
         p = pcorrelogram(data_cosine(N=1024), lag=15)
-        p()
         p.plot()
         p.plot(sides='twosided')
 

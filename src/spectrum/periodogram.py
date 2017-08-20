@@ -28,7 +28,6 @@ it is advised to use the class :class:`Periodogram` instead::
 
     from spectrum import Periodogram, marple_data
     p = Periodogram(marple_data)
-    p()
     p.plot()
 
 This class will take care of the plotting and internal state of
@@ -211,7 +210,6 @@ class Periodogram(FourierSpectrum):
         from spectrum import Periodogram, data_cosine
         data = data_cosine(N=1024, A=0.1, sampling=1024, freq=200)
         p = Periodogram(data, sampling=1024)
-        p()
         p.plot(marker='o')
 
 
@@ -325,7 +323,6 @@ class pdaniell(FourierSpectrum):
         from spectrum import data_cosine, pdaniell
         data = data_cosine(N=4096, sampling=4096)
         p = pdaniell(data, 8, NFFT=4096)
-        p()
         p.plot()
 
 

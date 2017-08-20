@@ -348,7 +348,6 @@ class pcovar(ParametricSpectrum):
 
         from spectrum import *
         p = pcovar(marple_data, 15, NFFT=4096)
-        p()
         p.plot(sides='centerdc')
 
     .. seealso:: :class:`arcovar`

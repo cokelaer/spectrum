@@ -230,7 +230,6 @@ class parma(ParametricSpectrum):
 
         from spectrum import parma
         p = parma(marple_data, 4, 4, 30, NFFT=4096)
-        p()
         p.plot(sides='centerdc')
 
 
@@ -292,7 +291,6 @@ class pma(ParametricSpectrum):
 
         from spectrum import pma
         p = pma(marple_data, 15, 30, NFFT=4096)
-        p()
         p.plot(sides='centerdc')
 
 

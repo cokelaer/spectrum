@@ -1,4 +1,6 @@
 """This module provides the Base class for PSDs"""
+import logging
+
 import numpy
 
 from spectrum.tools import nextpow2
@@ -8,7 +10,6 @@ from spectrum import tools
 
 
 __all__ = ["Spectrum", "FourierSpectrum", "ParametricSpectrum"]
-debug = True
 
 
 class Range(object):
@@ -102,7 +103,7 @@ class Range(object):
 
         ::
 
-            >>> print list(Range(8).centerdc_gen())
+            >>> print(list(Range(8).centerdc_gen()))
             [-0.5, -0.375, -0.25, -0.125, 0.0, 0.125, 0.25, 0.375]
 
         """
@@ -114,7 +115,7 @@ class Range(object):
 
         ::
 
-            >>> print list(Range(8).centerdc_gen())
+            >>> print(list(Range(8).centerdc_gen()))
             [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875]
 
         """
@@ -129,9 +130,9 @@ class Range(object):
 
         ::
 
-            >>> print list(Range(8).onesided())
+            >>> print(list(Range(8).onesided()))
             [0.0, 0.125, 0.25, 0.375, 0.5]
-            >>> print list(Range(9).onesided())
+            >>> print(list(Range(9).onesided()))
             [0.0, 0.1111, 0.2222, 0.3333, 0.4444]
 
         """
@@ -214,7 +215,7 @@ class Spectrum(object):
     At any time, you can get general information about the Spectrum instance::
 
         >>> p = Spectrum(marple_data)
-        >>> print p
+        >>> print(p)
         Spectrum summary
             Data length is 64
             PSD not yet computed
@@ -309,7 +310,7 @@ class Spectrum(object):
         # e.g. used in this external notebook:
         # http://nbviewer.jupyter.org/gist/juhasch/5182528
         self()
-    
+
     def _getDetrend(self):
         return self.__detrend
     def _setDetrend(self, detrend):
@@ -346,18 +347,18 @@ class Spectrum(object):
         return self.__NFFT
     def _setNFFT(self, NFFT):#if NFFT is changed, we need to redo the padding
         if self.__NFFT == NFFT and self.__NFFT is not None:
-            #print 'NFFT is the same, nothing to do'
+            logging.debug('NFFT is the same, nothing to do')
             return
         new_nfft = None
         if NFFT == 'nextpow2':
             n = nextpow2(self.data.size)
             new_nfft = int(pow(2, n))
-            #print('NFFT is based on nextpow2: %s' % new_nfft)
+            logging.debug('NFFT is based on nextpow2: %s' % new_nfft)
         elif NFFT is None:
-            #print 'NFFT set to data length',
+            logging.debug('NFFT set to data length')
             new_nfft = self.N
         elif isinstance(NFFT, int):
-            #print 'NNFT set  manually to',
+            logging.debug('NNFT set  manually to')
             assert NFFT > 0, 'NFFT must be a positive integer'
             new_nfft = NFFT
         else:
@@ -410,7 +411,7 @@ class Spectrum(object):
             newpsd = self.get_converted_psd(sides)
             self.__psd = newpsd
         self.__sides = sides
-        #print '------------> %s %s' % (self.__sides, sides)
+        logging.debug('------------> %s %s' % (self.__sides, sides))
         # we set the PSD by hand, so we can consider that PSD is up-to-date
         self.modified = False
     _doc_sides = """Getter/Setter to the :attr:`sides` attributes.
@@ -451,8 +452,7 @@ class Spectrum(object):
 
     def _getPSD(self):
         if self.__psd is None:
-            print('PSD not yet computed. call the object to estimate the PSD.')
-
+             logging.warning('PSD not yet computed. call the object to estimate the PSD.')
         else:
             return self.__psd
     def _setPSD(self, psd):
@@ -550,7 +550,6 @@ class Spectrum(object):
 
             from spectrum import *
             p = pcovar(marple_data, 15)
-            p()
             centerdc_psd = p.get_converted_psd('centerdc')
 
         .. note:: this function does not change the object, in particular, it
@@ -567,9 +566,9 @@ class Spectrum(object):
                 "complex datatype so sides cannot be onesided."
 
         if self.sides == 'onesided':
-            if debug: print('Current sides is onesided')
+            logging.debug('Current sides is onesided')
             if sides == 'twosided':
-                if debug: print('--->Converting to twosided')
+                logging.debug('--->Converting to twosided')
                 # here we divide everything by 2 to get the twosided versin
                 N = self.NFFT
                 newpsd = numpy.concatenate((self.psd[0:-1]/2., list(reversed(self.psd[0:-1]/2.))))
@@ -577,7 +576,7 @@ class Spectrum(object):
                 newpsd[-1] = self.psd[-1]
                 newpsd[0] *= 2.
             elif sides == 'centerdc':
-                print('--->Converting to centerdc')
+                logging.debug('--->Converting to centerdc')
                 newpsd = numpy.concatenate((self.psd[-1:0:-1]/2., self.psd[0:-1]/2.))
                 # so we need to multiply by 2 the 0 and F2/2 frequencies
 
@@ -585,9 +584,9 @@ class Spectrum(object):
                 newpsd[0] *= 2.
             self.NFFT = len(newpsd)
         elif self.sides == 'twosided':
-            print('Current sides is twosided')
+            logging.debug('Current sides is twosided')
             if sides == 'onesided':
-                print('--->Converting to onesided')
+                logging.debug('--->Converting to onesided')
                 N = self.NFFT
                 newpsd = numpy.array(self.psd[0:int(N/2)+1]*2)
                 newpsd[0] /= 2
@@ -596,9 +595,9 @@ class Spectrum(object):
                 newpsd = tools.twosided_2_centerdc(self.psd)
             self.NFFT = len(self.psd)
         elif self.sides == 'centerdc': # same as twosided to onesided
-            print('Current sides is centerdc')
+            logging.debug('Current sides is centerdc')
             if sides == 'onesided':
-                print('--->Converting to onesided')
+                logging.debug('--->Converting to onesided')
                 N = self.NFFT
                 newpsd = numpy.array(list(reversed(self.psd[0:int(N/2)+1]*2)))
                 newpsd[0] = self.psd[int(N/2)]
@@ -628,14 +627,15 @@ class Spectrum(object):
 
             from spectrum import *
             p = Periodogram(marple_data)
-            p()    # runs the psd estimate
             p.plot(norm=True, marker='o')
 
         """
         import pylab
         #First, check that psd attribute is up-to-date
         if self.modified is True:
-            raise errors.SpectrumModifiedError
+            logging.debug("Computing the PSD")
+            self()
+            #raise errors.SpectrumModifiedError
 
         # and that it has been computed
         if self.__psd is None:

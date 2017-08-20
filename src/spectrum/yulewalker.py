@@ -126,7 +126,6 @@ class pyule(ParametricSpectrum):
 
         from spectrum import *
         p = pyule(marple_data, 15, NFFT=4096)
-        p()
         p.plot(sides='centerdc')
 
     """

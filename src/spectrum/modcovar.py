@@ -8,7 +8,7 @@ __all__ = ['modcovar', 'modcovar_marple', 'pmodcovar']
 def modcovar_marple (X,IP):
     """Fast algorithm for the solution of the modified covariance least squares normal equations.
 
-    This implementation is based on [Marple]_. This code is far more 
+    This implementation is based on [Marple]_. This code is far more
     complicated and slower than :func:`modcovar` function, which is now the official version.
     See :func:`modcovar` for a detailed description of Modified Covariance method.
 
@@ -25,18 +25,18 @@ def modcovar_marple (X,IP):
               3. if P' is not a positive value
               4. if DELTA and GAMMA do not lie in the range 0 to 1
 
-    
-    :validation: the AR parameters are the same as those returned by 
+
+    :validation: the AR parameters are the same as those returned by
         a completely different function :func:`modcovar`.
-        
-    .. note:: validation. results similar to test example in Marple but 
-        starts to differ for    ip~8. with ratio of 0.975 for ip=15 probably 
+
+    .. note:: validation. results similar to test example in Marple but
+        starts to differ for    ip~8. with ratio of 0.975 for ip=15 probably
         due to precision.
 
-        
+
     :References: [Marple]_
     """
-    Pv = [] 
+    Pv = []
     N = len(X)
     A = numpy.zeros(N, dtype=complex)
     D = numpy.zeros(N, dtype=complex)
@@ -55,7 +55,7 @@ def modcovar_marple (X,IP):
     LAMBDA = (X[0] * X[N-1]).conjugate()*R4
     C[0] = X[N-1] * R4
     D[0] = X[0].conjugate() * R4
-      
+
     M = 0
     if (IP ==0):
         P = (.5*R1+R2+R3)/float(N)
@@ -85,8 +85,8 @@ def modcovar_marple (X,IP):
                 #print 'withini loop', K, THETA, PSI, XI, R[K], SAVE1
                 #print 'x   -------', C[K], C[K+1]
                 #print 'x   -------', D[K], D[K+1]
-                #print 'x   -------', N-K-2, K+1,N-M-1,  M, M-K-1 
-                #print 'x   -------', X[N-K-2], X[K+1],X[N-M-1],  X[M], X[M-K-1] 
+                #print 'x   -------', N-K-2, K+1,N-M-1,  M, M-K-1
+                #print 'x   -------', X[N-K-2], X[K+1],X[N-M-1],  X[M], X[M-K-1]
 
 
         #  Order update of A vector
@@ -200,7 +200,7 @@ def modcovar_marple (X,IP):
         #print R3, R4, P, DELTA, GAMMA, LAMBDA
         #print 'Afinal=',A[0:2]
         #print 'P=',P
-        if (P > 0.): 
+        if (P > 0.):
             pass
         else:
             raise ValueError("Found a invalid negative P value ")
@@ -211,12 +211,12 @@ def modcovar_marple (X,IP):
 
 
 
- 
+
 
 
 def modcovar(x, order):
     """Simple and fast implementation of the covariance AR estimate
-    
+
     This code is 10 times faster than :func:`modcovar_marple` and more importantly
     only 10 lines of code, compared to a 200 loc for :func:`modcovar_marple`
 
@@ -226,12 +226,12 @@ def modcovar(x, order):
     :return:
         * P    - Real linear prediction variance at order IP
         * A    - Array of complex linear prediction coefficients
-    
+
 
     .. plot::
         :include-source:
         :width: 80%
-        
+
         from spectrum import *
         from pylab import *
 
@@ -240,72 +240,71 @@ def modcovar(x, order):
         PSD = cshift(PSD, len(PSD)/2) # switch positive and negative freq
         plot(linspace(-0.5, 0.5, 4096), 10*log10(PSD/max(PSD)))
         axis([-0.5,0.5,-60,0])
-    
+
     .. seealso:: :class:`~spectrum.modcovar.pmodcovar`
-    
-    :validation: the AR parameters are the same as those returned by 
+
+    :validation: the AR parameters are the same as those returned by
         a completely different function :func:`modcovar_marple`.
-    
-    
-    :References: Mathworks 
+
+
+    :References: Mathworks
     """
     from spectrum import corrmtx
     import scipy.linalg
     X = corrmtx(x, order, 'modified')
-    Xc = numpy.matrix(X[:,1:]) 
+    Xc = numpy.matrix(X[:,1:])
     X1 = numpy.array(X[:,0])
-    
+
     # Coefficients estimated via the covariance method
     # Here we use lstsq rathre than solve function because Xc is not square matrix
     a, residues, rank, singular_values = scipy.linalg.lstsq(-Xc, X1)
-    
+
     # Estimate the input white noise variance
-    
+
 
     Cz = numpy.dot(X1.conj().transpose(), Xc)
     e = numpy.dot(X1.conj().transpose(), X1) + numpy.dot(Cz, a)
     assert e.imag < 1e-4, 'wierd behaviour'
     e = float(e.real) # ignore imag part that should be small
-    
+
     return a, e
 
 
 
 
 class pmodcovar(ParametricSpectrum):
-    """Class to create PSD based on modified covariance algorithm 
-    
+    """Class to create PSD based on modified covariance algorithm
+
     See :func:`modcovar` for description.
 
     .. rubric:: Examples
-    
+
     .. plot::
         :width: 80%
         :include-source:
 
         from spectrum import *
         p = pmodcovar(marple_data, 15, NFFT=4096)
-        p()
         p.plot(sides='centerdc')
 
     .. seealso:: :class:`modcovar`
 
     """
-    def __init__(self, data, order, NFFT=None, sampling=1., 
+    def __init__(self, data, order, NFFT=None, sampling=1.,
                  scale_by_freq=False):
         """**Constructor**
 
         For a detailled description of the parameters, see :func:`modcovar`.
 
         :param array data:     input data (list or numpy.array)
-        :param int order:  
+        :param int order:
         :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
         :param float sampling: sampling frequency of the input :attr:`data`.
 
 
         """
-        super(pmodcovar, self).__init__(data, ar_order=order, 
-                                            NFFT=NFFT, sampling=sampling, 
+        super(pmodcovar, self).__init__(data, ar_order=order,
+                                            NFFT=NFFT, sampling=sampling,
                                             scale_by_freq=scale_by_freq)
 
     def __call__(self):
@@ -313,7 +312,7 @@ class pmodcovar(ParametricSpectrum):
         ar, e = modcovar(self.data, self.ar_order)
         self.ar = ar
         psd = arma2psd(A=ar, T=self.sampling, NFFT=self.NFFT)
-        
+
         if self.datatype == 'real':
             from .tools import twosided_2_onesided
             newpsd  = twosided_2_onesided(psd)
@@ -325,9 +324,9 @@ class pmodcovar(ParametricSpectrum):
             self.psd = psd
         if self.scale_by_freq is True:
             self.scale()
-        
+
     def _str_title(self):
         return "Modified covariance PSd estimate\n"
-    
+
     def __str__(self):
         return super(pmodcovar, self).__str__()

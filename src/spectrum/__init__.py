@@ -2,6 +2,12 @@ from __future__ import absolute_import
 
 
 
+import logging
+def spectrum_set_level(level):
+    assert level in ['DEBUG', 'INFO', 'CRITICAL', 'ERROR', 'WARNING']
+    logging.getLogger().setLevel(level)
+
+
 #: default number os samples used to compute FFT
 default_NFFT = 4096
 

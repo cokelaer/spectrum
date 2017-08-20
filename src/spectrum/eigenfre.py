@@ -20,7 +20,6 @@ class pmusic(ParametricSpectrum):
 
         from spectrum import pmusic
         p = pmusic(marple_data, 15, NFFT=4096)
-        p()
         p.plot()
 
 
@@ -29,7 +28,6 @@ class pmusic(ParametricSpectrum):
         n = arange(200)
         x = cos(0.257*pi*n) + sin(0.2*pi*n) + 0.01*randn(size(n));
         p = pmusic(x, 6,4)
-        p()
         p.plot()
 
     """
@@ -87,7 +85,6 @@ class pev(ParametricSpectrum):
 
         from spectrum import pev
         p = pev(marple_data, 15, NFFT=4096)
-        p()
         p.plot()
 
     """
