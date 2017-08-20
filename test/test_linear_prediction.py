@@ -7,15 +7,27 @@ ki = [0.3090 ,   0.9800    ,0.0031  ,  0.0082 ,  -0.0082];
 ai = [1, 0.6147,  0.9898 , 0.0004,  0.0034, -0.0077]
 
 def test_ac2poly():
-    [a,efinal] = ac2poly(ri)
+    a,efinal = ac2poly(ri)
     assert_array_almost_equal(a, ai, decimal=4)
     assert_almost_equal(efinal, 0.1791, decimal=4)
+
+
+def test_poly2ac():
+    a, efinal = ac2poly(ri)
+    r = poly2ac(a, efinal)
+    assert_array_almost_equal(a, ai, decimal=4)
+
+    assert_array_almost_equal(numpy.real(poly2ac(a, efinal)), ri)
+    assert sum(numpy.imag(poly2ac(a, efinal))) == 0
+
+
 
 def test_rc2poly():
     a, e = rc2poly(ki, 1)
     assert_array_almost_equal(a , numpy.array([1.00000000e+00,   6.14816180e-01,   9.89881431e-01,
          2.42604054e-05,   3.15795596e-03,  -8.20000000e-03]), decimal=4)
     assert_almost_equal(e, 0.035813791455383194)
+
 
 def test_rc2ac():
     R = rc2ac(ki, 1)
@@ -27,18 +39,11 @@ def test_ac2rc():
     assert_almost_equal(r0, 5)
 
 
-def test_poly2ac():
-    a, efinal = ac2poly(ri)
-    r = poly2ac(a, efinal)
-    assert_array_almost_equal(a, ai, decimal=4)
-
-
 def test_poly2rc():
     a, efinal = ac2poly(ri)
     k = poly2rc(numpy.insert(a, 0, 1), efinal)
     #assert_array_almost_equal(ki, k)
     #\numpy.array([ 0.309     ,  0.97999158,  0.00302085,  0.00818465, -0.00770967]))
-
 
 
 def test_lar2rc():

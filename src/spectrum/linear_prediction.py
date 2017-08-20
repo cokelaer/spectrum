@@ -131,7 +131,7 @@ def rc2poly(kr, r0=None):
     return a, efinal
 
 
-def rc2ac(k,R0):
+def rc2ac(k, R0):
     """Convert reflection coefficients to autocorrelation sequence.
 
     :param k: reflection coefficients

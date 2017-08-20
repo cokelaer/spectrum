@@ -23,15 +23,13 @@
       :target: https://anaconda.org/conda-forge/spectrum
 
 
+.. include:: overview.txt
+
+
 :contributions: Please join https://github.com/cokelaer/spectrum
 :contributors: https://github.com/cokelaer/spectrum/graphs/contributors
 :issues: Please use https://github.com/cokelaer/spectrum/issues
 :documentation: http://pyspectrum.readthedocs.io/ 
-
-
-
-.. include:: overview.txt
-
 
 
 
