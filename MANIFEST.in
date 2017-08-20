@@ -1,1 +1,3 @@
-include README.rst LICENSE
+include README.rst L
+include requirements.txt AUTHORS.rst LICENSE requirements-dev.txt requirements.txt
+

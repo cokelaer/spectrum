@@ -4,6 +4,10 @@ ChangeLog Summary
 Version 0.6
 ---------------
 
+* 0.6.8:
+
+    * Fix the MANIFEST
+
 * 0.6.7:
 
     * refactored the requirements files (add a requirements-dev.txt) and 
