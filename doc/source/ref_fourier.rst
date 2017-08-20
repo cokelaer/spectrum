@@ -5,10 +5,16 @@ Fourier Methods
 Power Spectrum Density based on Fourier Spectrum
 ==================================================
 
+.. automodule:: spectrum.spectrum
+    :show-inheritance:
+    :members:
+    :undoc-members:
+    :synopsis: Periodogram methods to estimate PSDs
+
+
 .. module:: periodogram
     :synopsis: Periodogram methods to estimate PSDs
 .. automodule:: spectrum.periodogram
-    :show-inheritance:
     :members:
     :undoc-members:
     :synopsis: Periodogram methods to estimate PSDs
@@ -17,7 +23,6 @@ Power Spectrum Density based on Fourier Spectrum
 .. module:: correlog
     :synopsis: PSD estimate using Correlogram methods
 .. automodule:: spectrum.correlog
-    :show-inheritance:
     :members:
     :undoc-members:
     :synopsis: PSD estimate using Correlogram methods
@@ -27,7 +32,7 @@ Power Spectrum Density based on Fourier Spectrum
 Tapering Windows
 ===================
 
-.. .. module:: window
+.. module:: window
 .. automodule:: spectrum.window
     :members:
     :undoc-members:

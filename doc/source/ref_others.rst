@@ -19,7 +19,7 @@ Classes
 Correlation
 -------------
 
-.. module:: correlation
+#.. module:: correlation
 .. automodule:: spectrum.correlation
     :members:
     :undoc-members:
@@ -28,8 +28,8 @@ Correlation
 Tools
 ----------
 
-.. module:: tools
-    :synopsis: utilities to manipulate PSDs
+#.. module:: tools
+#    :synopsis: utilities to manipulate PSDs
 .. automodule:: spectrum.tools
     :members:
     :undoc-members:
@@ -38,7 +38,7 @@ Tools
 datasets
 -----------
 
-.. module:: datasets
+#.. module:: datasets
 .. automodule:: spectrum.datasets
     :members:
     :undoc-members:
@@ -65,8 +65,8 @@ eigen
 levinson
 ~~~~~~~~
 
-.. module:: levinson
-    :synopsis: levinson recursion tools
+#.. module:: levinson
+#    :synopsis: levinson recursion tools
 .. automodule:: spectrum.levinson
     :members:
     :undoc-members:
@@ -83,8 +83,8 @@ toeplitz
 linalg
 ~~~~~~~~~
 
-.. module:: linalg
-    :synopsis: Linear algebra tools
+#.. module:: linalg
+#    :synopsis: Linear algebra tools
 .. automodule:: spectrum.linalg
     :members:
     :undoc-members:
@@ -99,6 +99,7 @@ Transfer function
 
 Waveforms
 -------------
+#.. module:: spectrum.waveform
 .. automodule::  spectrum.waveform
     :members:
     :undoc-members:
