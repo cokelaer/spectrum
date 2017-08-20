@@ -303,11 +303,13 @@ class Spectrum(object):
             res = self.method(self.data, *args, **kargs)
             self.psd = res[0]
         #return res
-    def run(self):
-        if self.method is not None:
-            res = self.method(self.data, *args, **kargs)
-            self.psd = res[0]
     """
+    def run(self, *args, **kargs):
+        # Kept for back compatibility
+        # e.g. used in this external notebook:
+        # http://nbviewer.jupyter.org/gist/juhasch/5182528
+        self()
+    
     def _getDetrend(self):
         return self.__detrend
     def _setDetrend(self, detrend):
