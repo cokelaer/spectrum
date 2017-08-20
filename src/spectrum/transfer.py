@@ -1,6 +1,9 @@
 """Linear systems"""
 
-__all__ = ["tf2zp"]
+import numpy as np
+
+__all__ = ["tf2zp",  'eqtflength', 'latc2tf', 'latcfilt',
+    'ss2zpk', 'tf2sos', 'tf2ss', 'tf2zpk', 'zpk2ss', 'zpk2tf']
 
 
 """to be done
@@ -61,30 +64,50 @@ def tf2zp(b,a):
     from numpy import roots
     assert len(b) == len(a), "length of the vectors a and b must be identical. fill with zeros if needed."
 
-    g = b[0]/a[0]
+    g = b[0] / a[0]
     z = roots(b)
     p = roots(a)
 
     return z, p, g
 
-def eqtflength(b,a):
-    """
-    :param b: list
-    :param a: lsit
 
-    .. todo: for arrays, this doc
+def zp2tf(z,p,k):
+    print("Use zpk2tf instead of zp2tf function")
+    return zpk2tf(z,p,k)
+
+
+def eqtflength(b,a):
+    """Given two list or arrays, pad with zeros the shortest array
+
+    :param b: list or array
+    :param a: list or array
+
+
+    .. doctest::
+
+        >>> from spectrum.transfer import eqtflength
+        >>> a = [1,2]
+        >>> b = [1,2,3,4]
+        >>> a, b, = eqtflength(a,b)
+
     """
     d = abs(len(b)-len(a))
-    if d!=0:
-        if len(a)>len(b):
-            b.extend([0.]*d)
+    if d != 0:
+        if len(a) > len(b):
+            try:
+                b.extend([0.]*d)
+            except:
+                b = np.append(b, [0]*d)
         elif len(b)>len(a):
-            a.extend([0.]*d)
+            try:
+                a.extend([0.]*d)
+            except:
+                a = np.append(a, [0]*d)
         return b,a
     else:
         return b,a
 
-
+'''
 def tf2latc(num=[1.], den=[1.]):
     """Convert transfer function filter parameters to lattice filter form"""
 
@@ -92,11 +115,12 @@ def tf2latc(num=[1.], den=[1.]):
         k, v = allpole2latc(num, den)
 
 def allpole2latc(num, den):
-
+    from spectrum.linear_prediction import poly2rc
     # All-pole filter, simply call poly2rc
     k = poly2rc(den)
     #v = [num;numpy.zeros(size(v))];
     #return k, v
+'''
 
 
 def latc2tf():
@@ -139,11 +163,11 @@ def tf2zpk(b, a):
         >>> tf2zpk(b,a)
 
     .. seealso:: :func:`zpk2tf`
+    .. note:: wrapper of scipy function tf2zpk
     """
     import scipy.signal
     z,p,k = scipy.signal.tf2zpk(b, a)
     return z,p,k
-
 
 
 def ss2zpk(a,b,c,d, input=0):
@@ -155,10 +179,12 @@ def ss2zpk(a,b,c,d, input=0):
     :return:
         * z, p : sequence  Zeros and poles.
         * k : float System gain.
+
+    .. note:: wrapper of scipy function ss2zpk
     """
     import scipy.signal
-    z,p,k = scipy.signal.ss2zpk(a,b,c,d, input=input)
-    return b, a
+    z, p, k = scipy.signal.ss2zpk(a, b, c, d, input=input)
+    return z, p, k
 
 
 def zpk2tf(z, p, k):
@@ -193,6 +219,8 @@ def zpk2tf(z, p, k):
      as many rows as there are columns of z.
 
     Inf values can be used as place holders in z if some columns have fewer zeros than others.
+
+    .. note:: wrapper of scipy function zpk2tf
     """
     import scipy.signal
     b, a = scipy.signal.zpk2tf(z, p, k)
@@ -207,6 +235,8 @@ def zpk2ss(z, p, k):
 
     :return:
         * A, B, C, D : ndarray State-space matrices.
+
+    .. note:: wrapper of scipy function zpk2ss
     """
     import scipy.signal
     return scipy.signal.zpk2ss(z,p,k)
