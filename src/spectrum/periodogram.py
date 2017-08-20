@@ -187,7 +187,6 @@ def WelchPeriodogram(data, NFFT=None,  sampling=1., **kargs):
         :width: 80%
         :include-source:
 
-
         from spectrum import WelchPeriodogram, marple_data
         psd = WelchPeriodogram(marple_data, 256)
 
