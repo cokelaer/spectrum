@@ -13,11 +13,20 @@ SPECTRUM : Spectral Analysis in Python
 .. image:: https://landscape.io/github/cokelaer/spectrum/master/landscape.png
     :target: https://landscape.io/github/cokelaer/spectrum/master
 
+.. image:: https://anaconda.org/conda-forge/spectrum/badges/license.svg
+   :target: https://anaconda.org/conda-forge/spectrum
+
+.. image:: https://anaconda.org/conda-forge/spectrum/badges/installer/conda.svg
+   :target: https://conda.anaconda.org/conda-forge
+
+.. image:: https://anaconda.org/conda-forge/spectrum/badges/downloads.svg
+   :target: https://anaconda.org/conda-forge/spectrum
 
 
 :contributions: Please join https://github.com/cokelaer/spectrum
+:contributors: https://github.com/cokelaer/spectrum/graphs/contributors
 :issues: Please use https://github.com/cokelaer/spectrum/issues
-:documentation on RTD: http://pyspectrum.readthedocs.io/ 
+:documentation: http://pyspectrum.readthedocs.io/ 
 
 
 
@@ -31,6 +40,14 @@ SPECTRUM : Spectral Analysis in Python
     * The parametric methods are based on Yule-Walker, BURG, MA and ARMA, covariance and modified covariance methods.
     * Non-parametric methods based on eigen analysis (e.g., MUSIC) and minimum variance analysis are also implemented.
     * Multitapering is also available
+
+
+The targetted audience is diverse. Although the use of power spectrum of a
+signal is fundamental in electrical engineering (e.g. radio communications,
+radar), it has a wide range of applications from cosmology (e.g., detection of
+gravitational waves in 2016), to music (pattern detection) or biology (mass
+spectroscopy).
+
 
 Installation
 ================
