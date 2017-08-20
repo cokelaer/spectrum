@@ -158,9 +158,10 @@ def tf2zpk(b, a):
 
     .. doctest::
 
+        >>> import scipy.signal
         >>> from spectrum.transfer import tf2zpk
         >>> [b, a] = scipy.signal.butter(3.,.4)
-        >>> tf2zpk(b,a)
+        >>> z, p ,k = tf2zpk(b,a)
 
     .. seealso:: :func:`zpk2tf`
     .. note:: wrapper of scipy function tf2zpk
