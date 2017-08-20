@@ -4,7 +4,18 @@ Contributions
 Contributors
 ----------------
 
-Pleas see https://github.com/cokelaer/spectrum/graphs/contributors for details.
+Here is a non-exhaustive list of contributors. If you have contributed and are
+not listed, please update the AUTHORS.rst file in the source repository.
+
+.. include:: ../../AUTHORS.rst
+
+
+--
+
+
+For an up-to-date page of `source code contributors
+<https://github.com/cokelaer/spectrum/graphs/contributors>`_, please visit the
+github repository pages.
 
 How to contribute ?
 -----------------------
