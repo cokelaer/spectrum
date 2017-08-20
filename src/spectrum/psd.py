@@ -238,7 +238,7 @@ class Spectrum(object):
         From the input parameters, the following attributes are set:
 
           * :attr:`data` (updates :attr:`N`, :attr:`df`, :attr:`datatype`)
-          * :attr:`data_y`
+          * :attr:`data_y` used for cross PSD only (correlogram)
           * :attr:`detrend`
           * :attr:`sampling` (updates :attr:`df`)
           * :attr:`scale_by_freq`
@@ -296,17 +296,18 @@ class Spectrum(object):
         self.__method = method
     method = property(fget=_getMethod, fset=_setMethod)
 
-    def __call__(self, *args, **kargs):
-        print("""To be use with care. THis function is there just to help, it
-            does not populate the proper attribute except psd.""")
+    """def __call__(self, *args, **kargs):
+        # To be use with care. THis function is there just to help, it
+        #    does not populate the proper attribute except psd.
         if self.method is not None:
             res = self.method(self.data, *args, **kargs)
             self.psd = res[0]
         #return res
-
     def run(self):
-        self()
-
+        if self.method is not None:
+            res = self.method(self.data, *args, **kargs)
+            self.psd = res[0]
+    """
     def _getDetrend(self):
         return self.__detrend
     def _setDetrend(self, detrend):
@@ -347,9 +348,9 @@ class Spectrum(object):
             return
         new_nfft = None
         if NFFT == 'nextpow2':
-            #print 'NFFT is based on nextpow2:',
             n = nextpow2(self.data.size)
-            new_nfft = int(pow(2,n))
+            new_nfft = int(pow(2, n))
+            #print('NFFT is based on nextpow2: %s' % new_nfft)
         elif NFFT is None:
             #print 'NFFT set to data length',
             new_nfft = self.N
@@ -581,7 +582,6 @@ class Spectrum(object):
                 newpsd[int(self.NFFT/2)] *= 2.
                 newpsd[0] *= 2.
             self.NFFT = len(newpsd)
-
         elif self.sides == 'twosided':
             print('Current sides is twosided')
             if sides == 'onesided':
@@ -1067,46 +1067,3 @@ class FourierSpectrum(Spectrum):
         self.psd = psd
 
 
-    def _correlogram(self):
-        """An alias to :class:`~spectrum.correlog.pcorrelogram`
-
-        The parameters are extracted from the attributes. Relevant attributes
-        ares :attr:`window`, attr:`sampling`, attr:`NFFT`, attr:`scale_by_freq`,
-        :attr:`detrend`.
-
-        .. plot::
-            :width: 80%
-            :include-source:
-
-            from spectrum import datasets
-            from spectrum import FourierSpectrum
-            s = FourierSpectrum(datasets.data_cosine(), sampling=1024, NFFT=512, lag=32)
-            s._correlogram()
-            s.plot()
-        """
-        from spectrum.correlog import CORRELOGRAMPSD
-        psd = CORRELOGRAMPSD(self.data, self.data_y,
-                             lag=self.lag,
-                             window=self.window,
-                             NFFT=self.NFFT,
-                             #   scale_by_freq=self.scale_by_freq,
-                             )
-        if self.datatype == 'real':
-            newpsd  = psd[0:int(self.NFFT/2)]*2
-            newpsd[0] /= 2.
-            newpsd = numpy.append(newpsd, psd[-1])
-            self.psd = newpsd
-        else:
-            self.psd = psd
-
-    """
-    def welch(self):
-        raise NotImplementedError
-
-    def daniell(self):
-        raise NotImplementedError
-
-
-    def bartlett(self):
-        raise NotImplementedError
-    """
