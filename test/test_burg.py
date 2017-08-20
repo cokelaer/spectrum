@@ -66,7 +66,6 @@ def test_burg_criteria():
 
 def test_pburg():
     p = pburg(marple_data, 15, NFFT=4096)
-    p()
     p.plot(sides='centerdc')
     print(p)
     # test real case

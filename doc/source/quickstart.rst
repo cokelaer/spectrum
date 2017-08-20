@@ -30,7 +30,7 @@ We can analyse this data using one of the Power Spectrum Estimation method provi
 
 Here, we have created an object Periodogram. No computation has been performed yet. To run the actual estimation, you can use either::
 
-    p() # now you run the estimation
+    p() 
 
 or::
 
@@ -40,6 +40,12 @@ and finally, you can plot the resulting PSD::
 
     p.plot(marker='o')  # standard matplotlib options are accepted
 
+.. warning::
+
+    .. versionchanged:: 0.6.7 you do not need to use p() or p.run() anymore. It will be
+       called automatically when using p.plot() or when you access to the *psd*
+       attribute.
+
 
 .. plot::
     :width: 80%
@@ -47,7 +53,6 @@ and finally, you can plot the resulting PSD::
     from spectrum import *
     data = data_cosine(N=1024, A=0.1, sampling=1024, freq=200)
     p = Periodogram(data, sampling=1024) #here you just define the PSD estimate 
-    p() # now you run the estimation
     p.plot(marker='o')
 
 Since the data is purely real, the PSD (stored in p.psd) is a onesided PSD, with positive frequencies only. If the data were complex, the two-sided PSD would have been computed and plotted. For the real case, you can still plot a two-sided PSD by setting the sides option manually::
@@ -61,7 +66,6 @@ Since the data is purely real, the PSD (stored in p.psd) is a onesided PSD, with
     from spectrum import *
     data = data_cosine(N=1024, A=0.1, sampling=1024, freq=200)
     p = Periodogram(data, sampling=1024) #here you just define the PSD estimate 
-    p() # now you run the estimation
     p.plot(marker='o', sides='twosided')
 
 

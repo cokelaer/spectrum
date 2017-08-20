@@ -19,7 +19,7 @@ def test_arma_values():
         3.22899406+6.39981425j,  3.16557650+5.92783737j,
         3.47120865+5.48246963j,  2.79508215+3.3238971j ,
         2.13174602+1.51034329j]), decimal=4)
-    
+
 
 def test_arma():
     """arma, check that rho is correct (appendix 10.A )and reproduce figure 10.2"""
@@ -73,7 +73,6 @@ def test_arma2psd():
 
 def test_parma():
     p = parma(marple_data, 4, 4, 30, NFFT=4096)
-    p()
     p.plot()
     print(p)
 

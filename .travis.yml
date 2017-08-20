@@ -30,7 +30,6 @@ install:
   #- conda install --yes python=$TRAVIS_PYTHON_VERSION numpy matplotlib nose coverage cython scipy
   - conda install --yes --file requirements.txt
   - conda install --yes --file requirements-dev.txt
-  #- conda install --yes cython 
   - pip install .
 # # command to run tests, e.g. python setup.py test
 script:

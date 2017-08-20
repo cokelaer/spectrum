@@ -452,9 +452,9 @@ class Spectrum(object):
 
     def _getPSD(self):
         if self.__psd is None:
-             logging.warning('PSD not yet computed. call the object to estimate the PSD.')
-        else:
-            return self.__psd
+            logging.debug('Computing PSD.')
+            self()
+        return self.__psd
     def _setPSD(self, psd):
         # Reset the sides attribute depending on the datatype
         # if a user sets the PSD manually, the only check available is that

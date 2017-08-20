@@ -14,6 +14,10 @@
     * Multitapering is also available
 
 
-
+The targetted audience is diverse. Although the use of power spectrum of a
+signal is fundamental in electrical engineering (e.g. radio communications,
+radar), it has a wide range of applications from cosmology (e.g., detection of
+gravitational waves in 2016), to music (pattern detection) or biology (mass
+spectroscopy). 
 
 
