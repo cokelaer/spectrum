@@ -15,3 +15,17 @@ def test_aic():
     MDL(len(marple_data), rho, order)
     CAT(len(marple_data), rho, order)
 
+
+    crit = Criteria("AIC", 20)
+    try:
+        crit = Criteria("dummy", 20)
+        assert False
+    except:
+        assert True
+
+    try:
+        crit = Criteria("AIC", 20)
+        crit.N = 0
+        assert False
+    except:
+        assert True

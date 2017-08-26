@@ -1,4 +1,5 @@
 from spectrum import CORRELOGRAMPSD, CORRELATION, pcorrelogram, marple_data
+from spectrum import data_two_freqs
 
 from pylab import log10, plot, savefig, linspace 
 from numpy.testing import assert_array_almost_equal, assert_almost_equal
@@ -33,6 +34,12 @@ def test_pcorrelogram_class():
     p = pcorrelogram(marple_data, lag=16)
     p()
     print(p)
+    p = pcorrelogram(data_two_freqs(), lag=16)
+    p.plot()
+    print(p)
+
+def test_CORRELOGRAMPSD_others():
+    p = CORRELOGRAMPSD(marple_data, marple_data, lag=16, NFFT=None)
 
 def create_figure():
     psd = test_correlog()

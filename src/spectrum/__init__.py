@@ -1,7 +1,5 @@
 from __future__ import absolute_import
 
-
-
 import logging
 def spectrum_set_level(level):
     assert level in ['DEBUG', 'INFO', 'CRITICAL', 'ERROR', 'WARNING']

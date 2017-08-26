@@ -5,11 +5,11 @@ from numpy.testing import assert_array_almost_equal, assert_almost_equal
 from numpy import array
 
 def test_covar_null_ip():
-    af, pf, ab, pb, c = arcovar_marple(marple_data, 0, debug=True)
+    af, pf, ab, pb, c = arcovar_marple(marple_data, 0)
     assert_almost_equal(pf, 1.7804598944893046)
 
 def test_covar_15_ip():
-    af, pf, ab, pb, pbv = arcovar_marple(marple_data, 15, debug=True)
+    af, pf, ab, pb, pbv = arcovar_marple(marple_data, 15)
     assert_almost_equal(pf, 0.0031358526195905032)
     assert_almost_equal(pb, 0.0026095580050847235)
     assert_array_almost_equal(af[0:15], array([  3.14064291e+00 -0.53085796j,   6.71499124e+00 -2.02047795j,
@@ -54,8 +54,10 @@ def test_covar():
 def test_pcovar():
     p = pcovar(data_cosine(), 15, NFFT=4096, scale_by_freq=True)
     p()
+    print(p)
     p = pcovar(marple_data, 15, NFFT=4096)
     p()
+    print(p)
     print(p.get_converted_psd('centerdc'))
     return p.psd
 

@@ -20,7 +20,7 @@
 
 
 """#from numpy.fft import fft, ifft
-import numpy
+import numpy as np
 from numpy import  arange, isrealobj
 # from pylab import rms_flat
 
@@ -33,7 +33,7 @@ def pylab_rms_flat(a):
     Return the root mean square of all the elements of *a*, flattened out.
     (Copied 1:1 from matplotlib.mlab.)
     """
-    return numpy.sqrt(numpy.mean(numpy.absolute(a) ** 2))
+    return np.sqrt(np.mean(np.absolute(a) ** 2))
 
 
 def CORRELATION(x, y=None, maxlags=None, norm='unbiased'):
@@ -87,15 +87,18 @@ def CORRELATION(x, y=None, maxlags=None, norm='unbiased'):
     """
     assert norm in ['unbiased','biased', 'coeff', None]
     #transform lag into list if it is an integer
+    x = np.array(x)
     if y is None:
         y = x
+    else:
+        y = np.array(y)
 
     # N is the max of x and y
     N = max(len(x), len(y))
-    if len(x)<N:
-        y = y.copy()
-        y.resize(N)
-    if len(y)<N:
+    if len(x) < N:
+        x = y.copy()
+        x.resize(N)
+    if len(y) < N:
         y = y.copy()
         y.resize(N)
 
@@ -107,9 +110,9 @@ def CORRELATION(x, y=None, maxlags=None, norm='unbiased'):
     realdata = isrealobj(x) and isrealobj(y)
     #create an autocorrelation array with same length as lag
     if realdata == True:
-        r = numpy.zeros(maxlags, dtype=float)
+        r = np.zeros(maxlags, dtype=float)
     else:
-        r = numpy.zeros(maxlags, dtype=complex)
+        r = np.zeros(maxlags, dtype=complex)
 
     if norm == 'coeff':
         rmsx = pylab_rms_flat(x)
@@ -143,7 +146,7 @@ def CORRELATION(x, y=None, maxlags=None, norm='unbiased'):
             elif norm == 'coeff':
                 r[k-1] =  sum/(rmsx*rmsy)/float(N)
 
-    r = numpy.insert(r, 0, r0)
+    r = np.insert(r, 0, r0)
     return r
 
 
@@ -207,7 +210,7 @@ def xcorr(x, y=None, maxlags=None, norm='biased'):
         assert maxlags <= N, 'maxlags must be less than data length'
         lags = arange(N-maxlags-1, N+maxlags)
 
-    res = numpy.correlate(x, y, mode='full')
+    res = np.correlate(x, y, mode='full')
 
     if norm == 'biased':
         Nf = float(N)

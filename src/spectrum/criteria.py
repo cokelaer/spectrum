@@ -75,7 +75,8 @@ class Criteria(object):
 
         """
         #valid attributes
-        self.__name = name
+        self.__name = None
+        self.name = name
         self.__N = N
         self.__rho = 0
         self.__k = None
@@ -116,7 +117,7 @@ class Criteria(object):
     def _getN(self):
         return self.__N
     def _setN(self, N):
-        assert N>0, 'N must be positive'
+        assert N > 0, 'N must be positive'
         self.__N = N
     N = property(fget=_getN, fset=_setN, doc="Getter/Setter for N")
 

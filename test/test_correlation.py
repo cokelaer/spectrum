@@ -2,12 +2,17 @@ from spectrum import CORRELATION, marple_data, xcorr
 from numpy.testing import assert_array_almost_equal, assert_almost_equal
 from numpy import array
 
+
 def test_CORRELATION():
     R15 = CORRELATION(marple_data, maxlags=15, norm='biased')
     R15 = CORRELATION(marple_data, maxlags=15, norm='unbiased')
     R15 = CORRELATION(marple_data, maxlags=15, norm='coeff')
     R15 = CORRELATION(marple_data, maxlags=15, norm=None)
 
+def test_correlation_others():
+    CORRELATION(marple_data, y=array([1,2,3,4]), maxlags=5)
+    CORRELATION(array([1,2,3,4]), marple_data, maxlags=5)
+    CORRELATION(array([1,2,3,4]), marple_data)
 
 
 def test_CORRELATION_biased():
@@ -22,6 +27,7 @@ def test_CORRELATION_biased():
     assert_almost_equal(R30[0], 1.7804598944893049+0j)
     assert_almost_equal(R30[1], R15[1])
     assert_almost_equal(R30[2], R15[2])
+
 
 def test_CORRELATION_unbiased():
     R15 = CORRELATION(marple_data, maxlags=15, norm='unbiased')
@@ -74,6 +80,7 @@ def test_xcorr_versus_CORRELATION_real_data():
         corr1,l = xcorr(x, x, maxlags=4, norm=norm)
         corr2 = CORRELATION(x, x, maxlags=4, norm=norm)
         assert_array_almost_equal(corr1, func(corr2))
+
 
 def _test_xcorr_versus_CORRELATION_imag_data():
     from spectrum.tools import twosided as func
