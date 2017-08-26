@@ -1,8 +1,8 @@
 ChangeLog Summary
 ===================
 
-Version 0.7
-------------------
+Version 0.7 (aug 2017)
+-----------------------
 
 * 0.7.0:
 
@@ -13,7 +13,7 @@ Version 0.7
        * Similarly all other parametric methods have been changed by adding the
          scale_by_freq argument where missing 
 
-Version 0.6
+Version 0.6 
 ---------------
 
 
