@@ -92,9 +92,27 @@ class pburg(ParametricSpectrum):
         p = pburg(marple_data, 15, NFFT=4096)
         p.plot(sides='centerdc')
 
+    Another example based on a real data set is shown here below. Note here
+    that we set the scale_by_freq value to False and True. False should give
+    results equivalent to octave or matlab convention while setting to True
+    implies that the data is multiplied by  :math:`2\pi df` where 
+    :math:`df = sampling / N`.
+
+    .. plot::
+        :width: 80%
+        :include-source:
+
+        from spectrum import data_two_freqs, pburg
+        p = pburg(data_two_freqs(), 7, NFFT=4096)
+        p.plot()
+        p = pburg(data_two_freqs(), 7, NFFT=4096, scale_by_freq=False)
+        p.plot()
+        from pylab import legend
+        legend(["scaled by 2 pi df", "un-scaled"])
 
     """
-    def __init__(self, data, order, criteria=None, NFFT=None, sampling=1.):
+    def __init__(self, data, order, criteria=None, NFFT=None, sampling=1.,
+        scale_by_freq=True):
         """**Constructor**
 
         For a detailled description of the parameters, see :func:`burg`.
@@ -109,7 +127,8 @@ class pburg(ParametricSpectrum):
 
         """
         super(pburg, self).__init__(data, ar_order=order,
-                                            NFFT=NFFT, sampling=sampling)
+                sampling=sampling, NFFT=NFFT,
+                scale_by_freq=scale_by_freq)
         self.criteria = criteria
 
     def __call__(self):
@@ -128,7 +147,7 @@ class pburg(ParametricSpectrum):
             self.psd = newpsd
         else:
             self.psd = psd
-        #self.scale()
+        self.scale()
 
     def _str_title(self):
         return "Periodogram PSD estimate\n"
