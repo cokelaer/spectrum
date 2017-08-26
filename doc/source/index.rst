@@ -32,8 +32,6 @@
 :documentation: http://pyspectrum.readthedocs.io/ 
 
 
-
-
 Documentation
 =============
 

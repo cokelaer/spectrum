@@ -19,6 +19,7 @@ import sys, os
 import sphinx
 
 sys.path.insert(0, os.path.abspath('sphinxext'))
+import sphinx_gallery
 
 ###########################ADDON############################
 try:
@@ -64,6 +65,7 @@ extensions = [
     "numpydoc.numpydoc",
     'matplotlib.sphinxext.plot_directive',
     'sphinx.ext.autosummary',
+    'sphinx_gallery.gen_gallery',
     ]
 # note that the numpy directives is buggy. Example: class and init are not recognised as two entities for the autoclass_content=both here below
 
@@ -107,7 +109,7 @@ copyright = copyright
 exclude_trees = ['_build']
 exclude_patterns = []
 
-numpydoc_show_class_members = False
+
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 #default_role = None
@@ -127,7 +129,42 @@ pygments_style = 'sphinx'
 
 # A list of ignored prefixes for module index sorting.
 
-modindex_common_prefix = ["spectrum"]
+# -- sphinx gallery ------------------------------------------------------------
+plot_gallery = True
+sphinx_gallery_conf = {
+    "doc_module": "spectrum",
+    "examples_dirs": "../../examples",
+#    "gallery_dirs": "auto_examples",
+    "backreferences_dir": "True"
+}
+
+# Get rid of spurious warnings due to some interaction between
+# autosummary and numpydoc. See
+# https://github.com/phn/pytpm/issues/3#issuecomment-12133978 for more
+# details
+numpydoc_show_class_members = False
+
+
+# solution from nilearn
+def touch_example_backreferences(app, what, name, obj, options, lines):
+    # generate empty examples files, so that we don't get
+    # inclusion errors if there are no examples for a class / module
+    examples_path = os.path.join(app.srcdir, "modules", "generated",
+                                 "%s.examples" % name)
+    if not os.path.exists(examples_path):
+        # touch file
+        open(examples_path, 'w').close()
+
+
+
+# Add the 'copybutton' javascript, to hide/show the prompt in code
+# examples
+def setup(app):
+    app.add_javascript('copybutton.js')
+    app.connect('autodoc-process-docstring', touch_example_backreferences)
+
+
+
 
 
 # -- Options for HTML output ---------------------------------------------------
