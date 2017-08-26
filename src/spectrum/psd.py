@@ -9,7 +9,7 @@ from spectrum.window import window_names
 from spectrum import tools
 
 
-__all__ = ["Spectrum", "FourierSpectrum", "ParametricSpectrum"]
+__all__ = ["Spectrum", "FourierSpectrum", "ParametricSpectrum", "Range"]
 
 
 class Range(object):
