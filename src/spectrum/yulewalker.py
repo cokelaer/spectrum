@@ -15,6 +15,7 @@ from .correlation import CORRELATION
 from .levinson import LEVINSON
 from .psd import ParametricSpectrum
 from spectrum import tools
+import numpy as np
 
 __all__ = ['aryule', 'pyule']
 
@@ -130,7 +131,7 @@ class pyule(ParametricSpectrum):
 
     """
     def __init__(self, data, order, norm='biased', NFFT=None, sampling=1.,
-                 scale_by_freq=False):
+                 scale_by_freq=True):
         """**Constructor**
 
         For a detailled description of the parameters, see :func:`aryule`.
@@ -159,7 +160,9 @@ class pyule(ParametricSpectrum):
 
         # save the PSD
         if self.datatype == 'real':
-            self.psd = tools.twosided_2_onesided(psd)
+            newpsd  = psd[0:int(self.NFFT//2)] * 2
+            newpsd = np.append(newpsd, 2*psd[int(self.NFFT//2)]) 
+            self.psd = newpsd
         else:
             self.psd = psd
         if self.scale_by_freq is True:

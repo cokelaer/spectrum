@@ -15,7 +15,7 @@
 
     :References: See [Marple]_
 """
-from numpy import zeros, append, insert, real
+import numpy as np
 from numpy.fft import fft
 
 from spectrum.correlation import CORRELATION
@@ -85,11 +85,11 @@ def arma2psd(A=None, B=None, rho=1., T=1., NFFT=4096, sides='default',
     if A is None and B is None:
         raise ValueError("Either AR or MA model must be provided")
 
-    psd = zeros(NFFT, dtype=complex)
+    psd = np.zeros(NFFT, dtype=complex)
 
     if A is not None:
         ip = len(A)
-        den = zeros(NFFT, dtype=complex)
+        den = np.zeros(NFFT, dtype=complex)
         den[0] = 1.+0j
         for k in range(0, ip):
             den[k+1] = A[k]
@@ -97,7 +97,7 @@ def arma2psd(A=None, B=None, rho=1., T=1., NFFT=4096, sides='default',
 
     if B is not None:
         iq = len(B)
-        num = zeros(NFFT, dtype=complex)
+        num = np.zeros(NFFT, dtype=complex)
         num[0] = 1.+0j
         for k in range(0, iq):
             num[k+1] = B[k]
@@ -112,7 +112,7 @@ def arma2psd(A=None, B=None, rho=1., T=1., NFFT=4096, sides='default',
         psd = rho / T * abs(numf)**2.
 
 
-    psd = real(psd)
+    psd = np.real(psd)
     # The PSD is a twosided PSD.
     # to obtain the centerdc
     if sides != 'default':
@@ -181,7 +181,7 @@ def arma_estimate(X, P, Q, lag):
     MPQ = lag - Q + P
 
     N = len(X)
-    Y = zeros(N-P, dtype=complex)
+    Y = np.zeros(N-P, dtype=complex)
 
     for K in range(0, MPQ):
         KPQ = K + Q - P+1
@@ -267,8 +267,8 @@ class parma(ParametricSpectrum):
         #self.psd = psd
         if self.datatype == 'real':
             newpsd  = psd[0:int(self.NFFT//2)]*2
-            newpsd[0] /= 2.
-            newpsd = append(newpsd, psd[-1])
+            #newpsd[0] /= 2.
+            newpsd = np.append(newpsd, psd[-1])
             self.psd = newpsd
         else:
             self.psd = psd
@@ -324,11 +324,12 @@ class pma(ParametricSpectrum):
         #self.psd = psd
         if self.datatype == 'real':
             from . import tools
-            self.psd = tools.twosided_2_onesided(psd)
-            #newpsd  = psd[self.NFFT/2:]*2
+            #self.psd = tools.twosided_2_onesided(psd)
+            newpsd  = psd[0:int(self.NFFT//2)]*2
+            #newpsd  = psd[self.NFFT//2:]*2
             #newpsd[0] /= 2.
-            #newpsd = numpy.append(newpsd, psd[0])
-            #self.psd = newpsd
+            newpsd = np.append(newpsd, psd[0])
+            self.psd = newpsd
         else:
             self.psd = psd
         if self.scale_by_freq is True:
@@ -381,7 +382,7 @@ def ma(X, Q, M):
     a, rho, _c = yulewalker.aryule(X, M, 'biased')   #! Eq. (10.5)
 
     #add an element unity to the AR parameter array
-    a = insert(a, 0, 1)
+    a = np.insert(a, 0, 1)
 
     #C   Find MA parameters from autocorrelations by Yule-Walker method
     ma_params, _p, _c = yulewalker.aryule(a, Q, 'biased')    #! Eq. (10.7)

@@ -53,6 +53,7 @@ def _swapsides(data):
     from numpy import concatenate
     return concatenate((data[N//2+1:], data[0:N//2]))
 
+
 def twosided_2_onesided(data):
     """Convert a one-sided PSD to a twosided PSD
 

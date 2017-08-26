@@ -9,7 +9,7 @@
 
     .. codeauthor:: Thomas Cokelaer, 2011
 """
-import numpy
+import numpy as np
 from numpy.fft import fft
 
 from spectrum.burg import arburg
@@ -77,13 +77,13 @@ def minvar(X, order, sampling=1., NFFT=default_NFFT):
     errors.is_positive_integer(order)
     errors.is_positive_integer(NFFT)
 
-    psi = numpy.zeros(NFFT, dtype=complex)
+    psi = np.zeros(NFFT, dtype=complex)
 
     # First, we need to compute the AR values (note that order-1)
     A, P, k = arburg (X, order - 1)
 
     # add the order 0
-    A = numpy.insert(A, 0, 1.+0j)
+    A = np.insert(A, 0, 1.+0j)
 
     # We cannot compare the output with those of MARPLE in a precise way.
     # Indeed the burg algorithm is only single precision in fortram code
@@ -130,10 +130,9 @@ def minvar(X, order, sampling=1., NFFT=default_NFFT):
     psi = fft(psi, NFFT)
 
     #  Invert the psi terms at this point to get PSD values
-    PSD = sampling / numpy.real(psi)
+    PSD = sampling / np.real(psi)
 
     return PSD, A, k
-
 
 
 class pminvar(ParametricSpectrum):
@@ -151,7 +150,7 @@ class pminvar(ParametricSpectrum):
 
 
     """
-    def __init__(self, data, order, NFFT=None, sampling=1.):
+    def __init__(self, data, order, NFFT=None, sampling=1., scale_by_freq=False):
         """**Constructor**
 
         For a detailled description of the parameters, see :func:`minvar`.
@@ -164,12 +163,12 @@ class pminvar(ParametricSpectrum):
 
         """
         super(pminvar, self).__init__(data, ar_order=order, sampling=sampling,
-                                            NFFT=NFFT)
+                                            NFFT=NFFT, scale_by_freq=scale_by_freq)
 
     def __call__(self):
         res = minvar(self.data, self.ar_order, sampling=self.sampling,
                      NFFT=self.NFFT)
-
+        psd = res[0]
         # save the AR and reflection coefficients.
         self.ar = res[1]
         self.reflection = res[2]
@@ -177,12 +176,8 @@ class pminvar(ParametricSpectrum):
         # save the PSD
         if self.datatype == 'real':
             from . import tools
-            self.psd = tools.twosided_2_onesided(res[0])
-            #psd = res[0]
-            #newpsd  = psd[0:self.NFFT/2]*2
-            #newpsd[0] /= 2.
-            #newpsd = numpy.append(newpsd, res[-1])
-            #self.psd = newpsd
+            newpsd  = psd[0:int(self.NFFT//2)] * 2
+            self.psd = np.append(newpsd, psd[int(self.NFFT//2)]*2)
         else:
             self.psd = res[0]
         self.scale()

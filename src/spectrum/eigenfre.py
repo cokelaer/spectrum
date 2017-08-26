@@ -1,4 +1,4 @@
-import numpy
+import numpy as np
 from numpy.fft import fft
 from numpy.linalg import svd
 from spectrum import default_NFFT
@@ -32,7 +32,7 @@ class pmusic(ParametricSpectrum):
 
     """
     def __init__(self, data, IP, NSIG=None, NFFT=None, sampling=1.,
-        threshold=None, criteria="aic", verbose=False):
+        threshold=None, criteria="aic", verbose=False, scale_by_freq=False):
         """**Constructor:**
 
         For a detailed description of the parameters, see :func:`arma_estimate`.
@@ -46,7 +46,8 @@ class pmusic(ParametricSpectrum):
 
         """
         super(pmusic, self).__init__(data, ar_order=IP,
-                                     NFFT=NFFT, sampling=sampling)
+            scale_by_freq=scale_by_freq, NFFT=NFFT, sampling=sampling)
+
         self.NSIG = NSIG
         self.threshold = threshold
         self.criteria = criteria
@@ -59,7 +60,9 @@ class pmusic(ParametricSpectrum):
         self.eigenvalues = eigenvalues
 
         if self.datatype == 'real':
-            self.psd = twosided_2_onesided(psd)
+            #self.psd = twosided_2_onesided(psd)
+            newpsd  = psd[0:int(self.NFFT//2)] * 2
+            self.psd = np.append(newpsd, psd[int(self.NFFT//2)]*2)
             # we need to flip the data
             self.psd = self.psd[::-1]
         else:
@@ -89,6 +92,7 @@ class pev(ParametricSpectrum):
 
     """
     def __init__(self, data, IP, NSIG=None, NFFT=None, sampling=1.,
+        scale_by_freq=False,
         threshold=None, criteria="aic", verbose=False):
         """**Constructor:**
 
@@ -104,7 +108,7 @@ class pev(ParametricSpectrum):
 
         """
         super(pev, self).__init__(data, ar_order=IP,
-                                  NFFT=NFFT, sampling=sampling)
+            scale_by_freq=scale_by_freq, NFFT=NFFT, sampling=sampling)
         self.NSIG = NSIG
         self.threshold = threshold
         self.criteria = criteria
@@ -117,7 +121,9 @@ class pev(ParametricSpectrum):
         self.eigenvalues = eigenvalues
 
         if self.datatype == 'real':
-            self.psd = twosided_2_onesided(psd)
+            newpsd  = psd[0:int(self.NFFT//2)] * 2
+            self.psd = np.append(newpsd, psd[int(self.NFFT//2)]*2)
+            # we need to flip the data
             self.psd = self.psd[::-1]
         else:
             self.psd = centerdc_2_twosided(psd)
@@ -241,10 +247,10 @@ def eigen(X, P, NSIG=None, method='music', threshold=None, NFFT=default_NFFT,
     if NP > 100:
         NP = 100
 
-    FB = numpy.zeros((2*NP, P), dtype=complex)
+    FB = np.zeros((2*NP, P), dtype=complex)
     #FB = numpy.zeros((MAXU, IP), dtype=complex)
-    Z = numpy.zeros(NFFT, dtype=complex)
-    PSD = numpy.zeros(NFFT)
+    Z = np.zeros(NFFT, dtype=complex)
+    PSD = np.zeros(NFFT)
 
     # These loops can surely be replaced by a function that create such matrix
     for I in range(0, NP):
@@ -290,7 +296,7 @@ def eigen(X, P, NSIG=None, method='music', threshold=None, NFFT=default_NFFT,
 
     #return PSD, S
 
-    newpsd = numpy.append(PSD[nby2:0:-1], PSD[nby2*2-1:nby2-1:-1])
+    newpsd = np.append(PSD[nby2:0:-1], PSD[nby2*2-1:nby2-1:-1])
     return newpsd, S
 
 
@@ -313,7 +319,7 @@ def _get_signal_space(S, NP, verbose=False, threshold=None, NSIG=None,
             elif criteria == 'mdl':
                 aic = mdl_eigen(S, NP*2)
             # get the minimum index of the AIC vector, add 1 to get the NSIG
-            NSIG = numpy.argmin(aic) + 1
+            NSIG = np.argmin(aic) + 1
             if verbose:print('NSIG=', NSIG, ' found as the number of pertinent sinusoids')
         else:
             if verbose:
@@ -322,7 +328,7 @@ def _get_signal_space(S, NP, verbose=False, threshold=None, NSIG=None,
             # eigen value, and split the eigen values above and below
             # K times min eigen value, where K is >1
             m = threshold * min(S)
-            new_s = S[numpy.where(S>m)]
+            new_s = S[np.where(S>m)]
             NSIG = len(new_s)
             if verbose:
                 print('found', NSIG)
