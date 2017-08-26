@@ -11,10 +11,10 @@
 
 """
 #TODO: convert arburg into arburg2 to get a nicer and faster algorithm.
+import logging
 
 import numpy as np
 from spectrum.psd import ParametricSpectrum
-
 
 __all__ = ["arburg", 'pburg']
 
@@ -29,7 +29,7 @@ def _arburg2(X, order):
     x = np.array(X)
     N = len(x)
 
-    if order == 0.:
+    if order <= 0.:
         raise ValueError("order must be > 0")
 
     # Initialisation
@@ -120,15 +120,15 @@ class pburg(ParametricSpectrum):
         self.reflection = ref
         psd = arma2psd(A=self.ar, B=self.ma, rho=self.rho,
                       T=self.sampling, NFFT=self.NFFT)
-        #self.psd = psd
+
         if self.datatype == 'real':
             newpsd  = psd[0:int(self.NFFT//2)] * 2
-            newpsd[0] /= 2.
-            newpsd = np.append(newpsd, psd[-1])
+            # TODO: check the last value is correct or required ?
+            newpsd = np.append(newpsd, psd[int(self.NFFT//2)]*2)
             self.psd = newpsd
         else:
             self.psd = psd
-        self.scale()
+        #self.scale()
 
     def _str_title(self):
         return "Periodogram PSD estimate\n"
@@ -180,8 +180,11 @@ def arburg(X, order, criteria=None):
 
     :reference: [Marple]_ [octave]_
     """
-    if order == 0.:
+    if order <= 0.:
         raise ValueError("order must be > 0")
+
+    if order > len(X):
+        raise ValueError("order must be less than length input - 2")
 
     x = np.array(X)
     N = len(x)
@@ -196,7 +199,8 @@ def arburg(X, order, criteria=None):
         from spectrum import Criteria
         crit = Criteria(name=criteria, N=N)
         crit.data = rho
-        print((0, 'old criteria=',crit.old_data, 'new criteria=',crit.data, 'new_rho=', rho))
+        logging.debug('Step {}. old criteria={} new one={}.  rho={}'.format(
+                0, crit.old_data, crit.data, rho))
 
     #p =0
     a = np.zeros(0, dtype=complex)
@@ -217,16 +221,17 @@ def arburg(X, order, criteria=None):
         new_rho = temp * rho
 
         if criteria:
-            print((k+1, 'old criteria=',crit.old_data, 'new criteria=',crit.data, 'new_rho=',new_rho))
+            logging.debug('Step {}. old criteria={} new one={}. rho={}'.format(
+                k+1, crit.old_data, crit.data, new_rho))
             #k+1 because order goes from 1 to P whereas k starts at 0.
             status = crit(rho=temp*rho, k=k+1)
             if status is False:
-                #print 'should stop here-----------------', crit.data, crit.old_data
+                logging.debug('Stop criteria reached %s %s ' % (crit.data, crit.old_data))
                 break
         # this should be after the criteria
         rho = new_rho
         if rho <= 0:
-            raise ValueError("Found an negative value (expected positive stricly) %s" % rho)
+            raise ValueError("Found a negative value (expected positive stricly) %s. Decrease the order" % rho)
 
         a.resize(a.size+1)
         a[k] = kp
