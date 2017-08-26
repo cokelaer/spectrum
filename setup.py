@@ -8,8 +8,8 @@ from distutils.core import Extension
 
 
 _MAJOR               = 0
-_MINOR               = 6
-_MICRO               = 8
+_MINOR               = 7
+_MICRO               = 0
 version              = '%d.%d.%d' % (_MAJOR, _MINOR, _MICRO)
 release              = '%d.%d' % (_MAJOR, _MINOR)
 
