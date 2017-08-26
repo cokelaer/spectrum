@@ -10,6 +10,8 @@ Version 0.7
        * Fix https://github.com/cokelaer/spectrum/issues/38 in pburg to have the
          correct amplitude like in octave. fixed by removing the call to scale()
          function
+       * Similarly all other parametric methods have been changed by adding the
+         scale_by_freq argument where missing 
 
 Version 0.6
 ---------------
