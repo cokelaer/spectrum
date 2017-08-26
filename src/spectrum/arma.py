@@ -32,7 +32,7 @@ def arma2psd(A=None, B=None, rho=1., T=1., NFFT=4096, sides='default',
     r"""Computes power spectral density given ARMA values.
 
     This function computes the power spectral density values
-    given the ARMA parameters of an ARMA model. It is suppose that
+    given the ARMA parameters of an ARMA model. It assumes that
     the driving sequence is a white noise process of zero mean and
     variance :math:`\rho_w`. The sampling frequency and noise variance are
     used to scale the PSD output, which length is set by the user with the
@@ -103,12 +103,14 @@ def arma2psd(A=None, B=None, rho=1., T=1., NFFT=4096, sides='default',
             num[k+1] = B[k]
         numf = fft(num, NFFT)
 
+    # Changed in version 0.6.9 (divided by T instead of multiply)
     if A is not None and B is not None:
-        psd = rho * T * abs(numf)**2. / abs(denf)**2.
+        psd = rho / T * abs(numf)**2. / abs(denf)**2.
     elif A is not None:
-        psd = rho * T / abs(denf)**2.
+        psd = rho / T / abs(denf)**2.
     elif B is not None:
-        psd = rho * T * abs(numf)**2.
+        psd = rho / T * abs(numf)**2.
+
 
     psd = real(psd)
     # The PSD is a twosided PSD.
