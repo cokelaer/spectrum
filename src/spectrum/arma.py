@@ -230,7 +230,7 @@ class parma(ParametricSpectrum):
         :width: 80%
         :include-source:
 
-        from spectrum import parma
+        from spectrum import parma, marple_data
         p = parma(marple_data, 4, 4, 30, NFFT=4096)
         p.plot(sides='centerdc')
 
@@ -291,7 +291,7 @@ class pma(ParametricSpectrum):
         :width: 80%
         :include-source:
 
-        from spectrum import pma
+        from spectrum import pma, marple_data
         p = pma(marple_data, 15, 30, NFFT=4096)
         p.plot(sides='centerdc')
 
