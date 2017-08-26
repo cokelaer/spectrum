@@ -130,7 +130,7 @@ def data_two_freqs(N=200):
     return xx
 
 
-class TimeSeries():
+class TimeSeries(object):
     """A simple Base Class for various data sets.
 
     .. doctest::
