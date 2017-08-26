@@ -2,6 +2,8 @@ name: spectrum_env
 
 channels:
 - bioconda
+- defaults
+- r
 - conda-forge
 
 dependencies:
@@ -11,5 +13,6 @@ dependencies:
 - scipy
 - easydev
 - numpydoc
+- sphinx
 #- pip:
 #  - easydev>=0.9.21
