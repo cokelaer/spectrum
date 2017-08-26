@@ -12,6 +12,12 @@ import pylab
 def test_arburg2():
     from spectrum.burg import _arburg2
     ar, P, k = _arburg2(marple_data, order=15)
+    try:
+        ar, P, k = _arburg2(marple_data, order=0)
+        assert False
+    except:
+        assert True
+
 
 def test_arburg_functional():
     ar, P, k = arburg(marple_data, order=15)
@@ -55,7 +61,6 @@ def test_arburg_imag_output():
     assert_array_almost_equal(c, c_e)
 
 
-
 def test_burg_criteria():
     ar, P, k = arburg(marple_data, order=15, criteria='AIC')
     ar, P, k = arburg(marple_data, order=15, criteria='AICc')
@@ -63,6 +68,7 @@ def test_burg_criteria():
     ar, P, k = arburg(marple_data, order=15, criteria='MDL')
     ar, P, k = arburg(marple_data, order=15, criteria='FPE')
     ar, P, k = arburg(marple_data, order=15, criteria='AKICc')
+
 
 def test_pburg():
     p = pburg(marple_data, 15, NFFT=4096)
@@ -72,11 +78,49 @@ def test_pburg():
     p = pburg(data_cosine(), 15, NFFT=4096)
     p()
 
+
 def create_figure():
     psd = test_burg()
     pylab.plot(pylab.linspace(-0.5, 0.5, len(psd)),
                10 * pylab.log10(psd/max(psd)))
     pylab.axis([-0.5,0.5,-60,0])
     pylab.savefig('psd_burg.png')
+
+
+
+def test_burg_others():
+    ar, P, k = arburg(marple_data, order=30, criteria='AIC')
+
+    # This raises an error by entering the arburg estimation and leading to a 
+    # negative rho
+    try:
+        a, rho, ref = arburg([1,2,3,4,5,6,7,8,9,10,11,10,9,8,7,6,5,4,3,2,1], 20,None)
+        assert False
+    except:
+        assert True
+
+    # order is too large
+    try:
+        a, rho, ref = arburg([1,2,3,4,5,6,7,8,9,10], 20)
+        assert False
+    except:
+        assert True
+
+    # order is zero or negative
+    try:
+        a, rho, ref = arburg([1,2,3,4,5,6,7,8,9,10], 0)
+        assert False
+    except:
+        assert True
+
+
+
+
+
+
+
+
+
+
 
 

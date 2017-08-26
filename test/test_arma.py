@@ -20,11 +20,23 @@ def test_arma_values():
         3.47120865+5.48246963j,  2.79508215+3.3238971j ,
         2.13174602+1.51034329j]), decimal=4)
 
+    try:
+        ma(marple_data, 0, 15)
+        assert False
+    except:
+        assert True
+
 
 def test_arma():
     """arma, check that rho is correct (appendix 10.A )and reproduce figure 10.2"""
-    a,b, rho = arma_estimate(marple_data, 20,20,40)
+    a,b, rho = arma_estimate(marple_data, 20, 20, 40)
+    psd = arma2psd(A=a,B=b, rho=rho, NFFT=None)
     psd = arma2psd(A=a,B=b, rho=rho)
+    try:
+        psd = arma2psd(A=None, B=None, rho=rho)
+        assert False
+    except:
+        assert True
     return psd
 
 def create_figure_arma():
@@ -70,17 +82,26 @@ def test_arma2psd():
             0.46000709]))
 
 
-
 def test_parma():
     p = parma(marple_data, 4, 4, 30, NFFT=4096)
     p.plot()
     print(p)
+    p = parma(marple_data, 4, 4, 30, NFFT=4096, scale_by_freq=True)
+    p()
 
 def test_moving_average_class():
     p = pma(marple_data, 15, 30, NFFT=4096)
     p()
     print(p)
+
+def test_moving_average_class_real():
     p = pma(data_cosine(N=1024), 15, 30, NFFT=4096)
+    p()
+    p = pma(data_cosine(N=1024), 15, 30, NFFT=4096, scale_by_freq=True)
+    p()
+
+
+
 
 def create_figure_ma():
     psd = test_ma()
