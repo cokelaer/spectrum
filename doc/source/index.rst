@@ -31,6 +31,8 @@
 :issues: Please use https://github.com/cokelaer/spectrum/issues
 :documentation: http://pyspectrum.readthedocs.io/ 
 
+.. include:: gallery.rst
+
 
 Documentation
 =============
