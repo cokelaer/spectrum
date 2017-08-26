@@ -383,7 +383,7 @@ def create_window(N, name=None, **kargs):
         :include-source:
 
         from pylab import plot, log10, linspace, fft, clip
-        from spectrum import create_window
+        from spectrum import create_window, fftshift
 
         A = fft(create_window(51, 'hamming'), 2048) / 25.5
         mag = abs(fftshift(A))
