@@ -1,6 +1,12 @@
+"""Module related to the modcovar methods
+
+
+"""
+
 import numpy
 from numpy import real
 from .psd import ParametricSpectrum
+
 
 __all__ = ['modcovar', 'modcovar_marple', 'pmodcovar']
 
@@ -210,10 +216,6 @@ def modcovar_marple (X,IP):
             raise ValueError("Found an invalid negative GAMMA or DELTA value ")
 
 
-
-
-
-
 def modcovar(x, order):
     """Simple and fast implementation of the covariance AR estimate
 
@@ -270,12 +272,10 @@ def modcovar(x, order):
     return a, e
 
 
-
-
 class pmodcovar(ParametricSpectrum):
     """Class to create PSD based on modified covariance algorithm
 
-    See :func:`modcovar` for description.
+    See :func:`~spectrum.modcovar.modcovar` for description.
 
     .. rubric:: Examples
 
@@ -326,7 +326,7 @@ class pmodcovar(ParametricSpectrum):
             self.scale()
 
     def _str_title(self):
-        return "Modified covariance PSd estimate\n"
+        return "Modified covariance PSD estimate\n"
 
     def __str__(self):
         return super(pmodcovar, self).__str__()
