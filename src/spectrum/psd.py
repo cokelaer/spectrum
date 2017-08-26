@@ -358,7 +358,7 @@ class Spectrum(object):
             logging.debug('NFFT set to data length')
             new_nfft = self.N
         elif isinstance(NFFT, int):
-            logging.debug('NNFT set  manually to')
+            logging.debug('NNFT set  manually to {}'.format(NFFT))
             assert NFFT > 0, 'NFFT must be a positive integer'
             new_nfft = NFFT
         else:
@@ -504,14 +504,14 @@ class Spectrum(object):
         self.__sampling = sampling
         self.__df = self.__sampling / float(self.__N)
         self.modified = True
-    sampling = property(fget=_getSampling, fset=_setSampling, doc="""Getter/Setter to sampling frequency
-        Updates the :attr:`df` automatically.""")
+    sampling = property(fget=_getSampling, fset=_setSampling,
+        doc="""Getter/Setter to sampling frequency. Updates the :attr:`df` automatically.""")
 
     #the frequency resolution. Read only.
     def _getdf(self):
         return self._range.df
     df = property(fget=_getdf, doc="""Getter to step frequency. This attribute
-    is updated as soon as :attr:`data` or :attr:`sampling` is changed""")
+ is updated as soon as :attr:`data` or :attr:`sampling` is changed""")
 
     def _getdatatype(self):
         return self.__datatype
@@ -633,9 +633,8 @@ class Spectrum(object):
         import pylab
         #First, check that psd attribute is up-to-date
         if self.modified is True:
-            logging.debug("Computing the PSD")
-            self()
-            #raise errors.SpectrumModifiedError
+            # just to get the PSD to be recomputed if needed
+            self.psd
 
         # and that it has been computed
         if self.__psd is None:
@@ -659,6 +658,7 @@ class Spectrum(object):
             if self.datatype == 'complex':
                 assert sides != 'onesided'
 
+            logging.debug("sides is different from the one provided. Converting PSD")
             frequencies = self.frequencies(sides=sides)
             psd = self.get_converted_psd(sides)
 
@@ -878,78 +878,6 @@ class ParametricSpectrum(Spectrum):
     def __str__(self):
         return super(ParametricSpectrum, self).__str__()
 
-    """
-    def pma(self):
-        from arma import ma, arma2psd
-        mav, rho = ma(self.data, self.ma_order, self.ar_order)
-        self.ma = mav
-        self.rho = rho
-        psd = arma2psd(A=None, B=self.ma, rho=self.rho,
-                      T=self.sampling, NFFT=self.NFFT)
-        #self.psd = psd
-        if self.datatype == 'real':
-            newpsd  = psd[int(self.NFFT/2):]*2
-            newpsd[0] /= 2.
-            newpsd = numpy.append(newpsd, psd[0])
-            self.psd = newpsd
-        else:
-            self.psd = psd
-        self.scale()
-
-    def parma(self):
-        from arma import arma_estimate, arma2psd
-        ar, ma, rho = arma_estimate(self.data, self.ar_order, self.ma_order, self.lag)
-        self.ma = ma
-        self.ar = ar
-        self.rho = rho
-
-        psd = arma2psd(A=self.ar, B=self.ma, rho=self.rho,
-                      T=self.sampling, NFFT=self.NFFT)
-        #self.psd = psd
-        if self.datatype == 'real':
-            newpsd  = psd[0:int(self.NFFT/2)]*2
-            newpsd[0] /= 2.
-            newpsd = numpy.append(newpsd, psd[-1])
-            self.psd = newpsd
-        else:
-            self.psd = psd
-        self.scale()
-        #self.modified = False
-    """
-    """
-    def pburg(self):
-        from arma import arma2psd
-        from burg import arburg
-        ar, rho, ref = arburg(self.data, self.ar_order, criteria=None)
-        self.ar = ar
-        self.rho = rho
-        self.reflection = ref
-        psd = arma2psd(A=self.ar, B=self.ma, rho=self.rho,
-                      T=self.sampling, NFFT=self.NFFT)
-        #self.psd = psd
-        if self.datatype == 'real':
-            newpsd  = psd[0:iint(self.NFFT/2)]*2
-            newpsd[0] /= 2.
-            newpsd = numpy.append(newpsd, psd[-1])
-            self.psd = newpsd
-        else:
-            self.psd = psd
-        self.scale()
-    """
-
-    """def minvar(self):
-        from minvar import minvar
-        psd = minvar(self.data, self.ar_order, sampling=self.sampling,
-                     NFFT=self.NFFT)
-        if self.datatype == 'real':
-            newpsd  = psd[0:int(self.NFFT/2)]*2
-            newpsd[0] /= 2.
-            newpsd = numpy.append(newpsd, psd[-1])
-            self.psd = newpsd
-        else:
-            self.psd = psd
-        self.scale()
-    """
 
 
 class FourierSpectrum(Spectrum):
