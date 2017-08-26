@@ -10,14 +10,16 @@ Power Spectrum Density based on Parametric Methods
 ARMA and MA estimates (yule-walker)
 ------------------------------------
 
+
 .. module:: arma
     :synopsis: ARMA and MA parameters and PSD estimates using YuleWalker method
+
 .. automodule:: spectrum.arma
     :members:
     :undoc-members:
     :synopsis: ARMA and MA parameters and PSD estimates using YuleWalker method
 
-AR estimate based on Burg algorithm 
+AR estimate based on Burg algorithm
 -------------------------------------
 
 .. module:: burg

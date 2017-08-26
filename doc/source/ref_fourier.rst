@@ -5,7 +5,7 @@ Fourier Methods
 Power Spectrum Density based on Fourier Spectrum
 ==================================================
 
-.. automodule:: spectrum.spectrum
+.. automodule:: spectrum
     :show-inheritance:
     :members:
     :undoc-members:

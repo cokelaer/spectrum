@@ -48,6 +48,7 @@ project = "spectrum"
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
+
 extensions = [
     'sphinx.ext.autodoc',
 
@@ -68,13 +69,8 @@ extensions = [
 
 
 todo_include_todos=True
-#inheritance_node_attrs = dict(shape='ellipse', fontsize=14, height=0.75,
-#                              color='dodgerblue1', style='filled')
-
 jscopybutton_path = easydev.copybutton.get_copybutton_path()
-#to have the docstring of the class and its init method
 autoclass_content = 'both'
-
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -109,6 +105,9 @@ copyright = copyright
 # List of directories, relative to source directory, that shouldn't be searched
 # for source files.
 exclude_trees = ['_build']
+exclude_patterns = []
+
+numpydoc_show_class_members = False
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 #default_role = None
@@ -127,7 +126,8 @@ show_authors = True
 pygments_style = 'sphinx'
 
 # A list of ignored prefixes for module index sorting.
-#modindex_common_prefix = []
+
+modindex_common_prefix = ["spectrum"]
 
 
 # -- Options for HTML output ---------------------------------------------------

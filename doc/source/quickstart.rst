@@ -136,7 +136,7 @@ Once the AR and/or MA parameters are found, the :func:`~spectrum.arma.arma2psd` 
     :width: 80%
 
     from spectrum import arma_estimate, arma2psd, marple_data
-    from pylab import plot, axis, xlabel, ylabel, grid
+    from pylab import plot, axis, xlabel, ylabel, grid, log10
     ar, ma, rho = arma_estimate(marple_data, 15, 15, 30)
     psd = arma2psd(ar, ma, rho=rho, NFFT=4096)
     plot(10*log10(psd/max(psd)))

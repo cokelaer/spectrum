@@ -4,6 +4,13 @@ ChangeLog Summary
 Version 0.6
 ---------------
 
+* 0.6.9:
+
+    * BUG fixes:
+       * Fix https://github.com/cokelaer/spectrum/issues/38 in pburg to have the
+         correct amplitude like in octave. fixed by removing the call to scale()
+         function
+
 * 0.6.8:
 
     * Fix the MANIFEST
