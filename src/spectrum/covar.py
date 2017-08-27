@@ -1,6 +1,6 @@
 import logging
 
-import numpy
+import numpy as np
 from .psd import ParametricSpectrum
 
 
@@ -43,7 +43,7 @@ def arcovar_marple(x, order):
     assert len(x) >= order, "X must be dimensioned >=N"
 
     #   ----------------------------------------------------- Initialization
-    x = numpy.array(x)
+    x = np.array(x)
     N = len(x)
 
 
@@ -58,11 +58,11 @@ def arcovar_marple(x, order):
     delta = 1. - r1 / r0
     gamma = 1. - rN / r0
 
-    c = numpy.zeros(N, dtype=complex)
-    d = numpy.zeros(N, dtype=complex)
-    r = numpy.zeros(N, dtype=complex)
-    af = numpy.zeros(N, dtype=complex)
-    ab = numpy.zeros(N, dtype=complex)
+    c = np.zeros(N, dtype=complex)
+    d = np.zeros(N, dtype=complex)
+    r = np.zeros(N, dtype=complex)
+    af = np.zeros(N, dtype=complex)
+    ab = np.zeros(N, dtype=complex)
 
     c[0] = x[N-1].conjugate() / r0
     d[0] = x[0].conjugate() / r0
@@ -191,10 +191,6 @@ def arcovar_marple(x, order):
         #    print('--------time update', r1, r2, r3, r4, m+1, N-m-1, x[m+1], x[N-m-2])
         ef = x[m+1]
         eb = x[(N-1)-m-1]
-        #if debug:
-        #    print('delta, gamma=', delta, gamma)
-        #if debug:
-        #    print('before eb=', eb, ' ef=', ef)
 
 
         for k in range(0,m+1):
@@ -240,13 +236,6 @@ def arcovar_marple(x, order):
         #if debug:
         #    print('Pb---------------------', m, pb, r5, r4)
         gamma = gamma-r5*r2                        # Eq. (8.C.31)
-        #if debug:
-        #    print('Gamma', gamma)
-        #    print('r5 r3,r1,and delta', r5, r3, r1, delta)
-        #    print('eb=', eb)
-        #    print('ef=', ef)
-        #    print('pf=', pf)
-        #    print('pb=', pb)
         pbv.append(pb)
 
         if (pf > 0. and pb > 0.):
@@ -301,8 +290,9 @@ def arcovar(x, order):
         :width: 80%
         :include-source:
 
-        from spectrum import *
+        from spectrum import arcovar, marple_data, arma2psd
         from pylab import plot, log10, linspace, axis
+
         ar_values, error = arcovar(marple_data, 15)
         psd = arma2psd(ar_values, sides='centerdc')
         plot(linspace(-0.5, 0.5, len(psd)), 10*log10(psd/max(psd)))
@@ -320,8 +310,8 @@ def arcovar(x, order):
     import scipy.linalg
 
     X = corrmtx(x, order, 'covariance')
-    Xc = numpy.matrix(X[:, 1:])
-    X1 = numpy.array(X[:, 0])
+    Xc = np.matrix(X[:, 1:])
+    X1 = np.array(X[:, 0])
 
     # Coefficients estimated via the covariance method
     # Here we use lstsq rathre than solve function because Xc is not square
@@ -330,8 +320,8 @@ def arcovar(x, order):
     a, _residues, _rank, _singular_values = scipy.linalg.lstsq(-Xc, X1)
 
     # Estimate the input white noise variance
-    Cz = numpy.dot(X1.conj().transpose(), Xc)
-    e = numpy.dot(X1.conj().transpose(), X1) + numpy.dot(Cz, a)
+    Cz = np.dot(X1.conj().transpose(), Xc)
+    e = np.dot(X1.conj().transpose(), X1) + np.dot(Cz, a)
     assert e.imag < 1e-4, 'wierd behaviour'
     e = float(e.real) # ignore imag part that should be small
 
@@ -347,7 +337,7 @@ class pcovar(ParametricSpectrum):
         :width: 80%
         :include-source:
 
-        from spectrum import *
+        from spectrum import pcovar, marple_data
         p = pcovar(marple_data, 15, NFFT=4096)
         p.plot(sides='centerdc')
 
@@ -359,11 +349,11 @@ class pcovar(ParametricSpectrum):
 
         For a detailled description of the parameters, see :func:`arcovar`.
 
-        :param array data:     input data (list or numpy.array)
+        :param array data: input data (list or numpy.array)
         :param int order:
-        :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+        :param int NFFT: total length of the final data sets (padded
+            with zero if needed; default is 4096)
         :param float sampling: sampling frequency of the input :attr:`data`.
-
 
         """
         super(pcovar, self).__init__(data, ar_order=order,
@@ -377,11 +367,14 @@ class pcovar(ParametricSpectrum):
         psd = arma2psd(A=ar, T=self.sampling, NFFT=self.NFFT)
 
         if self.datatype == 'real':
-            from .tools import twosided_2_onesided
-            newpsd  = twosided_2_onesided(psd)
+            #from .tools import twosided_2_onesided
+            #newpsd  = twosided_2_onesided(psd)
             #\psd[0:self.NFFT/2]*2
             #newpsd[0] /= 2.
             #newpsd = numpy.append(newpsd, psd[-1])
+            newpsd  = psd[0:int(self.NFFT//2)] * 2
+            # TODO: check the last value is correct or required ?
+            newpsd = np.append(newpsd, psd[int(self.NFFT//2)]*2)
             self.psd = newpsd
         else:
             self.psd = psd
