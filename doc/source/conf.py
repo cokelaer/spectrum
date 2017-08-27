@@ -69,7 +69,6 @@ extensions = [
     ]
 # note that the numpy directives is buggy. Example: class and init are not recognised as two entities for the autoclass_content=both here below
 
-
 todo_include_todos=True
 jscopybutton_path = easydev.copybutton.get_copybutton_path()
 autoclass_content = 'both'
@@ -135,7 +134,7 @@ sphinx_gallery_conf = {
     "doc_module": "spectrum",
     "examples_dirs": "../../examples",
 #    "gallery_dirs": "auto_examples",
-    "backreferences_dir": "True"
+    "backreferences_dir": "gallery_backref"
 }
 
 # Get rid of spurious warnings due to some interaction between

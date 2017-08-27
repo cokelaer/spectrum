@@ -12,6 +12,8 @@ Version 0.7 (aug 2017)
          function
        * Similarly all other parametric methods have been changed by adding the
          scale_by_freq argument where missing 
+    * Changes:
+       * remove cohere module
 
 Version 0.6 
 ---------------

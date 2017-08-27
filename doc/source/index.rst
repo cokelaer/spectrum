@@ -1,5 +1,5 @@
 
-.. topic:: Spectrum: a Spectral Analysis Library in Python
+.. rubric:: Spectrum: a Spectral Analysis Library in Python
 
 .. image:: https://badge.fury.io/py/spectrum.svg
     :target: https://pypi.python.org/pypi/spectrum
@@ -48,8 +48,6 @@ Documentation
     Reference Guide<autosum.rst>
     ChangeLog <ChangeLog.rst>
     Contributions <contributions.rst>
-
-
 
 
 .. toctree::

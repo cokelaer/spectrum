@@ -98,7 +98,7 @@ Transfer function
 
 Waveforms
 -------------
-#.. module:: spectrum.waveform
+.. module:: waveform
 .. automodule::  spectrum.waveform
     :members:
     :undoc-members:

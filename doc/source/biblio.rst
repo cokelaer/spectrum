@@ -1,6 +1,9 @@
 Bibliography
 =============
 
+For those interested, here are some books and articles used to design this
+library. 
+
 Books
 ------
 
@@ -18,8 +21,7 @@ Books
 
 .. [Stoica] Stoica, P., and R. Moses. Introduction to Spectral Analysis. Upper Saddle River, NJ: Prentice Hall, 1997.
 
-
-.. [octave] to do
+.. [octave] octave software
 
 
 Articles
