@@ -14,5 +14,6 @@ dependencies:
 - easydev
 - numpydoc
 - sphinx
+- sphinx_gallery
 #- pip:
 #  - easydev>=0.9.21
