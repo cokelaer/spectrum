@@ -130,12 +130,20 @@ pygments_style = 'sphinx'
 
 # -- sphinx gallery ------------------------------------------------------------
 plot_gallery = True
-sphinx_gallery_conf = {
-    "doc_module": "spectrum",
-    "examples_dirs": "../../examples",
-#    "gallery_dirs": "auto_examples",
-    "backreferences_dir": "gallery_backref"
-}
+if not on_rtd:
+    sphinx_gallery_conf = {
+        "doc_module": "spectrum",
+        "examples_dirs": "../../examples",
+    #    "gallery_dirs": "auto_examples",
+        "backreferences_dir": "gallery_backref"
+    }
+else:
+    sphinx_gallery_conf = {
+        "doc_module": "spectrum",
+        "examples_dirs": "../../examples",
+    #    "gallery_dirs": "auto_examples",
+    #    "backreferences_dir": "gallery_backref"
+    }
 
 # Get rid of spurious warnings due to some interaction between
 # autosummary and numpydoc. See
