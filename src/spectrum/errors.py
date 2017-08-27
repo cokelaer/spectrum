@@ -51,7 +51,7 @@ class SpectrumARError(SpectrumError):
 
 class SpectrumMAError(SpectrumError):
     def __str__(self):
-        msg = """AR order must be stricly positive"""
+        msg = """MA order must be stricly positive"""
         return msg
 
 
