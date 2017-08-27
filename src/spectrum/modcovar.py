@@ -3,8 +3,7 @@
 
 """
 
-import numpy
-from numpy import real
+import numpy as np
 from .psd import ParametricSpectrum
 
 
@@ -44,10 +43,10 @@ def modcovar_marple (X,IP):
     """
     Pv = []
     N = len(X)
-    A = numpy.zeros(N, dtype=complex)
-    D = numpy.zeros(N, dtype=complex)
-    C = numpy.zeros(N, dtype=complex)
-    R = numpy.zeros(N, dtype=complex)
+    A = np.zeros(N, dtype=complex)
+    D = np.zeros(N, dtype=complex)
+    C = np.zeros(N, dtype=complex)
+    R = np.zeros(N, dtype=complex)
     #   Initialization
     R1=0.
     for K in range(1, N-1):
@@ -154,8 +153,8 @@ def modcovar_marple (X,IP):
         R2=PSI.real**2+PSI.imag**2
         R3=THETA.real**2+THETA.imag**2
         R4=XI.real**2+XI.imag**2
-        R5=GAMMA-(R2*DELTA+R3*GAMMA+2.*real(PSI*LAMBDA*THETA.conjugate()))*R1
-        R2=DELTA-(R3*DELTA+R4*GAMMA+2.*real(THETA*LAMBDA*XI.conjugate()))*R1
+        R5=GAMMA-(R2*DELTA+R3*GAMMA+2.*np.real(PSI*LAMBDA*THETA.conjugate()))*R1
+        R2=DELTA-(R3*DELTA+R4*GAMMA+2.*np.real(THETA*LAMBDA*XI.conjugate()))*R1
         GAMMA=R5                                     # Eq. (8.D.46)
         DELTA=R2                                     # Eq. (8.D.47)
         LAMBDA=LAMBDA+C3*PSI.conjugate()+C4*THETA.conjugate()  # Eq. (8.D.48)
@@ -197,7 +196,7 @@ def modcovar_marple (X,IP):
         D[0]=C2
         R3=EB.real**2+EB.imag**2
         R4=EF.real**2+EF.imag**2
-        P=P-(R3*DELTA+R4*GAMMA+2.*real(EF*EB*LAMBDA))*R2  # Eq. (8.D.42)
+        P=P-(R3*DELTA+R4*GAMMA+2.*np.real(EF*EB*LAMBDA))*R2  # Eq. (8.D.42)
         DELTA=DELTA-R4*R1                            # Eq. (8.D.32)
         GAMMA=GAMMA-R3*R1                            # Eq. (8.D.33)
         LAMBDA=LAMBDA+(EF*EB).conjugate()*R1                # Eq. (8.D.35)
@@ -234,8 +233,8 @@ def modcovar(x, order):
         :include-source:
         :width: 80%
 
-        from spectrum import *
-        from pylab import *
+        from spectrum import modcovar, marple_data, arma2psd, cshift
+        from pylab import log10, linspace, axis, plot 
 
         a, p = modcovar(marple_data, 15)
         PSD = arma2psd(a)
@@ -254,8 +253,8 @@ def modcovar(x, order):
     from spectrum import corrmtx
     import scipy.linalg
     X = corrmtx(x, order, 'modified')
-    Xc = numpy.matrix(X[:,1:])
-    X1 = numpy.array(X[:,0])
+    Xc = np.matrix(X[:,1:])
+    X1 = np.array(X[:,0])
 
     # Coefficients estimated via the covariance method
     # Here we use lstsq rathre than solve function because Xc is not square matrix
@@ -264,8 +263,8 @@ def modcovar(x, order):
     # Estimate the input white noise variance
 
 
-    Cz = numpy.dot(X1.conj().transpose(), Xc)
-    e = numpy.dot(X1.conj().transpose(), X1) + numpy.dot(Cz, a)
+    Cz = np.dot(X1.conj().transpose(), Xc)
+    e = np.dot(X1.conj().transpose(), X1) + np.dot(Cz, a)
     assert e.imag < 1e-4, 'wierd behaviour'
     e = float(e.real) # ignore imag part that should be small
 
@@ -283,7 +282,7 @@ class pmodcovar(ParametricSpectrum):
         :width: 80%
         :include-source:
 
-        from spectrum import *
+        from spectrum import pmodcovar, marple_data
         p = pmodcovar(marple_data, 15, NFFT=4096)
         p.plot(sides='centerdc')
 
@@ -296,11 +295,11 @@ class pmodcovar(ParametricSpectrum):
 
         For a detailled description of the parameters, see :func:`modcovar`.
 
-        :param array data:     input data (list or numpy.array)
+        :param array data: input data (list or numpy.array)
         :param int order:
-        :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+        :param int NFFT: total length of the final data sets (padded with
+            zero if needed; default is 4096)
         :param float sampling: sampling frequency of the input :attr:`data`.
-
 
         """
         super(pmodcovar, self).__init__(data, ar_order=order,
@@ -314,11 +313,11 @@ class pmodcovar(ParametricSpectrum):
         psd = arma2psd(A=ar, T=self.sampling, NFFT=self.NFFT)
 
         if self.datatype == 'real':
-            from .tools import twosided_2_onesided
-            newpsd  = twosided_2_onesided(psd)
-            #\psd[0:self.NFFT/2]*2
-            #newpsd[0] /= 2.
-            #newpsd = numpy.append(newpsd, psd[-1])
+            #from .tools import twosided_2_onesided
+            #newpsd  = twosided_2_onesided(psd)
+            newpsd  = psd[0:int(self.NFFT//2)] * 2
+            # TODO: check the last value is correct or required ?
+            newpsd = np.append(newpsd, psd[int(self.NFFT//2)]*2)
             self.psd = newpsd
         else:
             self.psd = psd

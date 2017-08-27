@@ -31,32 +31,36 @@ def tf2zp(b,a):
 
     Find the zeros, poles, and gains of this continuous-time system:
 
-    .. warning:; b and a must have the same length.
+    .. warning:: b and a must have the same length.
 
-    b = [2,3,0];
-    a = [1, 0.4, 1];
-    [z,p,k] = tf2zp(b,a)          % Obtain zero-pole-gain form
-    z =
-        1.5
-        0
-    p =
-       -0.2000 + 0.9798i
-       -0.2000 - 0.9798i
-    k =
-       2
+    ::
+
+    
+        from spectrum import tf2zp
+        b = [2,3,0]
+        a = [1, 0.4, 1]
+        [z,p,k] = tf2zp(b,a)          % Obtain zero-pole-gain form
+        z =
+            1.5
+            0
+        p =
+           -0.2000 + 0.9798i
+            -0.2000 - 0.9798i
+        k =
+           2
 
     :param b: numerator
     :param a: denominator
     :param fill: If True, check that the length of a and b are the same. If not, create a copy of the shortest element and append zeros to it.
-    :return: z (zeros),p (poles) ,g (gain)
+    :return: z (zeros), p (poles), g (gain)
 
 
     Convert transfer function f(x)=sum(b*x^n)/sum(a*x^n) to
     zero-pole-gain form f(x)=g*prod(1-z*x)/prod(1-p*x)
 
-    ## TODO: See if tf2ss followed by ss2zp gives better results.  These
-    ## TODO: are available from the control system toolbox.  Note that
-    ## TODO: the control systems toolbox doesn't bother, but instead uses
+    .. todo:: See if tf2ss followed by ss2zp gives better results.  These
+        are available from the control system toolbox.  Note that
+        the control systems toolbox doesn't bother, but instead uses
 
     .. seealso:: scipy.signal.tf2zpk, which gives the same results but uses a different
         algorithm (z^-1 instead of z).
@@ -174,7 +178,10 @@ def tf2zpk(b, a):
 def ss2zpk(a,b,c,d, input=0):
     """State-space representation to zero-pole-gain representation.
 
-    :param A, B, C, D : ndarray State-space representation of linear system.
+    :param A: ndarray State-space representation of linear system.
+    :param B: ndarray State-space representation of linear system.
+    :param C: ndarray State-space representation of linear system.
+    :param D: ndarray State-space representation of linear system.
     :param int input: optional For multiple-input systems, the input to use.
 
     :return:
@@ -189,18 +196,17 @@ def ss2zpk(a,b,c,d, input=0):
 
 
 def zpk2tf(z, p, k):
-    """Return polynomial transfer function representation from zeros and poles
+    r"""Return polynomial transfer function representation from zeros and poles
 
-    :param ndarray z:  Zeros of the transfer function.
-    :param ndarray p:  Poles of the transfer function.
+    :param ndarray z: Zeros of the transfer function.
+    :param ndarray p: Poles of the transfer function.
     :param float k: System gain.
 
     :return:
         b : ndarray Numerator polynomial.
         a : ndarray Numerator and denominator polynomials.
 
-
-    zpk2tf forms transfer function polynomials from the zeros, poles, and gains
+    :func:`zpk2tf` forms transfer function polynomials from the zeros, poles, and gains
     of a system in factored form.
 
     zpk2tf(z,p,k) finds a rational transfer function
@@ -217,7 +223,7 @@ def zpk2tf(z, p, k):
     The zeros and poles must be real or come in complex conjugate pairs.
     The polynomial denominator coefficients are returned in row vector a and
     the polynomial numerator coefficients are returned in matrix b, which has
-     as many rows as there are columns of z.
+    as many rows as there are columns of z.
 
     Inf values can be used as place holders in z if some columns have fewer zeros than others.
 

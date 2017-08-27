@@ -19,10 +19,8 @@
 
 
 
-"""#from numpy.fft import fft, ifft
+"""
 import numpy as np
-from numpy import  arange, isrealobj
-# from pylab import rms_flat
 
 
 __all__ = ['CORRELATION', 'xcorr']
@@ -107,7 +105,7 @@ def CORRELATION(x, y=None, maxlags=None, norm='unbiased'):
         maxlags = N - 1
     assert maxlags < N, 'lag must be less than len(x)'
 
-    realdata = isrealobj(x) and isrealobj(y)
+    realdata = np.isrealobj(x) and np.isrealobj(y)
     #create an autocorrelation array with same length as lag
     if realdata == True:
         r = np.zeros(maxlags, dtype=float)
@@ -205,10 +203,10 @@ def xcorr(x, y=None, maxlags=None, norm='biased'):
 
     if maxlags is None:
         maxlags = N-1
-        lags = arange(0, 2*N-1)
+        lags = np.arange(0, 2*N-1)
     else:
         assert maxlags <= N, 'maxlags must be less than data length'
-        lags = arange(N-maxlags-1, N+maxlags)
+        lags = np.arange(N-maxlags-1, N+maxlags)
 
     res = np.correlate(x, y, mode='full')
 
@@ -216,7 +214,7 @@ def xcorr(x, y=None, maxlags=None, norm='biased'):
         Nf = float(N)
         res = res[lags] / float(N)    # do not use /= !!
     elif norm == 'unbiased':
-        res = res[lags] / (float(N)-abs(arange(-N+1, N)))[lags]
+        res = res[lags] / (float(N)-abs(np.arange(-N+1, N)))[lags]
     elif norm == 'coeff':
         Nf = float(N)
         rms = pylab_rms_flat(x) * pylab_rms_flat(y)
@@ -224,5 +222,5 @@ def xcorr(x, y=None, maxlags=None, norm='biased'):
     else:
         res = res[lags]
 
-    lags = arange(-maxlags, maxlags+1)
+    lags = np.arange(-maxlags, maxlags+1)
     return res, lags

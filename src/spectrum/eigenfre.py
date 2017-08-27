@@ -1,3 +1,6 @@
+
+import logging
+
 import numpy as np
 from numpy.fft import fft
 from numpy.linalg import svd
@@ -18,7 +21,7 @@ class pmusic(ParametricSpectrum):
         :width: 80%
         :include-source:
 
-        from spectrum import pmusic
+        from spectrum import pmusic, marple_data
         p = pmusic(marple_data, 15, NFFT=4096)
         p.plot()
 
@@ -86,7 +89,7 @@ class pev(ParametricSpectrum):
         :width: 80%
         :include-source:
 
-        from spectrum import pev
+        from spectrum import pev, marple_data
         p = pev(marple_data, 15, NFFT=4096)
         p.plot()
 
@@ -311,8 +314,7 @@ def _get_signal_space(S, NP, verbose=False, threshold=None, NSIG=None,
     # NSIG being the number of eigenvalues corresponding to signals.
     if NSIG is None:
         if threshold is None:
-            if verbose:
-                print('computing NSIG using AIC method')
+            logging.debug('computing NSIG using AIC method')
             # get the minimum index of the AIC vector
             if criteria == 'aic':
                 aic = aic_eigen(S, NP*2)
@@ -320,18 +322,16 @@ def _get_signal_space(S, NP, verbose=False, threshold=None, NSIG=None,
                 aic = mdl_eigen(S, NP*2)
             # get the minimum index of the AIC vector, add 1 to get the NSIG
             NSIG = np.argmin(aic) + 1
-            if verbose:print('NSIG=', NSIG, ' found as the number of pertinent sinusoids')
+            logging.debug('NSIG=', NSIG, ' found as the number of pertinent sinusoids')
         else:
-            if verbose:
-                print('computing NSIG using user threshold ')
+            logging.debug('computing NSIG using user threshold ')
             # following an idea from Matlab, pmusic, we look at the minimum
             # eigen value, and split the eigen values above and below
             # K times min eigen value, where K is >1
             m = threshold * min(S)
             new_s = S[np.where(S>m)]
             NSIG = len(new_s)
-            if verbose:
-                print('found', NSIG)
+            logging.debug('found', NSIG)
             if NSIG == 0:
                 NSIG = 1
     return NSIG

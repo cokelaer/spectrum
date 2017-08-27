@@ -23,7 +23,7 @@ class Range(object):
         * :meth:`twosided`: frequency range from 0 up to sampling (excluded),
         * :meth:`onesided`: frequency range from 0 up to sampling (included).
 
-    Each method as a generator version:
+    Each method has a generator version:
 
     .. doctest::
         :options: +SKIP
@@ -52,7 +52,7 @@ class Range(object):
     """
 
     def __init__(self, N, sampling=1.):
-        """**Constructor**
+        """.. rubric:: **Constructor**
 
         :param int N: the data length
         :param float sampling: sampling frequency of the input :attr:`data`.
@@ -145,7 +145,7 @@ class Range(object):
 
     def onesided(self):
         """Return the one-sided frequency range as a list (see
-        :meth:`onesided_gen for details).
+        :meth:`onesided_gen` for details).
         """
         return list(self.onesided_gen())
 
@@ -180,13 +180,14 @@ class Spectrum(object):
 
     The input parameters are:
 
-    :param array data:     input data (list or numpy.array)
-    :param array data_y:   input data required to perform cross-PSD only.
+    :param array data: input data (list or numpy.array)
+    :param array data_y: input data required to perform cross-PSD only.
     :param float sampling: sampling frequency of the input :attr:`data`
-    :param str detrend:    detrend method ([None,'mean']) to apply on the input data before
+    :param str detrend: detrend method ([None,'mean']) to apply on the input data before
         computing the PSD. See :attr:`detrend`.
     :param bool scale_by_freq: divide the final PSD by :math:`2*\pi/df`
-    :param int NFFT:       total length of the final data sets (padded with zero if needed; default is 4096)
+    :param int NFFT: total length of the final data sets (padded with 
+        zero if needed; default is 4096)
 
     The input parameters are available as attributes. Additional
     attributes such as :attr:`N` (the data length), :attr:`df` (the frequency
@@ -250,7 +251,6 @@ class Spectrum(object):
           * :attr:`datatype`
           * :attr:`df`
           * :attr:`N`
-
 
         And finally, additional read-write attributes are available:
 
@@ -447,7 +447,7 @@ class Spectrum(object):
         else:
             self.__datatype = 'complex'
     data = property(fget=_getData, fset=_setData, doc="""Getter/Setter for the
-    input data. If input is a list, it is cast into a numpy.array. :attr:`N`,
+    input data. If input is a list, it is cast into a numpy.array. Then, :attr:`N`,
     :attr:`df` and  :attr:`datatype` are updated.""")
 
     def _getPSD(self):
@@ -843,13 +843,13 @@ class ParametricSpectrum(Spectrum):
         self.__rho = rho
     def _get_rho(self):
         return self.__rho
-    rho = property(fget=_get_rho, fset=_set_rho, doc="")
+    rho = property(fget=_get_rho, fset=_set_rho)
 
     def _set_ref(self, ref):
         self.__reflection = ref
     def _get_ref(self):
         return self.__reflection
-    reflection = property(fget=_get_ref, fset=_set_ref, doc="")
+    reflection = property(fget=_get_ref, fset=_set_ref)
 
     """ self.reflection = None
         elif method == 'aryule':

@@ -138,7 +138,7 @@ def meyeraux(x):
         :width: 80%
 
         from spectrum import meyeraux
-        from pylab import linspace
+        from pylab import linspace, plot
         t = linspace(0, 1, 1000)
         plot(t, meyeraux(t))
 

@@ -239,8 +239,6 @@ def rlevinson(a, efinal):
     return R, U, kr, e
 
 
-
-
 def levdown(anxt, enxt=None):
     """One step backward Levinson recursion
 
@@ -277,7 +275,6 @@ def levdown(anxt, enxt=None):
     return acur, ecur
 
 
-
 def levup(acur, knxt, ecur=None):
     """LEVUP  One step forward Levinson recursion
 
@@ -306,5 +303,3 @@ def levup(acur, knxt, ecur=None):
     anxt = numpy.insert(anxt, 0, 1)
 
     return anxt, enxt
-
-
