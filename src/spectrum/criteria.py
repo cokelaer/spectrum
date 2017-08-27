@@ -27,8 +27,8 @@
     :width: 80%
     :include-source:
 
-    from spectrum import *
-    from pylab import *
+    from spectrum import aryule, AIC, marple_data
+    from pylab import plot, arange
     order = arange(1, 25)
     rho = [aryule(marple_data, i, norm='biased')[1] for i in order]
     plot(order, AIC(len(marple_data), rho, order), label='AIC')
@@ -127,7 +127,6 @@ class Criteria(object):
         self.__rho = rho
     rho = property(fget=_getRho, fset=_setRho, doc="Getter/Setter for rho")
 
-
     def __call__(self, rho=None, k=None, N=None, norm=True):
         """Call the criteria function correspondign to :attr:`name`."""
         self.__norm = norm
@@ -153,13 +152,6 @@ class Criteria(object):
             else:
                 return True
         return True
-
-    def plot(self):
-        from pylab import plot
-        plot(self.data)
-
-    def plot_all(self):
-        _ar_criteria(self.__rho, self.N)
 
 
 def AIC(N, rho, k):
@@ -270,29 +262,6 @@ def CAT(N, rho, k):
     return cat
 
 
-def _ar_criteria(rho, N):
-    pass
-    #from pylab import plot, legend, hold, clf
-    #fpe = FPE(N, rho)
-    #aic = AIC(N, rho, len(rho))
-    #mdl = MDL(rho, N)
-    #cat = CAT(rho, N)
-    #print fpe/max(fpe)
-    #print aic/max(aic)
-    #print mdl/max(mdl)
-    #print cat/max(cat)
-    #figure()
-    #clf()
-    #plot(fpe/fpe[0], 'o-', label='FPE')
-    #hold(True)
-    i#plot(aic/aic[0], 'x-', label='AIC')
-    #plot(mdl/mdl[0], '.-', label='MDL')
-    #plot(cat/cat[-1], 's-', label='CAT')
-    #legend()
-
-
-
-
 def aic_eigen(s, N):
     r"""AIC order-selection using eigen values
 
@@ -339,6 +308,7 @@ def aic_eigen(s, N):
         kaic.append( -2.*(n-k)*N * np.log(gk/ak) + 2.*k*(2.*n-k))
 
     return kaic
+
 
 def mdl_eigen(s, N):
     r"""MDL order-selection using eigen values
