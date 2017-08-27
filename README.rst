@@ -49,20 +49,19 @@ gravitational waves in 2016), to music (pattern detection) or biology (mass
 spectroscopy).
 
 
-Installation
-================
+Quick Installation
+=====================
 
-::
+**spectrum** is available on Pypi::
 
     pip install spectrum
 
-For Linux and MAC users, if you prefer to use conda (avoiding
- compilation of dependencies), please use::
+and **conda**::
 
-    conda config --add channels conda-forge 
+    conda config --add channels conda-forge
     conda install spectrum
 
-To install the **conda** executable, please see https://www.continuum.io/downloads .
+To install the **conda** executable itself, please see https://www.continuum.io/downloads .
 
 Contributions
 ==================
