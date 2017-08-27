@@ -129,6 +129,7 @@ pygments_style = 'sphinx'
 # A list of ignored prefixes for module index sorting.
 
 # -- sphinx gallery ------------------------------------------------------------
+on_rtd = os.environ.get("READTHEDOCS", None) == "True"
 plot_gallery = True
 if not on_rtd:
     sphinx_gallery_conf = {
@@ -178,7 +179,6 @@ def setup(app):
 
 # The theme to use for HTML and HTML Help pages.  Major themes that come with
 # Sphinx are currently 'default' and 'sphinxdoc'.
-on_rtd = os.environ.get("READTHEDOCS", None) == "True"
 if not on_rtd:
     import sphinx_rtd_theme
     html_theme = 'sphinx_rtd_theme'
