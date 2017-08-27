@@ -137,12 +137,18 @@ def spectrum_data(filename):
     info = pkg_resources.get_distribution('spectrum')
     location = info.location
 
+    # first try develop mode
     share = os.sep.join([location , '../share', 'data'])
-    # in the code one may use / or \ 
     filename = os.sep.join([share, filename])
-    if os.path.exists(filename) is False:
-        raise Exception('unknown file %s' % filename)
-    return filename
+    if os.path.exists(filename):
+        return filename
+
+    share = os.sep.join([location , 'share', 'data'])
+    filename = os.sep.join([share, filename])
+    if os.path.exists(filename):
+        return filename
+
+    raise Exception('unknown file %s' % filename)
 #: filename of a WAV data file 150,000 data points
 dolphin_filename = spectrum_data("DOLPHINS.wav")
 
