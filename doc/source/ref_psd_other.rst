@@ -42,3 +42,12 @@ Modified Covariance method
     :synopsis: PSDs estimate using modified covariance analysis
 
 
+Spectrogram
+-----------------
+.. module:: spectrogram
+    :synopsis: 
+.. automodule:: spectrum.spectrogram
+    :members:
+    :undoc-members:
+    :synopsis: 
+

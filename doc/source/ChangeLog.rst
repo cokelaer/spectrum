@@ -3,6 +3,16 @@ ChangeLog Summary
 
 Version 0.7 (aug 2017)
 -----------------------
+* 0.7.1:
+
+    * NEWS:
+       * add io module with readwav function
+       * add spectrogram module
+       * add a wav data file example (DOLPHIN.WAV) for example
+       * add MultiTapering class (calls pmtm)
+
+    * BUG Fixes:
+       * 2D case for speriodogram should work now
 
 * 0.7.0:
 
@@ -14,6 +24,7 @@ Version 0.7 (aug 2017)
          scale_by_freq argument where missing 
     * Changes:
        * remove cohere module
+    
 
 Version 0.6 
 ---------------

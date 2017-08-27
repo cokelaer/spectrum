@@ -106,7 +106,6 @@ where 15,15 and 30 are arguments of the ARMA model (see :class:`spectrum.parma`)
 
 Then, computation and plot can be performed::
 
-    p.run()
     p.plot(norm=True, color='red', linewidth=2)
 
 .. plot::
@@ -114,7 +113,6 @@ Then, computation and plot can be performed::
 
     from spectrum import parma, marple_data
     p = parma(marple_data, 15, 15, 30, NFFT=4096)
-    p.run() # now you run the estimation
     p.plot(norm=True, color='red', linewidth=2) # same options as pylab.plot
 
 Since the data is complex, the PSD (stored in p.psd) is a twosided PSD. Note also that all optional arguments accepted by matplotlib function are also available in this implementation. 
