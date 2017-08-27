@@ -276,7 +276,7 @@ class parma(ParametricSpectrum):
             self.scale()
 
     def _str_title(self):
-        return "Periodogram PSD estimate\n"
+        return "ARMA PSD estimate\n"
 
     def __str__(self):
         return super(parma, self).__str__()
@@ -334,7 +334,7 @@ class pma(ParametricSpectrum):
         self.modified = False
 
     def _str_title(self):
-        return "Periodogram PSD estimate\n"
+        return "MA (moving average) PSD estimate\n"
 
     def __str__(self):
         return super(pma, self).__str__()
