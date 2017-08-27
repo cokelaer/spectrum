@@ -11,9 +11,9 @@ Using pip
 
 Since **spectrum** depends on other python packages such as Numpy, Matplotlib and Scipy they will be installed automatically (if not already installed).
 
-You can also install them yourself by typing::
+You can also install the dependencies yourself by typing::
 
-    pip numpy matplotlib scipy
+    pip install numpy matplotlib scipy
 
 **Spectrum** source code is available on Github https://github.com/cokelaer/spectrum
 
