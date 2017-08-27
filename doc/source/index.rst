@@ -17,7 +17,7 @@
       :target: https://anaconda.org/conda-forge/spectrum
 
 .. image:: https://anaconda.org/conda-forge/spectrum/badges/installer/conda.svg
-      :target: https://conda.anaconda.org/conda-forge
+      :target: https://conda.anaconda.org/conda-forge/spectrum
 
 .. image:: https://anaconda.org/conda-forge/spectrum/badges/downloads.svg
       :target: https://anaconda.org/conda-forge/spectrum
