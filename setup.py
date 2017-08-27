@@ -14,7 +14,10 @@ version              = '%d.%d.%d' % (_MAJOR, _MINOR, _MICRO)
 release              = '%d.%d' % (_MAJOR, _MINOR)
 
 
-data_files = [ (pj('share', 'data'), glob.glob(os.path.join('share','data', '*.dat')))]
+data_files = [ (
+        pj('share', 'data'), 
+        glob.glob(os.path.join('share','data', '*'))
+    )]
 
 with open('README.rst') as f:
     readme = f.read()
