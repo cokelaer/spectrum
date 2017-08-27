@@ -14,6 +14,8 @@ Version 0.7 (aug 2017)
     * BUG Fixes:
        * 2D case for speriodogram should work now
 
+
+
 * 0.7.0:
 
     * BUG fixes:

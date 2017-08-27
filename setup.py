@@ -47,7 +47,11 @@ setup(
     # specific packages for testing
     tests_require = open('requirements-dev.txt').read().split(),
 
-    data_files = data_files,
+    package_data = {
+        'spectrum.data' : ['*'],
+        },
+
+
     platforms=["Linux"],
     classifiers=["Development Status :: 1 - Planning",
         "Environment :: Console",

@@ -138,12 +138,7 @@ def spectrum_data(filename):
     location = info.location
 
     # first try develop mode
-    share = os.sep.join([location , '../share', 'data'])
-    filename2 = os.sep.join([share, filename])
-    if os.path.exists(filename2):
-        return filename2
-
-    share = os.sep.join([location , 'share', 'data'])
+    share = os.sep.join([location, "spectrum", 'data'])
     filename2 = os.sep.join([share, filename])
     if os.path.exists(filename2):
         return filename2
