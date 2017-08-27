@@ -21,6 +21,7 @@ import os
 from os.path import join as pj
 from spectrum.tools import nextpow2
 from numpy.ctypeslib import load_library
+from spectrum.psd import Spectrum
 
 """
 
@@ -50,6 +51,51 @@ try:
     mtspeclib = load_library(lib_name, p)
 except:
     print("Library %s not found" % lib_name)
+
+
+class MultiTapering(Spectrum):
+    """
+
+    See :func:`pmtm` for details
+
+    """
+    def __init__(self, data, NW=None, k=None, NFFT=None, e=None, v=None,
+                 method="adapt", scale_by_freq=True, sampling=1):
+        super(MultiTapering, self).__init__(data, sampling=sampling, NFFT=NFFT,
+            scale_by_freq=scale_by_freq)
+
+        self.NW = NW
+        self.k = k
+        self.e = e
+        self.v = v
+        self.method = method
+
+    def __call__(self):
+        Sk_complex, weights, eigenvalues = pmtm(self.data, self.NW, self.k,
+            NFFT=self.NFFT, e=self.e, v=self.v, method=self.method, show=False)
+        Sk = abs(Sk_complex)**2
+
+        if self.method == "adapt":
+            Sk = Sk.transpose()
+            Sk = np.mean(Sk * weights, axis=1)
+        else:
+            Sk = np.mean(Sk * weights, axis=0)
+        self.Sk = Sk
+        self.weights = weights
+        self.eigenvalues = eigenvalues
+
+        if self.datatype == "real":
+            newpsd = self.Sk[0:int(self.NFFT//2)] * 2
+            newpsd = np.append(newpsd, self.Sk[int(self.NFFT//2)]*2)
+            self.psd = newpsd
+        else:
+            self.psd = self.Sk
+
+    def __str_title(self):
+        return "Multitapering estimate\n"
+
+    def __str__(self):
+        return super(MultiTapering, self).__str__()
 
 
 def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=False):
@@ -115,8 +161,8 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Fal
         else:
             raise ValueError("NW must be provided (e.g. 2.5, 3, 3.5, 4")
     elif e is not None and v is not None:
-        eigenvalues = v[:]
-        tapers = e[:]
+        eigenvalues = e[:]
+        tapers = v[:]
     else:
         raise ValueError("if e provided, v must be provided as well and viceversa.")
     nwin = len(eigenvalues) # length of the eigen values vector to be used later
@@ -254,7 +300,7 @@ def dpss(N, NW=None, k=None):
         Functions that are not used here were removed.
 
     """
-    assert NW<N/2 , "NW must be stricly less than N/2"
+    assert NW < N/2 , "NW ({}) must be stricly less than N/2 ({}/2)".format(NW, N)
     if k is None:
         k = min(round(2*NW),N)
         k = int(max(k,1))
