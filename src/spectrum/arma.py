@@ -323,12 +323,9 @@ class pma(ParametricSpectrum):
                       T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
-            from . import tools
-            #self.psd = tools.twosided_2_onesided(psd)
-            newpsd  = psd[0:int(self.NFFT//2)]*2
-            #newpsd  = psd[self.NFFT//2:]*2
-            #newpsd[0] /= 2.
-            newpsd = np.append(newpsd, psd[0])
+            newpsd  = psd[0:int(self.NFFT//2)] * 2
+            # TODO: check the last value is correct or required ?
+            newpsd = np.append(newpsd, psd[int(self.NFFT//2)]*2)
             self.psd = newpsd
         else:
             self.psd = psd
