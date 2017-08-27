@@ -136,7 +136,7 @@ def _twosided_zerolag(data, zerolag):
         >>> twosided_zerolag(data, zerolag)
         array([1, 2, 3, 4, 3, 2, 1])
 
-    .. seealso:: Same behaviou as :func:`twosided_zerolag`
+    .. seealso:: Same behaviour as :func:`twosided_zerolag`
     """
     res = twosided(numpy.insert(data, 0, zerolag))
     return res
