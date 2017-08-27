@@ -6,7 +6,7 @@ from spectrum.errors import *
 from numpy.testing import assert_array_almost_equal
 import pylab
 data = marple_data
-
+from easydev import TempFile
 
 def test_psd_module_range():
     N = 10
@@ -30,7 +30,6 @@ def test_psd_module_range():
     r.onesided()
     r.twosided()
     print(r)
-
 
 
 def test_spectrum_simple():
@@ -74,12 +73,12 @@ def test_spectrum_simple():
     s.modified = False
     s.data = [1,2,3,4]
     assert s.modified is True
-   
+
     # test the data_y attribute
     assert s.data_y is None
     s.data_y = [1,2,3,4]
     assert s.data_y == [1,2,3,4]
-    
+
     try:
         s.frequencies("dummy") 
         assert False
@@ -104,7 +103,7 @@ def test_spectrum_simple():
     except:
         assert True
 
-    p = parma(data_two_freqs(), 8,4,15)
+    p = parma(data_two_freqs(), 8, 4, 15)
     try:
         p.plot()
         assert False
@@ -112,60 +111,73 @@ def test_spectrum_simple():
         assert True
 
     # power method
-    p = parma(marple_data, 8,4,10)
+    p = parma(marple_data, 8, 4, 10)
     p()
     assert p.power() < 7381 and p.power() > 7380
     p.scale_by_freq = True
-    assert p.power() > 0.286 and p.power() < 0.287
+    assert p.power() > 115.3253 and p.power() < 115.3254
 
 
+def test_psd_modified():
+    data = [1,2,3,4,6,7,8,9,10,1,2,3,4,5,6,7,8]
+    s = parma(data, 4,2,4)
+    s() 
+    assert s.modified is False
+    s.NFFT = s.NFFT
+    assert s.modified is False
 
-class test_spectrum():
-    def __init__(self):
-        #create a spectrum
-        self.data = [1,2,3,4]
-        self.init()
-        assert self.s.N == 4
+    s.NFFT = 4096
+    assert s.modified is True
+    s.psd
+    assert s.modified is False
 
-    def init(self):
-        self.s = Spectrum(self.data)
-        print(self.s) #__str__ when psd is not yet computed
+    s.scale_by_freq = False
+    assert s.modified is False
 
-    def test_sides(self):
-        """Functional tests on p.sides = ..."""
-        # test all sides cases by starting from a side, converting to anothre
-        # and convert back to the original
-        self.init()
-        assert self.s.NFFT == 4
-        assert self.s.sides == 'onesided'
-        self.s.psd = [10, 2, 3, 4, 6]
-        for x in ['onesided', 'twosided', 'centerdc']:
-            for y in ['onesided', 'twosided', 'centerdc']:
-                if x != y:
-                    self.s.sides = x
-                    p0 = self.s.psd.copy()
-                    self.s.sides = y
-                    self.s.sides = x
-                    assert_array_almost_equal(self.s.psd, p0)
+    s.get_converted_psd("onesided")
+    try:
+        s.get_converted_psd("dummy")
+        assert False
+    except:
+        assert True
 
-    def test_frequencies(self):
-        """Functional tests one s.frequencies(...)"""
-        self.init()
-        self.s.frequencies('onesided')
-        self.s.frequencies('twosided')
-        self.s.frequencies('centerdc')
-        try:
-            self.s.frequencies("dummy")
-            assert False
-        except:
-            assert True
 
-    def test_set_psd(self):
-        self.init()
-        self.s.psd = [1,2,3]
-        assert self.s.NFFT == 4
-        self.s.psd = numpy.array([1,2,3])
-        assert self.s.NFFT == 4
+def test_psd_sides():
+    data = [1,2,3,4]
+    s = Spectrum(data)
+    assert s.NFFT == 4
+    assert s.sides == 'onesided'
+    s.psd = [10, 2, 3, 4, 6]
+    for x in ['onesided', 'twosided', 'centerdc']:
+        for y in ['onesided', 'twosided', 'centerdc']:
+            if x != y:
+                s.sides = x
+                p0 = s.psd.copy()
+                s.sides = y
+                s.sides = x
+                assert_array_almost_equal(s.psd, p0)
+
+
+def test_psd_frequencies():
+    data = [1,2,3,4]
+    s = Spectrum(data)
+    s.frequencies('onesided')
+    s.frequencies('twosided')
+    s.frequencies('centerdc')
+    try:
+        s.frequencies("dummy")
+        assert False
+    except:
+        assert True
+
+def test_set_psd():
+    data = [1,2,3,4]
+    s = Spectrum(data)
+    s.psd = [1,2,3]
+    assert s.NFFT == 4
+    s.psd = numpy.array([1,2,3])
+    assert s.NFFT == 4
+    
 
 def test_fourier_spectrum():
 
@@ -179,8 +191,16 @@ def test_fourier_spectrum():
     s = FourierSpectrum(datasets.marple_data, sampling=1024, NFFT=512)
     s.periodogram()
     s.plot()
-
+    s.window = "hanning" # same as default (nothing happens)
+    s.window = "hann"
+    try:
+        s.window = "dummy"
+        assert False
+    except:
+        assert True
     print(s)
+    s.lag = -1
+    s.lag = 5
 
 def test_arma_spectrum():
     from spectrum import datasets
@@ -188,6 +208,79 @@ def test_arma_spectrum():
     s = ParametricSpectrum(datasets.data_cosine(), sampling=1024, ar_order=30, ma_order=15)
     #s.ma()
     #s.arma()
+
+def test_psd_others():
+    # test data_y as a constructor
+    p = Spectrum([1,2,3,4], [1,2,3,4])
+    print(p)
+    p._str_title()
+    p = ParametricSpectrum([1,2,3,4], ar_order=4)
+    p._str_title()
+
+    # test run()
+    p = parma(marple_data,8,4,10)
+    p.run()
+    p.reflection
+    p.plot(ax=pylab.gca())
+    with TempFile() as fh:
+        p.plot(norm=True, ylim=[-80,80], filename=fh.name)
+
+    try:
+        pburg(marple_data, None)
+        assert False
+    except:
+        assert True
+
+    try:
+        pburg(marple_data, -1)
+        assert False
+    except:
+        assert True
+
+    try:
+        pma(marple_data, -1, 8)
+        assert False
+    except:
+        assert True
+
+def test_psd_get_converted():
+    p = pburg(data_two_freqs(), 8)
+    p.run()
+    assert len(p.get_converted_psd("twosided")) == 200
+    assert len(p.get_converted_psd("onesided")) == 101
+    assert len(p.get_converted_psd("centerdc")) == 200
+    try:
+        p.get_converted_psd("dummy")
+        assert False
+    except:
+        assert True
+    try:
+        p.get_converted_psd('dummy')
+        assert False
+    except:
+        assert True
+
+    try:
+        p.plot(sides="dummy")
+        assert False
+    except:
+        assert True
+    p = pburg(marple_data, 8)
+    p.run()
+    try:
+        p.plot(sides="onesided")
+        assert False
+    except:
+        assert True
+
+
+def test_reflection():
+    p = pburg(marple_data, 8)
+    p.plot_reflection()
+    p()
+    p.plot()
+    p.plot_reflection()
+    assert len(p.reflection) == 8
 
 
 def _test_create_all_psd():

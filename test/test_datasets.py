@@ -16,4 +16,12 @@ def test_timeseries():
 
 def test_data_cosine():
     data = data_cosine(N=1024, A=0.1, sampling=1024, freq=200)
-    
+
+
+def test_datafile():
+    from spectrum.datasets import dolphin_filename
+    try:
+        spectrum_data("testdummy")
+        assert False
+    except:
+        assert True

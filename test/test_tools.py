@@ -3,11 +3,22 @@ from numpy import *
 from spectrum.tools import *
 
 
+def test_fftshift():
+    fftshift([100,2,3,4,5])
+
 def test_nextpow2():
     res = nextpow2([255,256,257])
     assert res[0] == 8.
     assert res[1] == 8.
     assert res[2] == 9.
+
+def test_swapsides():
+    from spectrum.tools import _swapsides
+    assert all(_swapsides([-2,-1,1,2]) == array([2,-2,-1]))
+
+def test_twosided_zero():
+    from spectrum.tools import _twosided_zerolag
+    assert all(_twosided_zerolag([3,2,1],4) == array([1,2,3,4,3,2,1]))
 
 def test_pow2db_db2pow():
     p1 = 10.
@@ -24,6 +35,8 @@ def test_mag2db_db2mag():
 def test_cshift():
     a = [1,2,3,4]
     b = cshift(a, 2)
+    assert_array_almost_equal([3,4,1,2], b)
+    b = cshift(a, 2.)
     assert_array_almost_equal([3,4,1,2], b)
    
 
