@@ -105,14 +105,14 @@ class pburg(ParametricSpectrum):
         from spectrum import data_two_freqs, pburg
         p = pburg(data_two_freqs(), 7, NFFT=4096)
         p.plot()
-        p = pburg(data_two_freqs(), 7, NFFT=4096, scale_by_freq=False)
+        p = pburg(data_two_freqs(), 7, NFFT=4096, scale_by_freq=True)
         p.plot()
         from pylab import legend
-        legend(["scaled by 2 pi df", "un-scaled"])
+        legend(["un-scaled", "scaled by 2 pi df"])
 
     """
     def __init__(self, data, order, criteria=None, NFFT=None, sampling=1.,
-        scale_by_freq=True):
+        scale_by_freq=False):
         """**Constructor**
 
         For a detailled description of the parameters, see :func:`burg`.
