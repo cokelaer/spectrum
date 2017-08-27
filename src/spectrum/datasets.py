@@ -130,6 +130,24 @@ def data_two_freqs(N=200):
     return xx
 
 
+def spectrum_data(filename):
+    """Simple utilities to retrieve data sets from """
+    import os
+    import pkg_resources
+    info = pkg_resources.get_distribution('spectrum')
+    location = info.location
+
+    share = os.sep.join([location , '../share', 'data'])
+    # in the code one may use / or \ 
+    filename = os.sep.join([share, filename])
+    if os.path.exists(filename) is False:
+        raise Exception('unknown file %s' % filename)
+    return filename
+#: filename of a WAV data file 150,000 data points
+dolphin_filename = spectrum_data("DOLPHINS.wav")
+
+
+
 class TimeSeries(object):
     """A simple Base Class for various data sets.
 
