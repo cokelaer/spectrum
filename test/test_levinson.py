@@ -58,15 +58,10 @@ def test_levinson_others():
     # test imag data
     rlevinson([1,2,3+1j], 0.1)
 
-    # test singularity²:wq
+    # test singularity
     try:
         LEVINSON([1,2,3])
         assert False
     except:
         assert True
     LEVINSON([1,2,3], allow_singularity=True)
-
-
-
-
-
