@@ -22,8 +22,13 @@ bibliography: paper.bib
 
 # Summary
 
-**Spectrum** is a Python library that includes tools to estimate Power Spectral Densities. Methods
-available are based on Fourier transform, parametric methods or eigenvalues analysis. 
+**Spectrum** is a Python library that includes tools to estimate Power Spectral Densities. Although the use of 
+power spectrum of a signal is fundamental in electrical engineering (e.g. radio communications, radar), it has
+a wide range of applications from cosmology (e.g., detection of gravitational waves in 2016), to music 
+(pattern detection) or biology (mass spectroscopy).
+
+Methods available are based on Fourier transform, parametric methods or eigenvalues analysis. Although standard methods such as 
+periodogram are available, less common methods (e.g. multitapering are also available):
 
 - The Fourier methods are based upon correlogram, periodogram and Welch estimates. Standard tapering windows (Hann, Hamming, Blackman) and more exotic ones are available (DPSS, Taylor, ...)[harris:1978],[welch:1967],[marple:1987].
 - The parametric methods are based on Yule-Walker, BURG, MA and ARMA, covariance and modified covariance methods [marple:1987],[percival:1993].
