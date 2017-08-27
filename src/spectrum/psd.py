@@ -227,7 +227,6 @@ class Spectrum(object):
             scal_by_freq is True
 
     """
-
     _detrend_choices = [None, 'mean']
     _sides_choices = ['onesided','twosided', 'centerdc', 'default']
 
@@ -336,7 +335,8 @@ class Spectrum(object):
     def _getScale(self):
         return self.__scale_by_freq
     def _setScale(self, scale):
-        if scale == self.__scale_by_freq: return
+        if scale == self.__scale_by_freq: 
+            return
         assert scale in [True, False]
         self.__scale_by_freq = scale
         self.modified = True
@@ -451,9 +451,10 @@ class Spectrum(object):
     :attr:`df` and  :attr:`datatype` are updated.""")
 
     def _getPSD(self):
-        if self.__psd is None:
+        if self.__psd is None or self.modified is True:
             logging.debug('Computing PSD.')
             self()
+            self.modified = False
         return self.__psd
     def _setPSD(self, psd):
         # Reset the sides attribute depending on the datatype
@@ -582,7 +583,6 @@ class Spectrum(object):
 
                 newpsd[int(self.NFFT/2)] *= 2.
                 newpsd[0] *= 2.
-            self.NFFT = len(newpsd)
         elif self.sides == 'twosided':
             logging.debug('Current sides is twosided')
             if sides == 'onesided':
@@ -593,7 +593,6 @@ class Spectrum(object):
                 newpsd[-1] = self.psd[-1]
             elif sides == 'centerdc':
                 newpsd = tools.twosided_2_centerdc(self.psd)
-            self.NFFT = len(self.psd)
         elif self.sides == 'centerdc': # same as twosided to onesided
             logging.debug('Current sides is centerdc')
             if sides == 'onesided':
@@ -604,9 +603,8 @@ class Spectrum(object):
                 newpsd[-1] = self.psd[0]
             elif sides == 'twosided':
                 newpsd = tools.centerdc_2_twosided(self.psd)
-            self.NFFT = len(self.psd)
         else:
-            raise NotImplementedError
+            raise ValueError("sides must be set to 'onesided', 'twosided' or 'centerdc'")
 
         return newpsd
 
@@ -631,14 +629,11 @@ class Spectrum(object):
 
         """
         import pylab
+        from pylab import ylim as plt_ylim
         #First, check that psd attribute is up-to-date
-        if self.modified is True:
-            # just to get the PSD to be recomputed if needed
-            self.psd
+        # just to get the PSD to be recomputed if needed
+        _ = self.psd
 
-        # and that it has been computed
-        if self.__psd is None:
-            raise errors.SpectrumPSDError
 
         # check that the input sides parameter is correct if provided
         if sides is not None:
@@ -646,17 +641,20 @@ class Spectrum(object):
                 raise errors.SpectrumChoiceError(sides, self._sides_choices)
 
         # if sides is provided but identical to the current psd, nothing to do.
+        # if sides not provided, let us use self.sides
         if sides is None or sides == self.sides:
             frequencies = self.frequencies()
             psd = self.psd
-            #sides = self.sides
+            sides = self.sides
         elif sides is not None:
             # if sides argument is different from the attribute, we need to
-            # create a new PSD/Freq but we do not want to touch the attributes
+            # create a new PSD/Freq ; indeed we do not want to change the
+            # attribute itself
 
             # if data is complex, one-sided is wrong in any case.
             if self.datatype == 'complex':
-                assert sides != 'onesided'
+                if sides == 'onesided':
+                    raise ValueError("sides cannot be one-sided with complex data")
 
             logging.debug("sides is different from the one provided. Converting PSD")
             frequencies = self.frequencies(sides=sides)
@@ -664,8 +662,6 @@ class Spectrum(object):
 
         if len(psd) != len(frequencies):
             raise ValueError("PSD length is %s and freq length is %s" % (len(psd), len(frequencies)))
-
-        from pylab import ylim as plt_ylim
 
         if 'ax' in list(kargs.keys()):
             save_ax = pylab.gca()
@@ -868,9 +864,7 @@ class ParametricSpectrum(Spectrum):
             xlabel('Order')
             ylabel('Reflection Coefficient absolute values')
         else:
-            import warnings
-            warnings.warn("""Reflection coefficients not available with
-                the current method.""")
+            logging.warning("Reflection coefficients not available or not yet computed.")
 
     def _str_title(self):
         return "ParametricSpectrum summary\n"
