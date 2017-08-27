@@ -36,11 +36,12 @@ the computation. For instance, if you can change the output easily::
     p.plot(sides='twosided')
 
 """
+import logging
+
 from .window import Window
 from .psd import Spectrum, FourierSpectrum
-from numpy import array, ceil, pi, mean, linspace
 from numpy.fft import fft, rfft
-import numpy
+import numpy as np
 
 
 
@@ -100,42 +101,48 @@ def speriodogram(x, NFFT=None, detrend=True, sampling=1.,
 
     .. todo:: a proper spectrogram class/function that takes care of normalisation
     """
-    x = array(x)
+    x = np.array(x)
     # array with 1 dimension case
     if x.ndim == 1:
         axis = 0
         r = x.shape[0]
         w = Window(r, window)   #same size as input data
+        w = w.data
     # matrix case
     elif x.ndim == 2:
-        print('2D array. each row is a 1D array')
+        logging.debug('2D array. each row is a 1D array')
         [r, c] = x.shape
-        if r==1:
-            r = c
-            w = Window(x.size, window)   #same size as input data
-        else:
-            w = Window(c, window)   #same size as input data
-
+        w = np.array([Window(r, window).data for this in range(c)]).reshape(r,c) 
 
     if NFFT is None:
         NFFT = len(x)
 
-    isreal = numpy.isrealobj(x)
+    isreal = np.isrealobj(x)
 
     if detrend == True:
-        m = mean(x, axis=axis)
+        m = np.mean(x, axis=axis)
     else:
         m = 0
+
     if isreal == True:
-        res =  (abs (rfft (x*w.data - m, NFFT))) ** 2. / r
+        if x.ndim == 2:
+            res =  (abs (rfft (x*w - m, NFFT, axis=0))) ** 2. / r
+        else:
+            res =  (abs (rfft (x*w - m, NFFT, axis=-1))) ** 2. / r
     else:
-        res =  (abs (fft (x*w.data - m, NFFT ))) ** 2. / r
+        if x.ndim == 2:
+            res =  (abs (fft (x*w - m, NFFT, axis=0))) ** 2. / r
+        else:
+            res =  (abs (fft (x*w - m, NFFT, axis=-1))) ** 2. / r
 
     if scale_by_freq is True:
         df = sampling / float(NFFT)
-        res*= 2*pi/df
+        res*= 2*np.pi/df
 
-    return res.transpose()
+    if x.ndim == 1:
+        return res.transpose()
+    else:
+        return res
 
 
 def WelchPeriodogram(data, NFFT=None,  sampling=1., **kargs):
@@ -286,15 +293,15 @@ def DaniellPeriodogram(data, P, NFFT=None, detrend='mean', sampling=1.,
     N = len(psd)
     _slice = 2 * P + 1
     if datatype== 'real': #must get odd value
-        newN = ceil(psd.size/float(_slice))
+        newN = np.ceil(psd.size/float(_slice))
         if newN%2 == 0:
             newN = psd.size/_slice
     else:
-        newN = ceil(psd.size/float(_slice))
+        newN = np.ceil(psd.size/float(_slice))
         if newN%2 == 1:
             newN = psd.size/_slice
 
-    newpsd = numpy.zeros(int(newN)) # keep integer division
+    newpsd = np.zeros(int(newN)) # keep integer division
     for i in range(0, newpsd.size):
         count = 0 #needed to know the number of valid averaged values
         for n in range(i*_slice-P, i*_slice+P+1): #+1 to have P values on each sides
@@ -305,10 +312,10 @@ def DaniellPeriodogram(data, P, NFFT=None, detrend='mean', sampling=1.,
 
     #todo: check this
     if datatype == 'complex':
-        freq = linspace(0,sampling, len(newpsd))
+        freq = np.linspace(0,sampling, len(newpsd))
     else:
         df = 1./sampling
-        freq = linspace(0,sampling/2., len(newpsd))
+        freq = np.linspace(0,sampling/2., len(newpsd))
     #psd.refreq(2*psd.size()/A.freq());
     #psd.retime(-1./psd.freq()+1./A.size());
 
