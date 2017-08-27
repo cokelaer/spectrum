@@ -1,29 +1,38 @@
-from spectrum import marple_data, ev, data_cosine, pmusic, music, pev
+from spectrum import marple_data, ev, data_cosine, pmusic, music, pev,data_two_freqs
+from spectrum.eigenfre import eigen
+from spectrum import spectrum_set_level
 
 from pylab import plot, linspace, log10, savefig
 import numpy
 from numpy.testing import assert_array_almost_equal
 
 
-
 def test_pmusic():
-    p = pmusic(marple_data, 15, NSIG=11)    
+    p = pmusic(marple_data, 15, NSIG=11)
     p()
-    p = pmusic(data_cosine(), 15, NSIG=11, verbose=True)    
+    p = pmusic(data_cosine(), 15, NSIG=11, verbose=True)
     p()
     print(p)
 
+    # test verbosity of the _get_signal_space function
+    spectrum_set_level("DEBUG")
+    pmusic(data_two_freqs(), 15, threshold=1)()
+    pmusic(data_two_freqs(), 15, NSIG=11, verbose=True)()
+    pmusic(data_two_freqs(), 15, criteria="mdl")()
+
+    # 
+    pmusic(data_two_freqs(), 15, NSIG=0)()
+
 
 def test_pev():
-    p = pev(marple_data, 15, NSIG=11)    
+    p = pev(marple_data, 15, NSIG=11)
     p()
-    p = pev(data_cosine(), 15, NSIG=11)    
+    p = pev(data_cosine(), 15, NSIG=11, verbose=True)
     p()
     print(p)
 
 
 def test_eigen_constructor():
-    from spectrum.eigenfre import eigen
     try:
         eigen(marple_data, 8,4, method='dummy')
         assert False
@@ -40,6 +49,27 @@ def test_eigen_constructor():
     except:
         assert True
     p = pmusic(marple_data, 15, NSIG=-10)
+
+    # NSIG and threshold cannot be provided together
+    try:
+        eigen(marple_data, 8,NSIG=4, threshold=2)
+        assert False
+    except:
+        assert True
+
+    # NSIG must be positive
+    try:
+        eigen(marple_data, 8,NSIG=-10)
+        assert False
+    except:
+        assert True
+
+    # NSIG must be less than P (8)
+    try:
+        eigen(marple_data, 8,NSIG=40)
+        assert False
+    except:
+        assert True
 
 
 def test_eigenfre_music():
@@ -77,4 +107,4 @@ def create_figure():
 
 
 if __name__ == "__main__":
-    create_figure() 
+    create_figure()

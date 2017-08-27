@@ -29,3 +29,14 @@ def test_aic():
         assert False
     except:
         assert True
+
+
+    crit = Criteria("AIC", 20)
+    crit.N = 40
+    crit(10, 10)
+
+
+def test_mdl_eigen():
+    s = np.array([10, 8 ,6,4,2,1,0.9,0.8,.7,.6])
+    mdl_eigen(s, 4)
+

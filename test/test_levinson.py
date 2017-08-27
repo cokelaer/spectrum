@@ -47,3 +47,26 @@ def test_levinson_real():
     assert_array_almost_equal(E, 0.708749)
     assert_array_almost_equal(K, array([-0.5  ,  0.2  , -0.125]))
 
+def test_levinson_others():
+    rlevinson([1,2,3], 0.1)
+    try:
+        rlevinson([1], 0.1)
+        assert False
+    except:
+        assert True
+
+    # test imag data
+    rlevinson([1,2,3+1j], 0.1)
+
+    # test singularity²:wq
+    try:
+        LEVINSON([1,2,3])
+        assert False
+    except:
+        assert True
+    LEVINSON([1,2,3], allow_singularity=True)
+
+
+
+
+
