@@ -9,7 +9,10 @@ SPECTRUM : Spectral Analysis in Python
 
 .. image:: https://coveralls.io/repos/cokelaer/spectrum/badge.png?branch=master 
     :target: https://coveralls.io/r/cokelaer/spectrum?branch=master 
-
+    
+.. image:: https://travis-ci.org/cokelaer/spectrum.svg?branch=master
+    :target: https://travis-ci.org/cokelaer/spectrum
+    
 .. image:: https://landscape.io/github/cokelaer/spectrum/master/landscape.png
     :target: https://landscape.io/github/cokelaer/spectrum/master
 
@@ -21,6 +24,7 @@ SPECTRUM : Spectral Analysis in Python
 
 .. image:: https://anaconda.org/conda-forge/spectrum/badges/downloads.svg
    :target: https://anaconda.org/conda-forge/spectrum
+
 
 
 :contributions: Please join https://github.com/cokelaer/spectrum
