@@ -40,4 +40,8 @@ The following image shows the different methods of spectral estimation that are 
 
 -![https://doi.org/10.6084/m9.figshare.5270866.v1](psd_all.png)
 
+**Spectrum** relies on Matplotlib [matplotlib:2007] for the plotting. We also
+use Numpy [numpy:2011] for fast array manipulation and Scipy [scipy:2001] for
+linear algebra.
+
 # References
