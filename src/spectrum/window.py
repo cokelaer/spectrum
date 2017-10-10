@@ -24,6 +24,7 @@
         window_lanczos
         window_nuttall
         window_parzen
+        window_taylor
         window_tukey
 
 
@@ -32,7 +33,7 @@
     :References: See [Nuttall]_, [Marple]_, [Harris]_
 """
 from numpy import pi, cos, arange, array, sin, exp, sinc, linspace, \
-    sqrt, ones, sum
+    sqrt, ones, sum, log, array, prod
 
 
 #__all__ = ["window_names","Window","create_window"]
@@ -67,6 +68,7 @@ window_names = {
                  'cosine': 'window_cosine',
                  'sine':   'window_cosine',
                  'cauchy':'window_cauchy',
+                 'taylor':'window_taylor',
                  }
 
 
@@ -417,6 +419,8 @@ def create_window(N, name=None, **kargs):
      'poisson': {'alpha': eval(window_names['poisson']).__defaults__[0]},
      'poisson_hanning': {'alpha':
                          eval(window_names['poisson_hanning']).__defaults__[0]},
+     'taylor': {'nbar': eval(window_names['taylor']).__defaults__[0],
+                'sll': eval(window_names['taylor']).__defaults__[0]},     
     }
 
     if name not in list(windows_with_parameters.keys()):
@@ -1151,11 +1155,15 @@ def window_flattop(N, mode='symmetric',precision=None):
     return w
 
 
-def _window_taylor(N, nbar=4, sll=-30):
+def window_taylor(N, nbar=4, sll=-30):
     """Taylor tapering window
 
     Taylor windows allows you to make tradeoffs between the
     mainlobe width and sidelobe level (sll).
+
+    Implemented as described by Carrara, Goodman, and Majewski 
+    in 'Spotlight Synthetic Aperture Radar: Signal Processing Algorithms'
+    Pages 512-513
 
     :param N: window length
     :param float nbar:
@@ -1168,8 +1176,22 @@ def _window_taylor(N, nbar=4, sll=-30):
 
     .. seealso:: :func:`create_window`, :class:`Window`
     """
-    raise NotImplementedError
-
+    B = 10**(-sll/20)
+    A = log(B + sqrt(B**2 - 1))/pi
+    s2 = nbar**2 / (A**2 + (nbar - 0.5)**2)
+    ma = arange(1,nbar)
+    def calc_Fm(m):
+        numer = (-1)**(m+1) * prod(1-m**2/s2/(A**2 + (ma - 0.5)**2))
+        denom = 2* prod([ 1-m**2/j**2 for j in ma if j != m])
+        return numer/denom
+    Fm = array([calc_Fm(m) for m in ma])
+    def W(n):
+        return 2*Fm @ cos(2*pi*ma*(n-N/2 + 1/2)/N) + 1
+    w = array([W(n) for n in range(N)])
+    # normalize (Note that this is not described in the original text)
+    scale = W(N/2)
+    w /= scale
+    return w
 
 def window_riesz(N):
     r"""Riesz tapering window
