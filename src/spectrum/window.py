@@ -1189,7 +1189,7 @@ def window_taylor(N, nbar=4, sll=-30):
         return 2*Fm @ cos(2*pi*ma*(n-N/2 + 1/2)/N) + 1
     w = array([W(n) for n in range(N)])
     # normalize (Note that this is not described in the original text)
-    scale = W(N/2)
+    scale = W((N-1)/2)
     w /= scale
     return w
 
