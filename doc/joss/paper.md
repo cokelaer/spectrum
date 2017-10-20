@@ -13,9 +13,15 @@ authors:
  - name: Thomas Cokelaer
    orcid: 0000-0001-6286-1138
    affiliation: 1
+ - name: Juergen Hasch
+   orcid: 0000-0002-9457-1220
+   affiliation: 2
  affiliations:
- - name: Institut Pasteur
+ - name: Institut Pasteur - Bioinformatics and Biostatistics Hub - C3BI, USR 3756 IP
+CNRS - Paris, France
    index: 1
+ - name:  Robert Bosch GmbH: Renningen, Baden-Württemberg, Germany
+   index: 2
 date: 2 August 2017
 bibliography: paper.bib
 ---
