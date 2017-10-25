@@ -35,18 +35,18 @@ a wide range of applications from cosmology (e.g., detection of gravitational wa
 Methods available are based on Fourier transform, parametric methods or eigenvalues analysis. Although standard methods such as
 periodogram are available, less common methods (e.g. multitapering) are also implemented:
 
-- The Fourier methods are based upon correlogram, periodogram and Welch estimates. Standard tapering windows (Hann, Hamming, Blackman) and more exotic ones are available (DPSS, Taylor, ...)[harris:1978],[welch:1967],[marple:1987].
-- The parametric methods are based on Yule-Walker, BURG, MA and ARMA, covariance and modified covariance methods [marple:1987],[percival:1993].
-- Non-parametric methods based on eigen analysis (e.g., MUSIC) and minimum variance analysis are also implemented [marple:1987].
-- Multitapering method is also available [percival:1993]
-- Classical tools useful to spectral analysis and more generally signal processing such as window tapering [harris:1978] or transfer function are also available within the library.
+- The Fourier methods are based upon correlogram, periodogram and Welch estimates. Standard tapering windows (Hann, Hamming, Blackman) and more exotic ones are available (DPSS, Taylor, ...)[@harris:1978; @welch:1967; @marple:1987].
+- The parametric methods are based on Yule-Walker, BURG, MA and ARMA, covariance and modified covariance methods [@marple:1987; @percival:1993].
+- Non-parametric methods based on eigen analysis (e.g., MUSIC) and minimum variance analysis are also implemented [@marple:1987].
+- Multitapering method is also available [@percival:1993]
+- Classical tools useful to spectral analysis and more generally signal processing such as window tapering [@harris:1978] or transfer function are also available within the library.
 
 The following image shows the different methods of spectral estimation that are available in **Spectrum**.
 
 -![https://doi.org/10.6084/m9.figshare.5270866.v1](psd_all.png)
 
-**Spectrum** relies on Matplotlib [matplotlib:2007] for the plotting. We also
-use Numpy [numpy:2011] for fast array manipulation and Scipy [scipy:2001] for
+**Spectrum** relies on Matplotlib [@matplotlib:2007] for the plotting. We also
+use Numpy [@numpy:2011] for fast array manipulation and Scipy [@scipy:2001] for
 linear algebra.
 
 # References
