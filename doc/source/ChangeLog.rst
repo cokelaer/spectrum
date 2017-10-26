@@ -3,6 +3,12 @@ ChangeLog Summary
 
 Version 0.7 (aug 2017)
 -----------------------
+
+* 0.7.2:
+
+    * NEWS:
+        * add Taylor windows
+
 * 0.7.1:
 
     * NEWS:
