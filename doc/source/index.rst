@@ -14,22 +14,25 @@
     :target: https://landscape.io/github/cokelaer/spectrum/master
 
 .. image:: https://anaconda.org/conda-forge/spectrum/badges/license.svg
-      :target: https://anaconda.org/conda-forge/spectrum
+    :target: https://anaconda.org/conda-forge/spectrum
 
 .. image:: https://anaconda.org/conda-forge/spectrum/badges/installer/conda.svg
-      :target: https://conda.anaconda.org/conda-forge/spectrum
+    :target: https://conda.anaconda.org/conda-forge/spectrum
 
 .. image:: https://anaconda.org/conda-forge/spectrum/badges/downloads.svg
-      :target: https://anaconda.org/conda-forge/spectrum
+    :target: https://anaconda.org/conda-forge/spectrum
+
+.. image:: http://joss.theoj.org/papers/e4e34e78e4a670f2ca9a6a97ce9d3b8e/status.svg
+    :target: http://joss.theoj.org/papers/e4e34e78e4a670f2ca9a6a97ce9d3b8e
 
 
-.. include:: overview.txt
-
-
+:Citation: Cokelaer et al., (2017). 'Spectrum': Spectral Analysis in Python. Journal of Open Source Software, 2(18), 348, doi:10.21105/joss.00348
 :contributions: Please join https://github.com/cokelaer/spectrum
 :contributors: https://github.com/cokelaer/spectrum/graphs/contributors
 :issues: Please use https://github.com/cokelaer/spectrum/issues
 :documentation: http://pyspectrum.readthedocs.io/ 
+
+.. include:: overview.txt
 
 .. include:: gallery.rst
 
