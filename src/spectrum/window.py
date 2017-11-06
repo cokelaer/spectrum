@@ -32,8 +32,9 @@
 
     :References: See [Nuttall]_, [Marple]_, [Harris]_
 """
+import numpy as np
 from numpy import pi, cos, arange, array, sin, exp, sinc, linspace, \
-    sqrt, ones, sum, log, array, prod
+    sqrt, ones, log, array, prod
 
 
 #__all__ = ["window_names","Window","create_window"]
@@ -162,7 +163,7 @@ class Window(object):
         width. See :func:`enbw` function")
 
     def _getMeanSquare(self):
-        return sum(self.data**2)/self.N
+        return np.sum(self.data**2)/self.N
     mean_square = property(fget=_getMeanSquare, doc="returns :math:`\frac{w^2}{N}`")
 
 
@@ -493,7 +494,7 @@ def enbw(data):
 
     """
     N = len(data)
-    return N * sum(data**2) / sum(data)**2
+    return N * np.sum(data**2) / np.sum(data)**2
 
 
 def _kaiser(n, beta):
@@ -1186,7 +1187,7 @@ def window_taylor(N, nbar=4, sll=-30):
         return numer/denom
     Fm = array([calc_Fm(m) for m in ma])
     def W(n):
-        return 2*np.sum(Fm * cos(2*pi*ma*(n-N/2 + 1/2)/N)) + 1
+        return 2 * np.sum(Fm * cos(2*pi*ma*(n-N/2 + 1/2)/N)) + 1
     w = array([W(n) for n in range(N)])
     # normalize (Note that this is not described in the original text)
     scale = W((N-1)/2)
