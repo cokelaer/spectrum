@@ -205,7 +205,7 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Fal
             i = i + 1
             # calculate weights
             b1 = np.multiply(S, np.ones((1,nwin)))
-            b2 = np.multiply(S,eigenvalues.transpose()) + np.ones((NFFT,1))*eigenvalues.transpose()
+            b2 = np.multiply(S,eigenvalues.transpose()) + np.ones((NFFT,1))*a.transpose()
             b = b1/b2
 
             # calculate new spectral estimate
