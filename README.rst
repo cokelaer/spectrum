@@ -31,6 +31,7 @@ SPECTRUM : Spectral Analysis in Python
 :contributors: https://github.com/cokelaer/spectrum/graphs/contributors
 :issues: Please use https://github.com/cokelaer/spectrum/issues
 :documentation: http://pyspectrum.readthedocs.io/ 
+:Citation: Cokelaer et al, (2017), 'Spectrum': Spectral Analysis in Python, Journal of Open Source Software, 2(18), 348, doi:10.21105/joss.00348
 
 
 
