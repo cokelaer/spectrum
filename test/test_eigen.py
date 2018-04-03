@@ -17,6 +17,7 @@ def test_mineigval():
 
     expected_eigvec = numpy.array([ 0.13790622 -1.74155903e-02j , 0.21272177 -4.65701963e-18j,  0.13790622 +1.74155903e-02j])
 
-    assert_almost_equal(eigvec.all(), expected_eigvec.all())
+    # 
+    assert_almost_equal(eigvec, expected_eigvec)
 
 
