@@ -108,8 +108,8 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Fal
     :param int k: uses the first k Slepian sequences. If *k* is not provided,
         *k* is set to *NW*2*.
     :param NW:
-    :param e: the matrix containing the tapering windows
-    :param v: the window concentrations (eigenvalues)
+    :param e: the window concentrations (eigenvalues)
+    :param v: the matrix containing the tapering windows
     :param str method: set how the eigenvalues are used. Must be
         in ['unity', 'adapt', 'eigen']
     :param bool show: plot results
