@@ -138,7 +138,7 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Fal
         data = data_cosine(N=2048, A=0.1, sampling=1024, freq=200)
         # If you already have the DPSS windows
         [tapers, eigen] = dpss(2048, 2.5, 4)
-        res = pmtm(data, e=tapers, v=eigen, show=False)
+        res = pmtm(data, e=eigen, v=tapers, show=False)
         # You do not need to compute the DPSS before end
         res = pmtm(data, NW=2.5, show=False)
         res = pmtm(data, NW=2.5, k=4, show=True)
