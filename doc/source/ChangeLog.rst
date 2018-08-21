@@ -4,6 +4,11 @@ ChangeLog Summary
 Version 0.7 (aug 2017)
 -----------------------
 
+
+* 0.7.4: (Aug 2018)
+
+    * Fixed issue https://github.com/cokelaer/spectrum/issues/47
+
 * 0.7.3: (jan 2018)
 
     * Just a version update to push on pypi this bug fix:
