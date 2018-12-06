@@ -199,6 +199,7 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Fal
         tol = 0.0005 * sig2 / float(NFFT)
         i = 0
         a = sig2 * (1 - eigenvalues)
+        wk = np.ones((NFFT, 1)) * eigenvalues.transpose()
 
         # converges very quickly but for safety; set i<100
         while sum(np.abs(S-S1))/NFFT > tol and i<100:
@@ -212,9 +213,7 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Fal
             wk=(b**2)*(np.ones((NFFT,1))*eigenvalues.transpose())
             S1 = sum(wk.transpose()*Sk.transpose())/ sum(wk.transpose())
             S1 = S1.reshape(NFFT, 1)
-            Stemp = S1
-            S1 = S
-            S = Stemp   # swap S and S1
+            S, S1 = S1, S  # swap S and S1
         weights=wk
 
     if show is True:
