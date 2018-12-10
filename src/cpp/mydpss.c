@@ -257,7 +257,7 @@ jtinvit_(int *nm, int *n, double *d, double *e, double *e2, int *m, double *w, i
 	double          d1, d2;
 
 	/* Builtin functions */
-	double          sqrt();
+	double          sqrt(double);
 
 	/* Local variables */
 	static double   norm;
