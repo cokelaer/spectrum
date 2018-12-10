@@ -6,7 +6,7 @@ import numpy
 from spectrum.tools import nextpow2
 from spectrum import errors
 from spectrum.window import window_names
-from spectrum import tools
+from spectrum import tools as stools
 
 
 __all__ = ["Spectrum", "FourierSpectrum", "ParametricSpectrum", "Range"]
@@ -592,7 +592,7 @@ class Spectrum(object):
                 newpsd[0] /= 2
                 newpsd[-1] = self.psd[-1]
             elif sides == 'centerdc':
-                newpsd = tools.twosided_2_centerdc(self.psd)
+                newpsd = stools.twosided_2_centerdc(self.psd)
         elif self.sides == 'centerdc': # same as twosided to onesided
             logging.debug('Current sides is centerdc')
             if sides == 'onesided':
@@ -602,7 +602,7 @@ class Spectrum(object):
                 newpsd[0] = self.psd[int(N/2)]
                 newpsd[-1] = self.psd[0]
             elif sides == 'twosided':
-                newpsd = tools.centerdc_2_twosided(self.psd)
+                newpsd = stools.centerdc_2_twosided(self.psd)
         else:
             raise ValueError("sides must be set to 'onesided', 'twosided' or 'centerdc'")
 
@@ -672,9 +672,9 @@ class Spectrum(object):
             rollback = False
 
         if norm:
-            pylab.plot(frequencies, 10*pylab.log10(psd/max(psd)),  **kargs)
+            pylab.plot(frequencies, 10 * stools.log10(psd/max(psd)),  **kargs)
         else:
-            pylab.plot(frequencies, 10*pylab.log10(psd),**kargs)
+            pylab.plot(frequencies, 10 * stools.log10(psd),**kargs)
 
         pylab.xlabel('Frequency')
         pylab.ylabel('Power (dB)')

@@ -15,7 +15,7 @@
 
     .. codeauthor:: Thomas Cokelaer, 2011
 """
-import numpy
+import numpy as np
 from numpy import ceil, log2
 from collections import deque
 
@@ -34,7 +34,8 @@ def fftshift(x):
         >>> fftshift(x)
         array([  4,   5, 100,   2,   3])
     """
-    return numpy.fft.fftshift(x)
+    return np.fft.fftshift(x)
+
 
 def _swapsides(data):
     """todo is it really useful ?
@@ -50,8 +51,7 @@ def _swapsides(data):
 
     """
     N = len(data)
-    from numpy import concatenate
-    return concatenate((data[N//2+1:], data[0:N//2]))
+    return np.concatenate((data[N//2+1:], data[0:N//2]))
 
 
 def twosided_2_onesided(data):
@@ -69,7 +69,7 @@ def twosided_2_onesided(data):
     """
     assert len(data)%2 == 0
     N = len(data)
-    psd = numpy.array(data[0:N//2+1]) * 2.
+    psd = np.array(data[0:N//2+1]) * 2.
     psd[0] /= 2.
     psd[-1] = data[-1]
     return psd
@@ -89,7 +89,7 @@ def onesided_2_twosided(data):
         array([ 10.,   2.,   3.,   3., 2., 8.])
 
     """
-    psd = numpy.concatenate((data[0:-1], cshift(data[-1:0:-1], -1)))/2.
+    psd = np.concatenate((data[0:-1], cshift(data[-1:0:-1], -1)))/2.
     psd[0] *= 2.
     psd[-1] *= 2.
     return psd
@@ -99,7 +99,7 @@ def twosided_2_centerdc(data):
     """Convert a two-sided PSD to a center-dc PSD"""
     N = len(data)
     # could us int() or // in python 3
-    newpsd = numpy.concatenate((cshift(data[N//2:], 1), data[0:N//2]))
+    newpsd = np.concatenate((cshift(data[N//2:], 1), data[0:N//2]))
     newpsd[0] = data[-1]
     return newpsd
 
@@ -107,7 +107,7 @@ def twosided_2_centerdc(data):
 def centerdc_2_twosided(data):
     """Convert a center-dc PSD to a twosided PSD"""
     N = len(data)
-    newpsd = numpy.concatenate((data[N//2:], (cshift(data[0:N//2], -1))))
+    newpsd = np.concatenate((data[N//2:], (cshift(data[0:N//2], -1))))
     return newpsd
 
 
@@ -122,7 +122,7 @@ def twosided(data):
         array([3, 2, 1, 2, 3])
 
     """
-    twosided = numpy.concatenate((data[::-1], data[1:]))
+    twosided = np.concatenate((data[::-1], data[1:]))
     return twosided #remove the first element to have a power of 2 and compatiable with pylab.psd
 
 
@@ -138,7 +138,7 @@ def _twosided_zerolag(data, zerolag):
 
     .. seealso:: Same behaviour as :func:`twosided_zerolag`
     """
-    res = twosided(numpy.insert(data, 0, zerolag))
+    res = twosided(np.insert(data, 0, zerolag))
     return res
 
 
@@ -161,7 +161,7 @@ def cshift(data, offset):
         offset = int(offset)
     a = deque(data)
     a.rotate(offset)
-    return numpy.array(a)  #convert back to an array. Is it necessary?
+    return np.array(a)  #convert back to an array. Is it necessary?
 
 
 def pow2db(x):
@@ -178,7 +178,7 @@ def pow2db(x):
         >>> x
         -10.0
     """
-    return 10 * numpy.log10(x)
+    return 10 * np.log10(x)
 
 
 def db2pow(xdb):
@@ -246,5 +246,11 @@ def mag2db(x):
 
     .. seealso:: :func:`db2mag`
     """
-    return 20. * numpy.log10(x)
+    return 20. * np.log10(x)
 
+
+def log10(data):
+    np.seterr(divide='ignore')
+    data = np.log10(data)
+    np.seterr(divide='warn')
+    return data

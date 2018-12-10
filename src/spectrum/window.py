@@ -36,6 +36,7 @@ import numpy as np
 from numpy import pi, cos, arange, array, sin, exp, sinc, linspace, \
     sqrt, ones, log, array, prod
 
+from spectrum import tools as stools
 
 #__all__ = ["window_names","Window","create_window"]
 
@@ -202,7 +203,6 @@ class Window(object):
         .. note:: Units are dB (20 log10) since we plot the frequency response)
 
         """
-        from numpy import log10
         from numpy.fft import fft, fftshift
 
         norm = kargs.get('norm', self.norm)
@@ -219,7 +219,8 @@ class Window(object):
         # do we want to normalise the data
         if norm is True:
             mag = mag / max(mag)
-        response = 20. * log10(mag) # factor 20 we are looking at the response
+
+        response = 20. * stools.log10(mag) # factor 20 we are looking at the response
                                     # not the powe
         #response = clip(response,mindB,100)
         self.__response = response
