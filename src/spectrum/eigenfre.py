@@ -68,8 +68,7 @@ class pmusic(ParametricSpectrum):
             else:
                 newpsd  = psd[0:int((self.NFFT+1)/2)] * 2
             # we need to flip the data
-            self.psd = newpsd
-            self.psd = self.psd[::-1]
+            self.psd = newpsd[::-1]
         else:
             self.psd = centerdc_2_twosided(psd)
 
@@ -131,7 +130,7 @@ class pev(ParametricSpectrum):
             else:
                 newpsd  = psd[0:int((self.NFFT+1)/2)] * 2
             # we need to flip the data
-            self.psd = self.psd[::-1]
+            self.psd = newpsd[::-1]
         else:
             self.psd = centerdc_2_twosided(psd)
 
