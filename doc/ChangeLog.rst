@@ -12,7 +12,7 @@ Version 0.7 (aug 2017)
    * double sqrt() into double (double);
    * Fix https://github.com/cokelaer/spectrum/issues/52 (better plotting layout)
    * Update doc with dynamic carousel
-   * BUG fix https://github.com/cokelaer/spectrum/issues/54 thanks to
+   * BUG fix https://github.com/cokelaer/spectrum/issues/54 reported
      https://github.com/alfredo-f user
 
 * 0.7.4: (Aug 2018)
