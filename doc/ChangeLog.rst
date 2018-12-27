@@ -4,6 +4,16 @@ ChangeLog Summary
 Version 0.7 (aug 2017)
 -----------------------
 
+* 0.7.5: Dec 2018
+
+   * add tight_layout in window module. https://github.com/cokelaer/spectrum/issues/52
+   * pull request accepted https://github.com/cokelaer/spectrum/pull/50 from
+     anielsen001 contributor
+   * double sqrt() into double (double);
+   * Fix https://github.com/cokelaer/spectrum/issues/52 (better plotting layout)
+   * Update doc with dynamic carousel
+   * BUG fix https://github.com/cokelaer/spectrum/issues/54 thanks to
+     https://github.com/alfredo-f user
 
 * 0.7.4: (Aug 2018)
 
@@ -39,12 +49,12 @@ Version 0.7 (aug 2017)
          correct amplitude like in octave. fixed by removing the call to scale()
          function
        * Similarly all other parametric methods have been changed by adding the
-         scale_by_freq argument where missing 
+         scale_by_freq argument where missing
     * Changes:
        * remove cohere module
-    
 
-Version 0.6 
+
+Version 0.6
 ---------------
 
 
@@ -54,9 +64,9 @@ Version 0.6
 
 * 0.6.7:
 
-    * refactored the requirements files (add a requirements-dev.txt) and 
+    * refactored the requirements files (add a requirements-dev.txt) and
       update the documentation (installation)      accordingly
-    * BUG fixes: 
+    * BUG fixes:
        * correlogram: real-data case had the data flipped
        * pmusic/pev: real-data case had the data flipped
        * fix the AKICc criteria code
@@ -88,7 +98,7 @@ Version 0.6
 
     * CHANGES: portage nosetests suite to pytest
     * BUG Fixes:
-    * Fix issues https://github.com/cokelaer/spectrum/issues/21 and 
+    * Fix issues https://github.com/cokelaer/spectrum/issues/21 and
       https://github.com/cokelaer/spectrum/issues/20 mostly related to
       compatibility with newest numpy version (1.12)
 
@@ -105,12 +115,12 @@ Version 0.6
 
 * 0.6.0:
     * Code moved to github
-    * plots accept the ax argument in psd module. It is a bit of a 
+    * plots accept the ax argument in psd module. It is a bit of a
       hack but seems to work.
 
 Sept 2012
 ----------
-* 0.5.5: 
+* 0.5.5:
     * fix name of the libraries for mac and windows
     * change setup to manage version properly.
 
@@ -123,11 +133,11 @@ March 2012
 February 2012
 --------------
 * 0.5.1: add dpss wtapering windows
-* 0.5.0: 
+* 0.5.0:
    * NPSD replaced by NFFT (qlso not correct for ARMA methods that do not have NFFT since not fourier)
-   * Correlogram replaced by pcorrelogram 
-   * more consistent function and class naming convention 
-   * Update the entire documentation. 
+   * Correlogram replaced by pcorrelogram
+   * more consistent function and class naming convention
+   * Update the entire documentation.
 * 0.4.6: fixed pylab_periodogram, documentation (installation)
 
 January 2012
@@ -171,21 +181,21 @@ April 2011
 * 0.3.3:  function Daniell's periodogram implemented in module periodogram
 * 0.3.2:  Create class MovingAverage, pburg, pARMA, Correlogram, Periodogram, Minvar, pma
 * 0.3.1:  Cleanup MA, ARMA, BURG, MINVAR
-* 0.3.0:  Create an ABC class Spectrum, a FourierSpectrum and ParametricSpectrum. 
+* 0.3.0:  Create an ABC class Spectrum, a FourierSpectrum and ParametricSpectrum.
 * 0.2.4:  Finalise doc/test of the testdata module
 * 0.2.3:  define a PSD class
 * 0.2.2:  cleanup cholesky.py
-* 0.2.1:  a new sphinx layout, 
+* 0.2.1:  a new sphinx layout,
 * 0.2.0:  correlogram.py, correlation.py, levinson.py fully completed
 
 March 2011
 ------------
 
 * 31 March:
-    - finalise a criteria class for AIC, FPE criteria. Incorporated it in arburg  
+    - finalise a criteria class for AIC, FPE criteria. Incorporated it in arburg
 
 * 28th March:
-    - First version of :func:`arcov`, :func:`aryule` and :func:`arburg` 
+    - First version of :func:`arcov`, :func:`aryule` and :func:`arburg`
     - add many windows (parzen, flattop, ...).
 
 * 22th March 2011:
@@ -193,10 +203,10 @@ March 2011
 
 * 21th March 2011:
     - create psd.py defines useful class to manage Spectrum/plot
-    - periodogram.py has a simple periodogram implementation equivalent to psd in pylab without overlaping. 
+    - periodogram.py has a simple periodogram implementation equivalent to psd in pylab without overlaping.
 
-* 7th March 2011: 
+* 7th March 2011:
     - add periodogram module
     - fix ARMA method in arma module
-* 4th March 2011: 
+* 4th March 2011:
     - Create first revision of spectrum package

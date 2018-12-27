@@ -7,7 +7,7 @@ Contributors
 Here is a non-exhaustive list of contributors. If you have contributed and are
 not listed, please update the AUTHORS.rst file in the source repository.
 
-.. include:: ../../AUTHORS.rst
+.. include:: ../AUTHORS.rst
 
 
 --

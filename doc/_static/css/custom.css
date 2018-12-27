@@ -1,0 +1,258 @@
+
+
+
+/* This is a hack to fix */
+div.linenodiv pre{
+line-height:1.17;
+}
+
+
+
+div.body p.sphx-glr-script-out {
+    margin: -.9ex 0ex;
+}
+
+
+/* ------- alternating colors in table rows -------------------------- */
+table.docutils {
+    border: 0;
+    border-collapse: collapse;
+}
+
+table.docutils tr:nth-child(even) {
+    background-color: #F3F3FF;
+}
+table.docutils tr:nth-child(odd) {
+    background-color: #FFFFEE;
+}
+
+table.docutils tr {
+    border-style: solid;
+    border-width: 1px 0 1px 0;
+    border-color: #AAAAAA;
+}
+
+table.docutils td {
+    border-color: #ddd;
+}
+
+
+table.longtable.docutils {
+    max-width: 100%;
+    margin: 0;
+}
+
+ .section.group h3 {
+    background-color: transparent;
+    padding: 0px;
+    font-size: 170%;
+    margin: 0px;
+    border: none;
+    padding:0em;
+}
+
+  .section.group h3 a {
+    color: #355F7C;
+    font-size: 0.8em;
+ }
+
+    /*  GRID OF TWO  */
+ .span_1_of_2 {
+    width: 20%;
+}
+ .span_1_of_3 {
+    width: 35%;
+    float:left;
+}
+ .span_2_of_3 {
+    width: 60%;
+    margin-left: 0%;
+    float:left;
+}
+
+
+@media only screen and (max-width: 639px) {
+     .col {
+	margin: 1% 0 1% 0%;
+    }
+}
+
+@media only screen and (max-width: 639px) {
+     .span_1_of_2 {
+	width: 100%;
+	margin-top: 0;
+	margin-bottom: 2em;
+    }
+}
+
+@media (min-width: 801px) and (max-width: 1135px) {
+    .span_1_of_2 {
+	width: 45%;
+    }
+}
+
+div.index-paragraph {
+    border: 1px solid #FBEED5;
+    border-radius: 5px;
+    padding: 0px 5px 0px 10px;
+    background-color: #FFFBE8;
+    max-width: 48em;
+    margin: 15px auto 0px;
+    color: #2C2C28;
+}
+
+div.index-paragraph p {
+    font-size: 115%;
+    margin: .5em 0 .5em 0;
+}
+
+
+
+/************ The carrousel *******************/
+div.body .jcarousel-wrapper {
+    margin: 0px -40px 10px 20px;
+    position: relative;
+    border: 10px solid #fff;
+    width: 420px;
+    margin-top:20px;
+    -webkit-border-radius: 30px;
+       -moz-border-radius: 30px;
+            border-radius: 30px;
+    -webkit-box-shadow: 0 0 2px #999;
+       -moz-box-shadow: 0 0 2px #999;
+            box-shadow: 0 0 2px #999;
+}
+
+@media (max-width: 400px) {
+    div.body .jcarousel-wrapper {
+        display: none;
+    }
+}
+
+div.body .jcarousel {
+    position: relative;
+    overflow: hidden;
+    width: 420px;
+    height: 280px;
+}
+
+div.body .jcarousel ul {
+    width: 20000em;
+    position: absolute;
+    /*list-style: none;*/
+    margin: 0;
+    padding: 0;
+}
+
+div.body .jcarousel li {
+    float: left;
+    width: 420px;
+    line-height : 240px;
+    text-align: center;
+}
+
+div.body div.jcarousel img {
+    max-width: 380px;
+    max-height: 250px;
+    vertical-align: middle;
+}
+
+
+/** Carousel Controls **/
+
+div.body .jcarousel-control-prev,
+div.body .jcarousel-control-next {
+    position: absolute;
+    top: 105px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    background: #4E443C;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 0 1px #000;
+    font: 24px/27px Arial, sans-serif;
+    -webkit-border-radius: 30px;
+       -moz-border-radius: 30px;
+            border-radius: 30px;
+    -webkit-box-shadow: 0 0 2px #999;
+       -moz-box-shadow: 0 0 2px #999;
+            box-shadow: 0 0 2px #999;
+}
+
+div.body .jcarousel-control-prev {
+    left: -5px;
+}
+
+div.body .jcarousel-control-next {
+    right: -5px;
+}
+
+div.body .jcarousel-control-prev:hover span,
+div.body .jcarousel-control-next:hover span {
+    display: block;
+}
+
+div.body .jcarousel-control-prev.inactive,
+div.body .jcarousel-control-next.inactive {
+    opacity: .5;
+    cursor: default;
+}
+
+/** Carousel Pagination **/
+
+div.body .jcarousel-pagination {
+    position: absolute;
+    bottom: -10px;
+    left: 156px; /* This value must be adjusted with the number of imgs */
+}
+
+div.body .jcarousel-pagination a {
+    text-decoration: none;
+    display: inline-block;
+
+    font-size: 11px;
+    line-height: 14px;
+    min-width: 14px;
+
+    background: #fff;
+    color: #4E443C;
+    border-radius: 14px;
+    padding: 3px;
+    text-align: center;
+
+    margin-right: 2px;
+
+    opacity: .75;
+}
+
+div.body .jcarousel-pagination a.active {
+    background: #4E443C;
+    color: #fff;
+    opacity: 1;
+}
+
+/* For the examples */
+p.sphx-glr-horizontal {
+    margin-top: 2em;
+}
+
+div.snakemake {
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    border-color: black;
+    border-radius: 2px;
+    padding: 1em;
+    background: #d0d8da;
+}
+
+
+div.snakemake .document .literal-block {
+padding:6px;
+font-size:0.9em;
+border: 2px solid orange;
+}
+
+
+
+
