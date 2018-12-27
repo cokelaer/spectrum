@@ -77,6 +77,7 @@ def test_pburg():
     # test real case
     p = pburg(data_cosine(), 15, NFFT=4096)
     p()
+    p.plot()
 
 
 def create_figure():

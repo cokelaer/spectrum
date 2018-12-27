@@ -51,6 +51,15 @@ def test_covar():
     newpsd = cshift(PSD, len(PSD)//2) # switch positive and negative freq
     return newpsd
 
+def test_pcovar_plot():
+    p = pcovar([1,2,3,4,5,6,7,8], 2)
+    p.plot()
+    assert len(p.psd) == 5
+    p = pcovar([1,2,3,4,5,6,7,8,9], 2)
+    p.plot()
+    assert len(p.psd) == 5
+
+
 def test_pcovar():
     p = pcovar(data_cosine(), 15, NFFT=4096, scale_by_freq=True)
     p()

@@ -8,6 +8,7 @@ import pylab
 data = marple_data
 from easydev import TempFile
 
+
 def test_psd_module_range():
     N = 10
     fs = 1024.
@@ -17,7 +18,7 @@ def test_psd_module_range():
     r.sampling == fs
 
     #test attributes
-    r.N = 1024;
+    r.N = 1024
     assert r.df == 1.
     r.sampling = 2048;
     assert r.df == 2.
@@ -80,7 +81,7 @@ def test_spectrum_simple():
     assert s.data_y == [1,2,3,4]
 
     try:
-        s.frequencies("dummy") 
+        s.frequencies("dummy")
         assert False
     except:
         assert True
@@ -121,7 +122,7 @@ def test_spectrum_simple():
 def test_psd_modified():
     data = [1,2,3,4,6,7,8,9,10,1,2,3,4,5,6,7,8]
     s = parma(data, 4,2,4)
-    s() 
+    s()
     assert s.modified is False
     s.NFFT = s.NFFT
     assert s.modified is False
@@ -143,13 +144,13 @@ def test_psd_modified():
 
 
 def test_psd_sides():
-    data = [1,2,3,4]
+    data = [1, 2, 3, 4]
     s = Spectrum(data)
     assert s.NFFT == 4
     assert s.sides == 'onesided'
     s.psd = [10, 2, 3, 4, 6]
-    for x in ['onesided', 'twosided', 'centerdc']:
-        for y in ['onesided', 'twosided', 'centerdc']:
+    for x in  ['onesided', 'twosided', 'centerdc']:
+        for y in ['onesided', 'twosided',  'centerdc']:
             if x != y:
                 s.sides = x
                 p0 = s.psd.copy()
@@ -171,13 +172,12 @@ def test_psd_frequencies():
         assert True
 
 def test_set_psd():
-    data = [1,2,3,4]
+    data = [1, 2, 3, 4]
     s = Spectrum(data)
-    s.psd = [1,2,3]
     assert s.NFFT == 4
-    s.psd = numpy.array([1,2,3])
+    s.psd = numpy.array([1, 2, 3])
     assert s.NFFT == 4
-    
+
 
 def test_fourier_spectrum():
 

@@ -20,6 +20,14 @@ def test_covar_simplified():
     a2, e2 = modcovar(marple_data, 15)
     assert_array_almost_equal(a[0:15], a2)  # af contains zeros after order=15
 
+def test_pmodcovar2():
+    p  = pmodcovar([1,2,3,4,5,6,7,8], 2)
+    p.plot()
+    assert len(p.psd) == 5
+    p  = pmodcovar([1,2,3,4,5,6,7,8,9], 2)
+    p.plot()
+    assert len(p.psd) == 5
+
 def test_pmodcovar():
     # test real data
     p  = pmodcovar(data_cosine(), 15, scale_by_freq=True)
