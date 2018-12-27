@@ -266,9 +266,10 @@ class parma(ParametricSpectrum):
                       T=self.sampling, NFFT=self.NFFT)
         #self.psd = psd
         if self.datatype == 'real':
-            newpsd  = psd[0:int(self.NFFT//2)]*2
-            #newpsd[0] /= 2.
-            newpsd = np.append(newpsd, psd[-1])
+            if self.NFFT % 2 == 0:
+                newpsd  = psd[0:int(self.NFFT/2+1)] * 2
+            else:
+                newpsd  = psd[0:int((self.NFFT+1)/2)] * 2
             self.psd = newpsd
         else:
             self.psd = psd
@@ -321,11 +322,11 @@ class pma(ParametricSpectrum):
         self.rho = rho
         psd = arma2psd(A=None, B=self.ma, rho=self.rho,
                       T=self.sampling, NFFT=self.NFFT)
-        #self.psd = psd
         if self.datatype == 'real':
-            newpsd  = psd[0:int(self.NFFT//2)] * 2
-            # TODO: check the last value is correct or required ?
-            newpsd = np.append(newpsd, psd[int(self.NFFT//2)]*2)
+            if self.NFFT % 2 == 0:
+                newpsd  = psd[0:int(self.NFFT/2+1)] * 2
+            else:
+                newpsd  = psd[0:int((self.NFFT+1)/2)] * 2
             self.psd = newpsd
         else:
             self.psd = psd

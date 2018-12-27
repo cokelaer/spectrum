@@ -44,7 +44,6 @@ from numpy.fft import fft, rfft
 import numpy as np
 
 
-
 __all__ = ['pdaniell', 'speriodogram', 'Periodogram', 'WelchPeriodogram',
            'DaniellPeriodogram']
 
@@ -137,7 +136,7 @@ def speriodogram(x, NFFT=None, detrend=True, sampling=1.,
 
     if scale_by_freq is True:
         df = sampling / float(NFFT)
-        res*= 2*np.pi/df
+        res*= 2 * np.pi / df
 
     if x.ndim == 1:
         return res.transpose()
@@ -275,7 +274,7 @@ def DaniellPeriodogram(data, P, NFFT=None, detrend='mean', sampling=1.,
 
     Example::
 
-        >>> DaniellPeriodogram(data,8)
+        >>> DaniellPeriodogram(data, 8)
 
     if N/P is not integer, the final values of the original PSD are not used.
 
@@ -285,20 +284,20 @@ def DaniellPeriodogram(data, P, NFFT=None, detrend='mean', sampling=1.,
     psd = speriodogram(data, NFFT=NFFT, detrend=detrend, sampling=sampling,
                    scale_by_freq=scale_by_freq, window=window)
 
-    if len(psd) %2 == 1:
+    if len(psd) % 2 == 1:
         datatype = 'real'
     else:
         datatype = 'complex'
 
     N = len(psd)
     _slice = 2 * P + 1
-    if datatype== 'real': #must get odd value
+    if datatype == 'real': #must get odd value
         newN = np.ceil(psd.size/float(_slice))
-        if newN%2 == 0:
+        if newN % 2 == 0:
             newN = psd.size/_slice
     else:
         newN = np.ceil(psd.size/float(_slice))
-        if newN%2 == 1:
+        if newN % 2 == 1:
             newN = psd.size/_slice
 
     newpsd = np.zeros(int(newN)) # keep integer division
@@ -312,9 +311,9 @@ def DaniellPeriodogram(data, P, NFFT=None, detrend='mean', sampling=1.,
 
     #todo: check this
     if datatype == 'complex':
-        freq = np.linspace(0,sampling, len(newpsd))
+        freq = np.linspace(0, sampling, len(newpsd))
     else:
-        df = 1./sampling
+        df = 1. / sampling
         freq = np.linspace(0,sampling/2., len(newpsd))
     #psd.refreq(2*psd.size()/A.freq());
     #psd.retime(-1./psd.freq()+1./A.size());

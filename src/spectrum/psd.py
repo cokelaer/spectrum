@@ -21,7 +21,11 @@ class Range(object):
 
         * :meth:`centerdc`: frequency range from -sampling/2 up to sampling/2 (excluded),
         * :meth:`twosided`: frequency range from 0 up to sampling (excluded),
-        * :meth:`onesided`: frequency range from 0 up to sampling (included).
+        * :meth:`onesided`: frequency range from 0 up to sampling (included or
+          excluded depending on evenness of the data). If NFFT is even, PSD 
+          has length NFFT/2 + 1 over the interval [0,pi]. If NFFT is odd, 
+          the length of PSD is (NFFT+1)/2 and the interval is [0, pi)
+
 
     Each method has a generator version:
 
@@ -137,7 +141,7 @@ class Range(object):
 
         """
         if self.N % 2 == 0:
-            for n in range(0, self.N//2+1):
+            for n in range(0, self.N//2 + 1):
                 yield n * self.df
         else:
             for n in range(0, (self.N+1)//2):
@@ -458,16 +462,24 @@ class Spectrum(object):
         return self.__psd
     def _setPSD(self, psd):
         # Reset the sides attribute depending on the datatype
-        # if a user sets the PSD manually, the only check available is that
-        # a onesided version must be odd, and a twosided must be even
+        # if a user sets the PSD manually, there is an ambiguity because
+        # input data may be odd or even length for the one-sided case
+        # A twosided PSD must be even though.
+        # note dec 2018: onesided can be even. e.g. if data length is N=14,
+        # then psd length is 8 (N/2+1). We should introduce a more robust way
+        # of setting PSD or forbid it.
         if self.datatype == 'real':
-            assert len(psd) % 2 == 1, 'odd data, so PSD must be one-sided'
+            # if psd is set we assume that the original data was even
+            # so that length original data is 2 + 2*(len(psd)-1)
+            #assert len(psd) % 2 == 1, 'odd data, so PSD must be one-sided'
             self.__sides = 'onesided'
-            self.__NFFT = (len(psd)-1) * 2
+            # we cannot know the NFFT used by the user when creating the 
+            # PSD because depends on even or odd data. Same issue with range
+            #self.__NFFT = 2 + (len(psd)-2) * 2
             self.__psd = numpy.array(psd)
-            self._range.N = self.__NFFT
+            #self._range.N = self.__NFFT
         else:
-            assert len(psd) % 2 == 0, 'even  data, so PSD should be in two-sided format'
+            #assert len(psd) % 2 == 0, 'even  data, so PSD should be in two-sided format'
             self.__sides = 'twosided'
             self.__NFFT = len(psd)
             self.__psd = numpy.array(psd)
@@ -484,7 +496,7 @@ class Spectrum(object):
 
         * :attr:`sides` is set to onesided if datatype is real and twosided
           if datatype is complex.
-        * :attr:`NFFT` is set to len(psd) if sides=onesided and (len(psd)-1)*2
+        * :attr:`NFFT` is set to len(psd)*2 if sides=onesided and (len(psd)-1)*2
           if sides=twosided.
         * :attr:`range`.N is set to NFFT, which update :attr:`df`.
 
@@ -570,25 +582,30 @@ class Spectrum(object):
             logging.debug('Current sides is onesided')
             if sides == 'twosided':
                 logging.debug('--->Converting to twosided')
-                # here we divide everything by 2 to get the twosided versin
-                N = self.NFFT
+                # here we divide everything by 2 to get the twosided version
+                #N = self.NFFT
                 newpsd = numpy.concatenate((self.psd[0:-1]/2., list(reversed(self.psd[0:-1]/2.))))
-                # so we need to multiply by 2 the 0 and F2/2 frequencies
+                # so we need to multiply by 2 the 0 and FS/2 frequencies
                 newpsd[-1] = self.psd[-1]
                 newpsd[0] *= 2.
             elif sides == 'centerdc':
+                # FIXME. this assumes data is even so PSD is stored as
+                # P0 X1 X2 X3 P1
                 logging.debug('--->Converting to centerdc')
+                P0 = self.psd[0]
+                P1 = self.psd[-1]
                 newpsd = numpy.concatenate((self.psd[-1:0:-1]/2., self.psd[0:-1]/2.))
                 # so we need to multiply by 2 the 0 and F2/2 frequencies
-
-                newpsd[int(self.NFFT/2)] *= 2.
-                newpsd[0] *= 2.
+                #newpsd[-1] = P0 / 2
+                newpsd[0] = P1
         elif self.sides == 'twosided':
             logging.debug('Current sides is twosided')
             if sides == 'onesided':
-                logging.debug('--->Converting to onesided')
-                N = self.NFFT
-                newpsd = numpy.array(self.psd[0:int(N/2)+1]*2)
+                # we assume that data is stored as X0,X1,X2,X3,XN
+                # that is original data is even.
+                logging.debug('Converting to onesided assuming ori data is even')
+                midN = (len(self.psd)-2) / 2
+                newpsd = numpy.array(self.psd[0:int(midN)+2]*2)
                 newpsd[0] /= 2
                 newpsd[-1] = self.psd[-1]
             elif sides == 'centerdc':
@@ -597,10 +614,9 @@ class Spectrum(object):
             logging.debug('Current sides is centerdc')
             if sides == 'onesided':
                 logging.debug('--->Converting to onesided')
-                N = self.NFFT
-                newpsd = numpy.array(list(reversed(self.psd[0:int(N/2)+1]*2)))
-                newpsd[0] = self.psd[int(N/2)]
-                newpsd[-1] = self.psd[0]
+                midN = int(len(self.psd) / 2)
+                P1 = self.psd[0]
+                newpsd = numpy.append(self.psd[midN:]*2, P1)
             elif sides == 'twosided':
                 newpsd = stools.centerdc_2_twosided(self.psd)
         else:

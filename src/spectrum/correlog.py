@@ -191,16 +191,12 @@ class pcorrelogram(FourierSpectrum):
                              #   scale_by_freq=self.scale_by_freq,
                              )
         if self.datatype == 'real':
-            #newpsd  = psd[int(self.NFFT//2):]*2
-            #newpsd[0] /= 2.
-            #newpsd = numpy.append(newpsd, psd[0])
-            #self.psd = newpsd
+            #FIXME. do we want to use same syntax/code as in burg/pminvar/pcovar
+            # to handle odd data ?
             self.psd = tools.twosided_2_onesided(psd)
         else:
             self.psd = psd
         self.scale()
-        #self.sides = 'twosided'
-        #self.modified = False
 
     def _str_title(self):
         return "Correlogram PSD estimate\n"

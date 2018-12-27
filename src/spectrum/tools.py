@@ -67,7 +67,7 @@ def twosided_2_onesided(data):
         array([ 10.,   4.,   6.,   8.])
 
     """
-    assert len(data)%2 == 0
+    assert len(data) % 2 == 0
     N = len(data)
     psd = np.array(data[0:N//2+1]) * 2.
     psd[0] /= 2.
@@ -178,7 +178,7 @@ def pow2db(x):
         >>> x
         -10.0
     """
-    return 10 * np.log10(x)
+    return 10 * log10(x)
 
 
 def db2pow(xdb):
@@ -246,7 +246,7 @@ def mag2db(x):
 
     .. seealso:: :func:`db2mag`
     """
-    return 20. * np.log10(x)
+    return 20. * log10(x)
 
 
 def log10(data):
@@ -254,3 +254,5 @@ def log10(data):
     data = np.log10(data)
     np.seterr(divide='warn')
     return data
+
+

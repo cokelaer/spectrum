@@ -63,10 +63,12 @@ class pmusic(ParametricSpectrum):
         self.eigenvalues = eigenvalues
 
         if self.datatype == 'real':
-            #self.psd = twosided_2_onesided(psd)
-            newpsd  = psd[0:int(self.NFFT//2)] * 2
-            self.psd = np.append(newpsd, psd[int(self.NFFT//2)]*2)
+            if self.NFFT % 2 == 0:
+                newpsd  = psd[0:int(self.NFFT/2+1)] * 2
+            else:
+                newpsd  = psd[0:int((self.NFFT+1)/2)] * 2
             # we need to flip the data
+            self.psd = newpsd
             self.psd = self.psd[::-1]
         else:
             self.psd = centerdc_2_twosided(psd)
@@ -124,8 +126,10 @@ class pev(ParametricSpectrum):
         self.eigenvalues = eigenvalues
 
         if self.datatype == 'real':
-            newpsd  = psd[0:int(self.NFFT//2)] * 2
-            self.psd = np.append(newpsd, psd[int(self.NFFT//2)]*2)
+            if self.NFFT % 2 == 0:
+                newpsd  = psd[0:int(self.NFFT/2+1)] * 2
+            else:
+                newpsd  = psd[0:int((self.NFFT+1)/2)] * 2
             # we need to flip the data
             self.psd = self.psd[::-1]
         else:

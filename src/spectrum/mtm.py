@@ -85,8 +85,11 @@ class MultiTapering(Spectrum):
         self.eigenvalues = eigenvalues
 
         if self.datatype == "real":
-            newpsd = self.Sk[0:int(self.NFFT//2)] * 2
-            newpsd = np.append(newpsd, self.Sk[int(self.NFFT//2)]*2)
+            #  see doc/concepts.rst for details
+            if self.NFFT % 2 == 0:
+                newpsd  = self.Sk[0:int(self.NFFT/2 +1)] * 2
+            else:
+                newpsd = self.Sk[0:int((self.NFFT+1)/2)] * 2
             self.psd = newpsd
         else:
             self.psd = self.Sk
@@ -115,19 +118,20 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Fal
     :param bool show: plot results
     :return: Sk (complex), weights, eigenvalues
 
-    Usually in spectral estimation the mean to reduce bias is to use tapering window.
-    In order to reduce variance we need to average different spectrum. The problem
-    is that we have only one set of data. Thus we need to decompose a set into several
-    segments. Such method are well-known: simple daniell's periodogram, Welch's method
-    and so on. The drawback of such methods is a loss of resolution since the segments
-    used to compute the spectrum are smaller than the data set.
-    The interest of multitapering method is to keep a good resolution while reducing
-    bias and variance.
+    Usually in spectral estimation the mean to reduce bias is to use tapering
+    window. In order to reduce variance we need to average different spectrum.
+    The problem is that we have only one set of data. Thus we need to
+    decompose a set into several segments. Such method are well-known: simple
+    daniell's periodogram, Welch's method and so on. The drawback of such
+    methods is a loss of resolution since the segments used to compute the
+    spectrum are smaller than the data set.
+    The interest of multitapering method is to keep a good resolution while
+    reducing bias and variance.
 
-    How does it work? First we compute different simple periodogram with the whole data
-    set (to keep good resolution) but each periodgram is computed with a different
-    tapering windows. Then, we average all these spectrum. To avoid redundancy and bias
-    due to the tapers mtm use special tapers.
+    How does it work? First we compute different simple periodogram with the
+    whole data set (to keep good resolution) but each periodgram is computed
+    with a differenttapering windows. Then, we average all these spectrum.
+    To avoid redundancy and bias due to the tapers mtm use special tapers.
 
     .. plot::
         :width: 80%

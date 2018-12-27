@@ -141,9 +141,11 @@ class pburg(ParametricSpectrum):
                       T=self.sampling, NFFT=self.NFFT)
 
         if self.datatype == 'real':
-            newpsd  = psd[0:int(self.NFFT//2)] * 2
-            # TODO: check the last value is correct or required ?
-            newpsd = np.append(newpsd, psd[int(self.NFFT//2)]*2)
+            #  see doc/concepts.rst for details
+            if self.NFFT % 2 == 0:
+                newpsd  = psd[0:int(self.NFFT/2 +1)] * 2
+            else:
+                newpsd  = psd[0:int((self.NFFT+1)/2)] * 2
             self.psd = newpsd
         else:
             self.psd = psd
