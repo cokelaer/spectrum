@@ -14,7 +14,7 @@
 import sys, os
 import sphinx
 
-#sys.path.insert(0, os.path.abspath('sphinxext'))
+sys.path.insert(0, os.path.abspath('sphinxext'))
 
 import sphinx_gallery
 # If extensions (or modules to document with autodoc) are in another directory,
