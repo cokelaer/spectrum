@@ -252,7 +252,7 @@ def arburg(X, order, criteria=None):
         # this should be after the criteria
         rho = new_rho
         if rho <= 0:
-            raise ValueError("Found a negative value (expected positive stricly) %s. Decrease the order" % rho)
+            raise ValueError("Found a negative value (expected positive strictly) %s. Decrease the order" % rho)
 
         a.resize(a.size+1)
         a[k] = kp
