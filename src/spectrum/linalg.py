@@ -84,7 +84,7 @@ def corrmtx(x_input, m, method='autocorrelation'):
 
     .. rubric:: Algorithm details:
 
-    The **autocorrelation** matrix is a :math:`(N+p) \times (p+1)` rectangular Toeplilz
+    The **autocorrelation** matrix is a :math:`(N+p) \times (p+1)` rectangular Toeplitz
     data matrix:
 
     .. math:: X_p = \begin{pmatrix}L_p\\T_p\\Up\end{pmatrix}
@@ -103,9 +103,9 @@ def corrmtx(x_input, m, method='autocorrelation'):
     .. math:: T_p =
         \begin{pmatrix}
         x[p+1]     &  \cdots    & x[1]        \\
-        \vdots    &  \ddots     & \vdots    \\
-        x[N-p]     &  \cdots    & x[p+1]        \\
-        \vdots    &  \ddots     & \vdots    \\
+        x[p+2]     &  \cdots    & x[2]        \\
+        \vdots    &  \ddots     & \vdots      \\
+        x[N-1]     &  \cdots    & x[N-p-1]    \\
         x[N]     &  \cdots      & x[N-p]
         \end{pmatrix}
 
