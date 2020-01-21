@@ -10,9 +10,6 @@
 .. image:: https://coveralls.io/repos/cokelaer/spectrum/badge.png?branch=master 
     :target: https://coveralls.io/r/cokelaer/spectrum?branch=master 
 
-.. image:: https://landscape.io/github/cokelaer/spectrum/master/landscape.png
-    :target: https://landscape.io/github/cokelaer/spectrum/master
-
 .. image:: https://anaconda.org/conda-forge/spectrum/badges/license.svg
     :target: https://anaconda.org/conda-forge/spectrum
 

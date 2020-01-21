@@ -4,6 +4,12 @@ ChangeLog Summary
 Version 0.7 (aug 2017)
 -----------------------
 
+* 0.7.6: Jan 2019
+
+   * Accepted 3 PR (typos in docs)
+   * Fixed bug reported in https://github.com/cokelaer/spectrum/issues/62
+     (CORRELOGRAMPSD function) 
+
 * 0.7.5: Dec 2018
 
    * add tight_layout in window module. https://github.com/cokelaer/spectrum/issues/52
