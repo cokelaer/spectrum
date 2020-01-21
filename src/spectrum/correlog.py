@@ -109,7 +109,7 @@ def CORRELOGRAMPSD(X, Y=None, lag=-1, window='hamming',
     # Window should be centered around zero. Moreover, we want only the
     # positive values. So, we need to use 2*lag + 1 window and keep values on
     # the right side.
-    w = Window(2.*lag+1, window, **window_params)
+    w = Window(2*lag+1, window, **window_params)
     w = w.data[lag+1:]
 
     # compute the cross correlation

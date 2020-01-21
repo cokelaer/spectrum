@@ -167,7 +167,6 @@ class Window(object):
         return np.sum(self.data**2)/self.N
     mean_square = property(fget=_getMeanSquare, doc="returns :math:`\frac{w^2}{N}`")
 
-
     def _getName(self):
         return self.__name
     name = property(fget=_getName, doc="Getter for the window name")
@@ -189,7 +188,6 @@ class Window(object):
         return self.__response
     response = property(fget=_getResponse, doc="Getter for the frequency \
         response. See :meth:`compute_response`")
-
 
     def compute_response(self, **kargs):
         """Compute the window data frequency response
