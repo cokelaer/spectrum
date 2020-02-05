@@ -197,6 +197,7 @@ class pcorrelogram(FourierSpectrum):
         else:
             self.psd = psd
         self.scale()
+        return self
 
     def _str_title(self):
         return "Correlogram PSD estimate\n"

@@ -322,6 +322,7 @@ class pmodcovar(ParametricSpectrum):
             self.psd = psd
         if self.scale_by_freq is True:
             self.scale()
+        return self
 
     def _str_title(self):
         return "Modified covariance PSD estimate\n"

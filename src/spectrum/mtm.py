@@ -93,6 +93,7 @@ class MultiTapering(Spectrum):
             self.psd = newpsd
         else:
             self.psd = self.Sk
+        return self
 
     def __str_title(self):
         return "Multitapering estimate\n"
