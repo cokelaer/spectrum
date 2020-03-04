@@ -12,6 +12,7 @@ matrix:
     - python: 3.4
     - python: 3.5
     - python: 3.6
+    - python: 3.7
 
 
 services:
@@ -33,6 +34,8 @@ install:
     - echo $TRAVIS_PYTHON_VERSION
     - conda create --yes --name testenv python=$TRAVIS_PYTHON_VERSION
     - source activate testenv
+    - conda install numpy
+    - conda install scipy
     - "export DISPLAY=:99.0"
     #- conda install --yes --file requirements.txt
     #- conda install --yes --file requirements-dev.txt
