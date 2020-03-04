@@ -26,6 +26,8 @@ before_install:
     - export PATH=/home/travis/miniconda/bin:$PATH
     - export PATH=/home/travis/miniconda2/bin:$PATH
     - conda update --yes conda
+    - conda config --add channels conda-forge
+
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
     - echo $TRAVIS_PYTHON_VERSION
