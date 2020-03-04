@@ -37,7 +37,8 @@ install:
     #- conda install --yes --file requirements.txt
     #- conda install --yes --file requirements-dev.txt
     - pip install .
-    - pip install pytest pytest-cov 
+    - pip install --file requirements-dev.txt
+
 # # command to run tests, e.g. python setup.py test
 script:
   - pytest -v --durations=10  test/ --cov=spectrum --cov-report term --timeout 300 
