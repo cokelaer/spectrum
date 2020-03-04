@@ -10,4 +10,6 @@ python:
     install:
         - requirements: requirements.txt
         - method: pip
+          path: easydev
+        - method: pip
           path: .
