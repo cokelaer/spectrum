@@ -37,7 +37,7 @@ install:
     #- conda install --yes --file requirements.txt
     #- conda install --yes --file requirements-dev.txt
     - pip install .
-    - pip install -r requirements-dev.txt -y
+    - pip install -r requirements-dev.txt 
 
 # # command to run tests, e.g. python setup.py test
 script:
