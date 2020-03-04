@@ -1,3 +1,6 @@
+os:
+  - linux
+dist: xenial
 language: python
 cache:
   directories:
@@ -15,26 +18,23 @@ services:
   - xvfb
 
 
+
 before_install:
     - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
     - chmod +x miniconda.sh
     - ./miniconda.sh -b
-    - export PATH=$HOME/miniconda/bin:$PATH
-    - export PATH=$HOME/miniconda2/bin:$PATH
-    - hash -r
+    - export PATH=/home/travis/miniconda/bin:$PATH
+    - export PATH=/home/travis/miniconda2/bin:$PATH
     - conda update --yes conda
-    - conda config --add channels r
-    - conda config --add channels bioconda
-    - conda config --add channels conda-forge
-    - "export DISPLAY=:99.0"
-
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
-  #- conda install --yes python=$TRAVIS_PYTHON_VERSION numpy matplotlib nose coverage cython scipy
-  - conda install --yes --file requirements.txt
-  - conda install --yes --file requirements-dev.txt
-  - pip install .
-  - pip install pytest>=3.6 
+    - echo $TRAVIS_PYTHON_VERSION
+    - conda create --yes --name testenv python=$TRAVIS_PYTHON_VERSION
+    - source activate testenv
+    - "export DISPLAY=:99.0"
+    - conda install --yes --file requirements.txt
+    - conda install --yes --file requirements-dev.txt
+    - pip install .
 # # command to run tests, e.g. python setup.py test
 script:
   - pytest -v --durations=10  test/ --cov=spectrum --cov-report term --timeout 300 
