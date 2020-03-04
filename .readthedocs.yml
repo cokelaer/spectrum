@@ -12,4 +12,4 @@ python:
         - method: pip
           path: easydev
         - method: pip
-          path: .
+          path: spectrum
