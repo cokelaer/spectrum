@@ -9,7 +9,4 @@ python:
     version: 3.6
     install:
         - requirements: requirements.txt
-        - method: pip
-          path: easydev
-        - method: pip
-          path: spectrum
+        - requirements: requirements-dev.txt
