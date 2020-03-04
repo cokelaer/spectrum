@@ -1,4 +1,5 @@
 easydev
+numpydoc
 pytest
 pytest-cov
 pytest-xdist
