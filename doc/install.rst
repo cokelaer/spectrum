@@ -23,7 +23,7 @@ Conda installation
 
 **Spectrum** is now available on CONDA. For Linux and MAC users, if you prefer to use conda, please use::
 
-    conda config --add channels conda-forge
+    conda config --append channels conda-forge
     conda install spectrum
 
 
