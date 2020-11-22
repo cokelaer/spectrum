@@ -60,7 +60,7 @@ Quick Installation
 
 and **conda**::
 
-    conda config --add channels conda-forge
+    conda config --append channels conda-forge
     conda install spectrum
 
 To install the **conda** executable itself, please see https://www.continuum.io/downloads .

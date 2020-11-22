@@ -1,15 +1,18 @@
 ChangeLog Summary
 ===================
 
-Version 0.7 (2019)
------------------------
+Version 0.8 (2020) 
+------------------
 
-* 0.7.7: Nov 2020
+* 0.8.0: Nov 2020
 
    * Fixed documentation related to https://github.com/cokelaer/spectrum/issues/57
    * Better documentation for pmtm. Also, following
      https://github.com/cokelaer/spectrum/issues/68 issue, add a warning to advice
      users to use Multitapering class instead of pmtm function to plot the results.
+
+Version 0.7 (2019)
+-----------------------
 
 * 0.7.6: Jan 2019
 
