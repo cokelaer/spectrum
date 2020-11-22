@@ -336,7 +336,7 @@ def _get_signal_space(S, NP, verbose=False, threshold=None, NSIG=None,
             m = threshold * min(S)
             new_s = S[np.where(S>m)]
             NSIG = len(new_s)
-            logging.debug('found {N}'.format(NSIG))
+            logging.debug('found {}'.format(NSIG))
             if NSIG == 0:
                 NSIG = 1
     return NSIG
