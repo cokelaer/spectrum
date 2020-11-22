@@ -41,7 +41,7 @@ def arma2psd(A=None, B=None, rho=1., T=1., NFFT=4096, sides='default',
     :param array A:   Array of AR parameters (complex or real)
     :param array B:   Array of MA parameters (complex or real)
     :param float rho: White noise variance to scale the returned PSD
-    :param float T:   Sample interval in seconds to scale the returned PSD
+    :param float T:   Sampling frequency in Hertz to scale the PSD.
     :param int NFFT:  Final size of the PSD
     :param str sides: Default PSD is two-sided, but sides can be set to centerdc.
 
