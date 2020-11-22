@@ -7,32 +7,24 @@ assignees: ''
 
 ---
 
-**Describe the bug**
+**1. Describe the bug**
 A clear and concise description of what the bug is.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+**2. To Reproduce**
+If you are facing a bug or installation problem, I cannot help yo without some information of way to reproduce the errors. Please complete the following information as much as possible
+- OS: [e.g. Fedora, windows version, mac version]
+- Python version. for example 3.7.2 (please provide X.Y.Z numbers)
+- Version of spectrum:
 
-**Expected behavior**
+you can figure out the version using this python code::
+
+   import spectrum
+   spectrum.__version__
+
+**3.Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
+**4.Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
-
-**Additional context**
-Add any other context about the problem here.
+**5.What you think may explain the pbl**
