@@ -53,7 +53,7 @@ def lpc(x, N=None):
         a = lpc(x, 3)
         est_x = lfilter([0 -a(2:end)],1,x);    % Estimated signal
         e = x - est_x;                        % Prediction error
-        [acs,lags] = xcorr(e,'coeff');   % ACS of prediction error
+        [acs, lags] = xcorr(e,'coeff');   % ACS of prediction error
 
     """
 

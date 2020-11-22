@@ -1,5 +1,14 @@
 from __future__ import absolute_import
 
+try:
+    import pkg_resources
+    version = pkg_resources.require("spectrum")[0].version
+    __version__ = version
+except:
+    __version__ = "?"
+
+
+
 import logging
 def spectrum_set_level(level):
     assert level in ['DEBUG', 'INFO', 'CRITICAL', 'ERROR', 'WARNING']
