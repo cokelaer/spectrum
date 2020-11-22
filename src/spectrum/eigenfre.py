@@ -325,7 +325,7 @@ def _get_signal_space(S, NP, verbose=False, threshold=None, NSIG=None,
                 aic = mdl_eigen(S, NP*2)
             # get the minimum index of the AIC vector, add 1 to get the NSIG
             NSIG = np.argmin(aic) + 1
-            logging.debug('NSIG=', NSIG, ' found as the number of pertinent sinusoids')
+            logging.debug(f'NSIG={NSIG} found as the number of pertinent sinusoids')
         else:
             logging.debug('computing NSIG using user threshold ')
             # following an idea from Matlab, pmusic, we look at the minimum
@@ -334,7 +334,7 @@ def _get_signal_space(S, NP, verbose=False, threshold=None, NSIG=None,
             m = threshold * min(S)
             new_s = S[np.where(S>m)]
             NSIG = len(new_s)
-            logging.debug('found', NSIG)
+            logging.debug(f'found {NSIG}')
             if NSIG == 0:
                 NSIG = 1
     return NSIG

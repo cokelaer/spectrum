@@ -70,7 +70,7 @@ def _arburg2(X, order):
         eb = ebp + ref[m].conj().transpose() * efp
 
         # Update the AR coeff.
-        a.resize(len(a)+1)
+        a.resize(len(a)+1, refcheck=False)
         a = a + ref[m] * np.flipud(a).conjugate()
 
         # Update the prediction error
@@ -254,7 +254,7 @@ def arburg(X, order, criteria=None):
         if rho <= 0:
             raise ValueError("Found a negative value (expected positive strictly) %s. Decrease the order" % rho)
 
-        a.resize(a.size+1)
+        a.resize(a.size+1,refcheck=False)
         a[k] = kp
         if k == 0:
             for j in range(N-1, k, -1):
@@ -278,7 +278,7 @@ def arburg(X, order, criteria=None):
                 eb[j] = eb[j-1] + kp.conjugate() *  save2
 
         # save the reflection coefficient
-        ref.resize(ref.size+1)
+        ref.resize(ref.size+1, refcheck=False)
         ref[k] = kp
 
     return a, rho, ref

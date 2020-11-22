@@ -95,10 +95,10 @@ def CORRELATION(x, y=None, maxlags=None, norm='unbiased'):
     N = max(len(x), len(y))
     if len(x) < N:
         x = y.copy()
-        x.resize(N)
+        x.resize(N, refcheck=False)
     if len(y) < N:
         y = y.copy()
-        y.resize(N)
+        y.resize(N, refcheck=False)
 
     #default lag is N-1
     if maxlags is None:

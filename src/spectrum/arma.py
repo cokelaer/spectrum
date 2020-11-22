@@ -193,7 +193,7 @@ def arma_estimate(X, P, Q, lag):
             Y[K] = R[KPQ]
 
     # The resize is very important for the normalissation.
-    Y.resize(lag)
+    Y.resize(lag, refcheck=False)
     if P <= 4:
         res = arcovar_marple(Y.copy(), P)    #! Eq. (10.12)
         ar_params = res[0]
@@ -203,7 +203,7 @@ def arma_estimate(X, P, Q, lag):
 
     # the .copy is used to prevent a reference somewhere. this is a bug
     # to be tracked down.
-    Y.resize(N-P)
+    Y.resize(N-P, refcheck=False)
 
     #C   Filter the original time series
     for k in range(P, N):

@@ -78,7 +78,7 @@ def arcovar_marple(x, order):
     #ip +1 because we want to enter in the loop to run the first part of the code.
     pbv = []
     for m in range(0, order+1):
-        logging.debug('----------------------------m=', m)
+        logging.debug(f'----------------------------m={m}')
         logging.debug(c[0:2])
         logging.debug(d[0:2])
         r1 = 1./pf
