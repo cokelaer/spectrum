@@ -113,8 +113,8 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Fal
     :param NW:
     :param e: the window concentrations (eigenvalues)
     :param v: the matrix containing the tapering windows
-    :param str method: set how the eigenvalues are used. Must be
-        in ['unity', 'adapt', 'eigen']
+    :param str method: set how the eigenvalues are used when weighting the
+        results. Must be in ['unity', 'adapt', 'eigen']. see below for details.
     :param bool show: plot results
     :return: Sk (complex), weights, eigenvalues
 
@@ -130,8 +130,21 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Fal
 
     How does it work? First we compute different simple periodogram with the
     whole data set (to keep good resolution) but each periodgram is computed
-    with a differenttapering windows. Then, we average all these spectrum.
+    with a different tapering windows. Then, we average all these spectrum.
     To avoid redundancy and bias due to the tapers mtm use special tapers.
+
+    Method can be eigen, unity or adapt. If *unity*, weights are set to 1. If
+    *eigen* are proportional to the eigen-values. If *adapt*, equations from 
+    [2] (P&W pp 368-370) are used.
+
+    The output is made of 2 matrices called *Sk* and *weights*. The third item
+    stored the eigenvalues. The two matrices have dimensions equal to the number
+    of windows used multiplied by the number of input points. The first matrix
+    stored the spectral results while the second stores the weights.
+
+    Would you wish to plot the spectrum, you will have to take the means of the
+    different windows and weight down the results before mean(Sk *  weigths). Please see the
+    code for details.
 
     .. plot::
         :width: 80%
@@ -221,6 +234,9 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Fal
         weights=wk
 
     if show is True:
+        print("""To plot the spectrum please use Multitapering class instead of
+pmtm. Same syntax but more correct plot. This plotting functionality is kept for
+book-keeping but lacks sampling option, and amplitude is not correct.""")
         from pylab import semilogy
         if method == "adapt":
             Sk = np.mean(Sk * weights, axis=1)
