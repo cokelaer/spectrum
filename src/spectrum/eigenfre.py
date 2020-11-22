@@ -73,6 +73,7 @@ class pmusic(ParametricSpectrum):
             self.psd = centerdc_2_twosided(psd)
 
         self.scale()
+        return self
 
     def _str_title(self):
         return "Music PSD estimate\n"
@@ -135,6 +136,7 @@ class pev(ParametricSpectrum):
             self.psd = centerdc_2_twosided(psd)
 
         self.scale()
+        return self
 
     def _str_title(self):
         return "EV PSD estimate\n"

@@ -248,6 +248,7 @@ class Periodogram(FourierSpectrum):
         self.psd = psd
         if self.scale_by_freq is True:
             self.scale()
+        return self
 
     def _str_title(self):
         return "Periodogram PSD estimate\n"
@@ -361,6 +362,7 @@ class pdaniell(FourierSpectrum):
                   scale_by_freq=self.scale_by_freq,
                   detrend=self.detrend)
         self.psd = res[0]
+        return self
 
     def _str_title(self):
         return "Daniell Periodogram PSD estimate\n"

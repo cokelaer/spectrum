@@ -128,7 +128,7 @@ class Criteria(object):
     rho = property(fget=_getRho, fset=_setRho, doc="Getter/Setter for rho")
 
     def __call__(self, rho=None, k=None, N=None, norm=True):
-        """Call the criteria function correspondign to :attr:`name`."""
+        """Call the criteria function corresponding to :attr:`name`."""
         self.__norm = norm
         if N is not None:
             self.N = N

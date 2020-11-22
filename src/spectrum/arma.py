@@ -275,6 +275,7 @@ class parma(ParametricSpectrum):
             self.psd = psd
         if self.scale_by_freq is True:
             self.scale()
+        return self
 
     def _str_title(self):
         return "ARMA PSD estimate\n"
