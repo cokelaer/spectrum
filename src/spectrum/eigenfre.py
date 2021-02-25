@@ -7,7 +7,7 @@ from numpy.linalg import svd
 from spectrum import default_NFFT
 from .psd import ParametricSpectrum
 from .tools import twosided_2_onesided, centerdc_2_twosided, twosided_2_centerdc
-
+from scipy import linalg 
 
 __all__ = ["music", "ev", "pmusic", "eigen", "pev"]
 
@@ -261,10 +261,13 @@ def eigen(X, P, NSIG=None, method='music', threshold=None, NFFT=default_NFFT,
     PSD = np.zeros(NFFT)
 
     # These loops can surely be replaced by a function that create such matrix
-    for I in range(0, NP):
-        for K in range(0, P):
-            FB[I, K] = X[I-K+P-1]
-            FB[I+NP, K] = X[I+K+1].conjugate()
+    # for I in range(0, NP):
+    #     for K in range(0, P):
+    #         FB[I, K] = X[I-K+P-1]
+    #         FB[I+NP, K] = X[I+K+1].conjugate()
+    FB[:NP, :] = linalg.toeplitz(X[P - 1 : -1], X[P - 1 :: -1])
+    FB[NP:, :] = linalg.hankel(X[1 : -P + 1].conjugate(), X[-P:].conjugate())
+
 
     # This commented line produces the correct FB, as the 2 for loops above
     # It is more elegant but slower...corrmtx needs to be optimised (20/4/11)
