@@ -265,8 +265,8 @@ def eigen(X, P, NSIG=None, method='music', threshold=None, NFFT=default_NFFT,
     #     for K in range(0, P):
     #         FB[I, K] = X[I-K+P-1]
     #         FB[I+NP, K] = X[I+K+1].conjugate()
-    FB[:NP, :] = linalg.toeplitz(X[P - 1 : -1], X[P - 1 :: -1])
-    FB[NP:, :] = linalg.hankel(X[1 : -P + 1].conjugate(), X[-P:].conjugate())
+    FB[:NP, :] = linalg.toeplitz(X[P - 1 : NP+P-1], X[P - 1 :: -1])
+    FB[NP:, :] = linalg.hankel(X[1 : -P + 1].conjugate(), X[-P:NP+P].conjugate())
 
 
     # This commented line produces the correct FB, as the 2 for loops above
