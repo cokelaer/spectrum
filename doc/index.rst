@@ -4,8 +4,8 @@
 .. image:: https://badge.fury.io/py/spectrum.svg
     :target: https://pypi.python.org/pypi/spectrum
 
-.. image:: https://secure.travis-ci.org/cokelaer/spectrum.png
-    :target: http://travis-ci.org/cokelaer/spectrum
+.. image:: https://github.com/cokelaer/spectrum/actions/workflows/main.yml/badge.svg?branch=master
+    :target: http://travis-ci.com/cokelaer/spectrum
 
 .. image:: https://coveralls.io/repos/cokelaer/spectrum/badge.png?branch=master 
     :target: https://coveralls.io/r/cokelaer/spectrum?branch=master 
