@@ -30,11 +30,11 @@ jobs:
         pip install easydev
         pip install pytest
         pip install pytest-cov
+        pip install coverage
         pytest --cov-report term --cov=spectrum
 
     - name: coveralls            
       run: |
-        pip install coverage
         coveralls --service=github
       env:
           GITHUB_TOKEN: ${{ github.token }}
