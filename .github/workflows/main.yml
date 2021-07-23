@@ -31,3 +31,10 @@ jobs:
         pip install pytest
         pip install pytest-cov
         pytest --cov-report term --cov=spectrum
+
+    - name: coveralls            
+      run: |
+        pip install coverage
+        coveralls --service=github
+      env:
+          GITHUB_TOKEN: ${{ github.token }}
