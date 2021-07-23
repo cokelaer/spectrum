@@ -5,7 +5,7 @@ SPECTRUM : Spectral Analysis in Python
     :target: https://pypi.python.org/pypi/spectrum
 
 .. image:: https://github.com/cokelaer/spectrum/actions/workflows/main.yml/badge.svg?branch=master
-    :target: http://travis-ci.com/cokelaer/spectrum
+    :target: https://github.com/cokelaer/spectrum/actions/workflows/main.yml
     
 .. image:: https://coveralls.io/repos/cokelaer/spectrum/badge.png?branch=master 
     :target: https://coveralls.io/r/cokelaer/spectrum?branch=master 
