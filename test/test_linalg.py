@@ -14,7 +14,7 @@ def test_pascal():
 
 
 def test_svd():
-    a = numpy.matrix([[2.8-.4j, 1.6],[3.6-1.2j, 2.4-1.8j],[2+.4j, 2.8-4.4j]])
+    a = numpy.array([[2.8-.4j, 1.6],[3.6-1.2j, 2.4-1.8j],[2+.4j, 2.8-4.4j]])
     U, S, V = csvd(a)
     assert_array_almost_equal(S, numpy.array([ 7.51711296,  2.96867189]))
 

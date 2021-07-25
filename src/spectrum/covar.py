@@ -310,7 +310,7 @@ def arcovar(x, order):
     import scipy.linalg
 
     X = corrmtx(x, order, 'covariance')
-    Xc = np.matrix(X[:, 1:])
+    Xc = np.array(X[:, 1:])
     X1 = np.array(X[:, 0])
 
     # Coefficients estimated via the covariance method

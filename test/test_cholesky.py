@@ -4,7 +4,7 @@ import numpy
 
 #TOEPLITZ
 #example marple app 3.A
-A  = numpy.matrix([[2+0.j, .5-0.5j,-.2+.1j],[.5+.5j,1,.3-0.2j],[-.2-.1j,.3+.2j,.5]], dtype=complex)
+A  = numpy.array([[2+0.j, .5-0.5j,-.2+.1j],[.5+.5j,1,.3-0.2j],[-.2-.1j,.3+.2j,.5]], dtype=complex)
 
 #a_cholesky = numpy.array([2+0.j, .5-0.5j, 1., -.2+.1j,.3-0.2j,.5], dtype=complex)
 B = numpy.array([1+3j,2-1j,.5+.8j], dtype=complex)

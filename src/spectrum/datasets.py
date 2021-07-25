@@ -12,20 +12,20 @@
 
     :Reference: [Marple]_
 """
-import numpy
+import numpy as np
 from numpy import arange, pi, cos, sin
 from numpy.random import randn
 
 
 #example marple app 3.A
-A_cholesky = numpy.matrix([[2+0.j, .5-0.5j,-.2+.1j],
+A_cholesky = np.array([[2+0.j, .5-0.5j,-.2+.1j],
                            [.5+.5j,1,.3-0.2j],
                            [-.2-.1j,.3+.2j,.5]], dtype=complex)
-a_cholesky = numpy.array([2+0.j, .5-0.5j, 1., -.2+.1j,.3-0.2j,.5],
+a_cholesky = np.array([2+0.j, .5-0.5j, 1., -.2+.1j,.3-0.2j,.5],
                          dtype=complex)
-B_cholesky = numpy.array([1+3j,2-1j,.5+.8j], dtype=complex)
+B_cholesky = np.array([1+3j,2-1j,.5+.8j], dtype=complex)
 #should return
-sol_cholesky = numpy.array([ 0.95945946+5.25675676j,
+sol_cholesky = np.array([ 0.95945946+5.25675676j,
                             4.41891892-7.04054054j,
                             -5.13513514+6.35135135j])
 
