@@ -8,7 +8,7 @@ Issues
 You have an issue ? You found a bug ? Please submit an issue with 
 
 - a description of the problem
-- the version of Sequana used
+- the version of Spectrum used
 - the error message if any
 
 
