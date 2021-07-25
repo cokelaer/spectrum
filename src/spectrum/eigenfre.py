@@ -261,10 +261,10 @@ def eigen(X, P, NSIG=None, method='music', threshold=None, NFFT=default_NFFT,
     PSD = np.zeros(NFFT)
 
     # These loops can surely be replaced by a function that create such matrix
-     for I in range(0, NP):
-         for K in range(0, P):
-             FB[I, K] = X[I-K+P-1]
-             FB[I+NP, K] = X[I+K+1].conjugate()
+    for I in range(0, NP):
+        for K in range(0, P):
+            FB[I, K] = X[I-K+P-1]
+            FB[I+NP, K] = X[I+K+1].conjugate()
     # This PR #71 does not pass the test 
     #FB[:NP, :] = linalg.toeplitz(X[P - 1 : NP+P-1], X[P - 1 :: -1])
     #FB[NP:, :] = linalg.hankel(X[1 : -P + 1].conjugate(), X[-P:NP+P].conjugate())
