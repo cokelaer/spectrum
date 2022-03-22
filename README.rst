@@ -70,6 +70,20 @@ Contributions
 
 Please see `github <http://github.com/cokelaer/spectrum>`_ for any issues/bugs/comments/contributions.
 
+Changelog (summary)
+===================
+
+========== ==========================================================
+release    description
+========== ==========================================================
+0.8.1      * move CI to github actions
+           * include python 3.9 support
+           * include PR from tikuma-lshhsc contributor to speedup 
+             eigenfre module
+           * fix deprecated warnings
+========== ==========================================================
+
+
 
 Some notebooks (external contributions)
 -------------------------------------------
