@@ -7,7 +7,7 @@ from distutils.core import Extension
 
 _MAJOR               = 0
 _MINOR               = 8
-_MICRO               = 0
+_MICRO               = 1
 version              = '%d.%d.%d' % (_MAJOR, _MINOR, _MICRO)
 release              = '%d.%d' % (_MAJOR, _MINOR)
 
@@ -35,10 +35,23 @@ setup(
     # Dependencies
     install_requires=open("requirements.txt").read(),
     extras_require={
-        'plot': ['matplotlib']
+        'plot': ['matplotlib'],
+        "testing": [
+            "pytest",
+            "pytest-cov",
+            "pytest-xdist",
+            "pytest-mock",
+            "pytest-timeout",
+            "pytest-runner",
+            "coveralls",
+        ],
+        "doc": [
+            'sphinx',
+            'sphinx_rtd_theme'
+        ]
+
     },
-    # specific packages for testing
-    tests_require = open('requirements-dev.txt').read().split(),
+
 
     package_data = {
         'spectrum.data' : ['*'],

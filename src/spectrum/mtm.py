@@ -324,12 +324,11 @@ def dpss(N, NW=None, k=None):
     if k is None:
         k = min(round(2*NW),N)
         k = int(max(k,1))
-    from numpy import dot, zeros, arange, sqrt
     mtspeclib.multitap.restype = None
 
-    lam = zeros(k, dtype=float)
-    tapers = zeros(k*N, dtype=float)
-    tapsum = zeros(k, dtype=float)
+    lam = np.zeros(k, dtype=float)
+    tapers = np.zeros(k*N, dtype=float)
+    tapsum = np.zeros(k, dtype=float)
 
     res = mtspeclib.multitap(
         c_int(N),
@@ -341,7 +340,7 @@ def dpss(N, NW=None, k=None):
         )
 
     # normalisation by sqtr(N). It is required to have normalised windows
-    tapers = tapers.reshape(k,N).transpose() / sqrt(N)
+    tapers = tapers.reshape(k,N).transpose() / np.sqrt(N)
 
     for i in range(k):
         # By convention (Percival and Walden, 1993 pg 379)
@@ -362,11 +361,11 @@ def dpss(N, NW=None, k=None):
 
     # The values returned in lam are not exacly the same as in the following methods.
     acvs = _autocov(tapers.transpose(), debias=False) * N
-    nidx = arange(N)
+    nidx = np.arange(N)
     W = float(NW)/N
     r = 4*W*np.sinc(2*W*nidx)
     r[0] = 2*W
-    eigvals = dot(acvs, r)
+    eigvals = np.dot(acvs, r)
 
     #return (tapers, lam)
     return [tapers, eigvals]
@@ -540,8 +539,13 @@ def _fftconvolve(in1, in2, mode="full", axis=None):
     """
     #Locally import stuff only required for this:
     from scipy.fftpack import fftn, fft, ifftn, ifft
-    from scipy.signal.signaltools import _centered
     from numpy import array, product
+    try:
+        from scipy.signal._signaltools import _centered
+    except ModuleNotFoundError:
+        from scipy.signal.signaltools import _centered
+
+
 
 
     s1 = array(in1.shape)

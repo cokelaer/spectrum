@@ -4,6 +4,12 @@ ChangeLog Summary
 Version 0.8 (2020) 
 ------------------
 
+* 0.8.1: Jul 2021
+
+   * move CI to github actions
+   * include PR from tikuma-lshhsc contributor to speedup eigenfre module
+   * fix deprecated warnings
+
 * 0.8.0: Nov 2020
 
    * Fixed documentation related to https://github.com/cokelaer/spectrum/issues/57

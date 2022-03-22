@@ -1,3 +1,4 @@
+easydev
 numpy
 scipy
 matplotlib
