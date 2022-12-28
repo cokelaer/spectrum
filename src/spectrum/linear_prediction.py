@@ -59,8 +59,8 @@ def ac2rc(data):
         c, data[0]
 
     """
-    a, e, _c = LEVINSON(data)
-    return a, data[0]
+    a, e, c = LEVINSON(data)
+    return c, data[0]
 
 
 def poly2ac(poly, efinal):
