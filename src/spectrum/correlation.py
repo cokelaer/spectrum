@@ -21,6 +21,7 @@
 
 """
 import numpy as np
+import scipy.signal
 
 
 __all__ = ['CORRELATION', 'xcorr']
@@ -208,7 +209,7 @@ def xcorr(x, y=None, maxlags=None, norm='biased'):
         assert maxlags <= N, 'maxlags must be less than data length'
         lags = np.arange(N-maxlags-1, N+maxlags)
 
-    res = np.correlate(x, y, mode='full')
+    res = scipy.signal.correlate(x, y, mode='full')
 
     if norm == 'biased':
         Nf = float(N)
