@@ -52,7 +52,7 @@ def _arburg2(X, order):
 
     temp = 1.
     E = np.zeros(order+1)
-    E[0] = rho
+    E[0] = rho.copy()
 
     for m in range(0, order):
         #print m
@@ -74,7 +74,7 @@ def _arburg2(X, order):
         a = a + ref[m] * np.flipud(a).conjugate()
 
         # Update the prediction error
-        E[m+1] = (1 - ref[m].conj().transpose()*ref[m]) * E[m]
+        E[m+1] = (1 - ref[m].conj().transpose()*ref[m]).real * E[m]
         #print 'REF', ref, num, den
     return a, E[-1], ref
 
