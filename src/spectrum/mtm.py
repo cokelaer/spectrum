@@ -8,20 +8,20 @@ The estimation itself can be performed with the :func:`spectrum.mtm.pmtm` functi
 
 
 """
-import sys
-import platform
+import ctypes
+import ctypes as C
 import os
+import platform
+import sys
+from ctypes import *
+from ctypes import POINTER
+from os.path import join as pj
 
 import numpy as np
-import ctypes
-from ctypes import *
-import ctypes as C
-from ctypes import POINTER
-import os
-from os.path import join as pj
-from spectrum.tools import nextpow2
 from numpy.ctypeslib import load_library
+
 from spectrum.psd import Spectrum
+from spectrum.tools import nextpow2
 
 """
 
@@ -41,12 +41,12 @@ Note that on OSX -shared should be replaced by -dynamiclib and sum.so should be 
 """
 
 # Import shared mtspec library
-if hasattr(sys, 'frozen'):
+if hasattr(sys, "frozen"):
     p = os.path.abspath(os.path.dirname(sys.executable))
 else:
     p = os.path.abspath(os.path.dirname(__file__))
 
-lib_name = 'mydpss'
+lib_name = "mydpss"
 try:
     mtspeclib = load_library(lib_name, p)
 except:
@@ -59,10 +59,11 @@ class MultiTapering(Spectrum):
     See :func:`pmtm` for details
 
     """
-    def __init__(self, data, NW=None, k=None, NFFT=None, e=None, v=None,
-                 method="adapt", scale_by_freq=True, sampling=1):
-        super(MultiTapering, self).__init__(data, sampling=sampling, NFFT=NFFT,
-            scale_by_freq=scale_by_freq)
+
+    def __init__(
+        self, data, NW=None, k=None, NFFT=None, e=None, v=None, method="adapt", scale_by_freq=True, sampling=1
+    ):
+        super(MultiTapering, self).__init__(data, sampling=sampling, NFFT=NFFT, scale_by_freq=scale_by_freq)
 
         self.NW = NW
         self.k = k
@@ -71,9 +72,10 @@ class MultiTapering(Spectrum):
         self.method = method
 
     def __call__(self):
-        Sk_complex, weights, eigenvalues = pmtm(self.data, self.NW, self.k,
-            NFFT=self.NFFT, e=self.e, v=self.v, method=self.method, show=False)
-        Sk = abs(Sk_complex)**2
+        Sk_complex, weights, eigenvalues = pmtm(
+            self.data, self.NW, self.k, NFFT=self.NFFT, e=self.e, v=self.v, method=self.method, show=False
+        )
+        Sk = abs(Sk_complex) ** 2
 
         if self.method == "adapt":
             Sk = Sk.transpose()
@@ -87,9 +89,9 @@ class MultiTapering(Spectrum):
         if self.datatype == "real":
             #  see doc/concepts.rst for details
             if self.NFFT % 2 == 0:
-                newpsd  = self.Sk[0:int(self.NFFT/2 +1)] * 2
+                newpsd = self.Sk[0 : int(self.NFFT / 2 + 1)] * 2
             else:
-                newpsd = self.Sk[0:int((self.NFFT+1)/2)] * 2
+                newpsd = self.Sk[0 : int((self.NFFT + 1) / 2)] * 2
             self.psd = newpsd
         else:
             self.psd = self.Sk
@@ -102,7 +104,7 @@ class MultiTapering(Spectrum):
         return super(MultiTapering, self).__str__()
 
 
-def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=False):
+def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method="adapt", show=False):
     """Multitapering spectral estimation
 
     :param array x: the data
@@ -135,7 +137,7 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Fal
     To avoid redundancy and bias due to the tapers mtm use special tapers.
 
     Method can be eigen, unity or adapt. If *unity*, weights are set to 1. If
-    *eigen* are proportional to the eigen-values. If *adapt*, equations from 
+    *eigen* are proportional to the eigen-values. If *adapt*, equations from
     [2] (P&W pp 368-370) are used.
 
     The output is made of 2 matrices called *Sk* and *weights*. The third item
@@ -168,7 +170,7 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Fal
         and the weights
 
     """
-    assert method in ['adapt','eigen','unity']
+    assert method in ["adapt", "eigen", "unity"]
 
     N = len(x)
 
@@ -183,36 +185,36 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Fal
         tapers = v[:]
     else:
         raise ValueError("if e provided, v must be provided as well and viceversa.")
-    nwin = len(eigenvalues) # length of the eigen values vector to be used later
+    nwin = len(eigenvalues)  # length of the eigen values vector to be used later
 
     # set the NFFT
-    if NFFT==None:
-        NFFT = max(256, 2**nextpow2(N))
+    if NFFT == None:
+        NFFT = max(256, 2 ** nextpow2(N))
 
     Sk_complex = np.fft.fft(np.multiply(tapers.transpose(), x), NFFT)
-    Sk = abs(Sk_complex)**2
+    Sk = abs(Sk_complex) ** 2
 
     # si nfft smaller thqn N, cut otherwise add wero.
     # compute
-    if method in ['eigen', 'unity']:
-        if method == 'unity':
+    if method in ["eigen", "unity"]:
+        if method == "unity":
             weights = np.ones((nwin, 1))
-        elif method == 'eigen':
+        elif method == "eigen":
             # The S_k spectrum can be weighted by the eigenvalues, as in Park et al.
-            weights = np.array([_x/float(i+1) for i,_x in enumerate(eigenvalues)])
-            weights = weights.reshape(nwin,1)
+            weights = np.array([_x / float(i + 1) for i, _x in enumerate(eigenvalues)])
+            weights = weights.reshape(nwin, 1)
 
-    elif method == 'adapt':
+    elif method == "adapt":
         # This version uses the equations from [2] (P&W pp 368-370).
 
         # Wrap the data modulo nfft if N > nfft
         sig2 = np.dot(x, x) / float(N)
-        Sk = abs(np.fft.fft(np.multiply(tapers.transpose(), x), NFFT))**2
+        Sk = abs(np.fft.fft(np.multiply(tapers.transpose(), x), NFFT)) ** 2
         Sk = Sk.transpose()
-        S = (Sk[:,0] + Sk[:,1]) / 2    # Initial spectrum estimate
+        S = (Sk[:, 0] + Sk[:, 1]) / 2  # Initial spectrum estimate
         S = S.reshape(NFFT, 1)
-        Stemp = np.zeros((NFFT,1))
-        S1 = np.zeros((NFFT,1))
+        Stemp = np.zeros((NFFT, 1))
+        S1 = np.zeros((NFFT, 1))
         # Set tolerance for acceptance of spectral estimate:
         tol = 0.0005 * sig2 / float(NFFT)
         i = 0
@@ -220,25 +222,28 @@ def pmtm(x, NW=None, k=None, NFFT=None, e=None, v=None, method='adapt', show=Fal
         wk = np.ones((NFFT, 1)) * eigenvalues.transpose()
 
         # converges very quickly but for safety; set i<100
-        while sum(np.abs(S-S1))/NFFT > tol and i<100:
+        while sum(np.abs(S - S1)) / NFFT > tol and i < 100:
             i = i + 1
             # calculate weights
-            b1 = np.multiply(S, np.ones((1,nwin)))
-            b2 = np.multiply(S,eigenvalues.transpose()) + np.ones((NFFT,1))*a.transpose()
-            b = b1/b2
+            b1 = np.multiply(S, np.ones((1, nwin)))
+            b2 = np.multiply(S, eigenvalues.transpose()) + np.ones((NFFT, 1)) * a.transpose()
+            b = b1 / b2
 
             # calculate new spectral estimate
-            wk=(b**2)*(np.ones((NFFT,1))*eigenvalues.transpose())
-            S1 = sum(wk.transpose()*Sk.transpose())/ sum(wk.transpose())
+            wk = (b**2) * (np.ones((NFFT, 1)) * eigenvalues.transpose())
+            S1 = sum(wk.transpose() * Sk.transpose()) / sum(wk.transpose())
             S1 = S1.reshape(NFFT, 1)
             S, S1 = S1, S  # swap S and S1
-        weights=wk
+        weights = wk
 
     if show is True:
-        print("""To plot the spectrum please use Multitapering class instead of
+        print(
+            """To plot the spectrum please use Multitapering class instead of
 pmtm. Same syntax but more correct plot. This plotting functionality is kept for
-book-keeping but lacks sampling option, and amplitude is not correct.""")
+book-keeping but lacks sampling option, and amplitude is not correct."""
+        )
         from pylab import semilogy
+
         if method == "adapt":
             Sk = np.mean(Sk * weights, axis=1)
         else:
@@ -320,14 +325,14 @@ def dpss(N, NW=None, k=None):
         Functions that are not used here were removed.
 
     """
-    assert NW < N/2 , "NW ({}) must be stricly less than N/2 ({}/2)".format(NW, N)
+    assert NW < N / 2, "NW ({}) must be stricly less than N/2 ({}/2)".format(NW, N)
     if k is None:
-        k = min(round(2*NW),N)
-        k = int(max(k,1))
+        k = min(round(2 * NW), N)
+        k = int(max(k, 1))
     mtspeclib.multitap.restype = None
 
     lam = np.zeros(k, dtype=float)
-    tapers = np.zeros(k*N, dtype=float)
+    tapers = np.zeros(k * N, dtype=float)
     tapsum = np.zeros(k, dtype=float)
 
     res = mtspeclib.multitap(
@@ -337,23 +342,23 @@ def dpss(N, NW=None, k=None):
         c_float(NW),
         tapers.ctypes.data_as(c_void_p),
         tapsum.ctypes.data_as(c_void_p),
-        )
+    )
 
     # normalisation by sqtr(N). It is required to have normalised windows
-    tapers = tapers.reshape(k,N).transpose() / np.sqrt(N)
+    tapers = tapers.reshape(k, N).transpose() / np.sqrt(N)
 
     for i in range(k):
         # By convention (Percival and Walden, 1993 pg 379)
         # * symmetric tapers (k=0,2,4,...) should have a positive average.
         # * antisymmetric tapers should begin with a positive lobe
-        if i%2 == 0:
-            if tapsum[i]<0:
+        if i % 2 == 0:
+            if tapsum[i] < 0:
                 tapsum[i] *= -1
-                tapers[:,i] *= -1
+                tapers[:, i] *= -1
         else:
-            if tapers[0,i] < 0:
+            if tapers[0, i] < 0:
                 tapsum[i] *= -1
-                tapers[:,i] *= -1
+                tapers[:, i] *= -1
 
     # Now find the eigenvalues of the original
     # Use the autocovariance sequence technique from Percival and Walden, 1993
@@ -362,12 +367,12 @@ def dpss(N, NW=None, k=None):
     # The values returned in lam are not exacly the same as in the following methods.
     acvs = _autocov(tapers.transpose(), debias=False) * N
     nidx = np.arange(N)
-    W = float(NW)/N
-    r = 4*W*np.sinc(2*W*nidx)
-    r[0] = 2*W
+    W = float(NW) / N
+    r = 4 * W * np.sinc(2 * W * nidx)
+    r[0] = 2 * W
     eigvals = np.dot(acvs, r)
 
-    #return (tapers, lam)
+    # return (tapers, lam)
     return [tapers, eigvals]
 
 
@@ -399,27 +404,28 @@ def _other_dpss_method(N, NW, Kmax):
     # and the first off-diangonal = t(N-t)/2, t=[1,2,...,N-1]
     # [see Percival and Walden, 1993]
     from scipy import linalg as la
+
     Kmax = int(Kmax)
-    W = float(NW)/N
-    ab = np.zeros((2,N), 'd')
+    W = float(NW) / N
+    ab = np.zeros((2, N), "d")
     nidx = np.arange(N)
-    ab[0,1:] = nidx[1:]*(N-nidx[1:])/2.
-    ab[1] = ((N-1-2*nidx)/2.)**2 * np.cos(2*np.pi*W)
+    ab[0, 1:] = nidx[1:] * (N - nidx[1:]) / 2.0
+    ab[1] = ((N - 1 - 2 * nidx) / 2.0) ** 2 * np.cos(2 * np.pi * W)
     # only calculate the highest Kmax-1 eigenvectors
-    l,v = la.eig_banded(ab, select='i', select_range=(N-Kmax, N-1))
+    l, v = la.eig_banded(ab, select="i", select_range=(N - Kmax, N - 1))
     dpss = v.transpose()[::-1]
 
     # By convention (Percival and Walden, 1993 pg 379)
     # * symmetric tapers (k=0,2,4,...) should have a positive average.
     # * antisymmetric tapers should begin with a positive lobe
-    fix_symmetric = (dpss[0::2].sum(axis=1) < 0)
+    fix_symmetric = dpss[0::2].sum(axis=1) < 0
     for i, f in enumerate(fix_symmetric):
         if f:
-            dpss[2*i] *= -1
-    fix_skew = (dpss[1::2,1] < 0)
+            dpss[2 * i] *= -1
+    fix_skew = dpss[1::2, 1] < 0
     for i, f in enumerate(fix_skew):
         if f:
-            dpss[2*i+1] *= -1
+            dpss[2 * i + 1] *= -1
 
     # Now find the eigenvalues of the original
     # Use the autocovariance sequence technique from Percival and Walden, 1993
@@ -427,8 +433,8 @@ def _other_dpss_method(N, NW, Kmax):
     # XXX : why debias false? it's all messed up o.w., even with means
     # on the order of 1e-2
     acvs = _autocov(dpss, debias=False) * N
-    r = 4*W*np.sinc(2*W*nidx)
-    r[0] = 2*W
+    r = 4 * W * np.sinc(2 * W * nidx)
+    r[0] = 2 * W
     eigvals = np.dot(acvs, r)
     return dpss, eigvals
 
@@ -441,11 +447,11 @@ def _autocov(s, **kwargs):
     where E{} is the expectation operator, and S is a zero mean process
     """
     # only remove the mean once, if needed
-    debias = kwargs.pop('debias', True)
-    axis = kwargs.get('axis', -1)
+    debias = kwargs.pop("debias", True)
+    axis = kwargs.get("axis", -1)
     if debias:
         s = _remove_bias(s, axis)
-    kwargs['debias'] = False
+    kwargs["debias"] = False
     return _crosscov(s, s, **kwargs)
 
 
@@ -474,20 +480,18 @@ def _crosscov(x, y, axis=-1, all_lags=False, debias=True):
     sxy[k] := E{X[t]*Y[t+k]}, where X,Y are zero mean random processes
     """
     if x.shape[axis] != y.shape[axis]:
-        raise ValueError(
-            'crosscov() only works on same-length sequences for now'
-            )
+        raise ValueError("crosscov() only works on same-length sequences for now")
     if debias:
         x = _remove_bias(x, axis)
         y = _remove_bias(y, axis)
     slicing = [slice(d) for d in x.shape]
-    slicing[axis] = slice(None,None,-1)
-    sxy = _fftconvolve(x, y[tuple(slicing)], axis=axis, mode='full')
+    slicing[axis] = slice(None, None, -1)
+    sxy = _fftconvolve(x, y[tuple(slicing)], axis=axis, mode="full")
     N = x.shape[axis]
     sxy /= N
     if all_lags:
         return sxy
-    slicing[axis] = slice(N-1,2*N-1)
+    slicing[axis] = slice(N - 1, 2 * N - 1)
     return sxy[tuple(slicing)]
 
 
@@ -519,7 +523,7 @@ def _crosscorr(x, y, **kwargs):
     # estimate sigma_x, sigma_y to normalize
     sx = np.std(x)
     sy = np.std(y)
-    return sxy/(sx*sy)
+    return sxy / (sx * sy)
 
 
 def _remove_bias(x, axis):
@@ -531,61 +535,63 @@ def _remove_bias(x, axis):
 
 
 def _fftconvolve(in1, in2, mode="full", axis=None):
-    """ Convolve two N-dimensional arrays using FFT. See convolve.
+    """Convolve two N-dimensional arrays using FFT. See convolve.
 
     This is a fix of scipy.signal.fftconvolve, adding an axis argument and
     importing locally the stuff only needed for this function
 
     """
-    #Locally import stuff only required for this:
-    from scipy.fftpack import fftn, fft, ifftn, ifft
-    from numpy import array, product
+    # Locally import stuff only required for this:
+    from numpy import array
+    from scipy.fftpack import fft, fftn, ifft, ifftn
+
+    try:
+        from numpy import product as prod
+    except (ModuleNotFoundError, ImportError):
+        from numpy import prod
+
     try:
         from scipy.signal._signaltools import _centered
     except ModuleNotFoundError:
         from scipy.signal.signaltools import _centered
 
-
-
-
     s1 = array(in1.shape)
     s2 = array(in2.shape)
-    complex_result = (np.issubdtype(in1.dtype, np.complexfloating) or
-                      np.issubdtype(in2.dtype, np.complexfloating))
+    complex_result = np.issubdtype(in1.dtype, np.complexfloating) or np.issubdtype(in2.dtype, np.complexfloating)
 
     if axis is None:
-        size = s1+s2-1
+        size = s1 + s2 - 1
         fslice = tuple([slice(0, int(sz)) for sz in size])
     else:
-        equal_shapes = s1==s2
+        equal_shapes = s1 == s2
         # allow equal_shapes[axis] to be False
         equal_shapes[axis] = True
-        assert equal_shapes.all(), 'Shape mismatch on non-convolving axes'
-        size = s1[axis]+s2[axis]-1
+        assert equal_shapes.all(), "Shape mismatch on non-convolving axes"
+        size = s1[axis] + s2[axis] - 1
         fslice = [slice(l) for l in s1]
         fslice[axis] = slice(0, int(size))
         fslice = tuple(fslice)
 
     # Always use 2**n-sized FFT
-    fsize = (2**np.ceil(np.log2(size))).astype(np.int64)
+    fsize = (2 ** np.ceil(np.log2(size))).astype(np.int64)
     if axis is None:
-        IN1 = fftn(in1,fsize)
-        IN1 *= fftn(in2,fsize)
+        IN1 = fftn(in1, fsize)
+        IN1 *= fftn(in2, fsize)
         ret = ifftn(IN1)[fslice].copy()
     else:
-        IN1 = fft(in1,fsize,axis=axis)
-        IN1 *= fft(in2,fsize,axis=axis)
-        ret = ifft(IN1,axis=axis)[fslice].copy()
+        IN1 = fft(in1, fsize, axis=axis)
+        IN1 *= fft(in2, fsize, axis=axis)
+        ret = ifft(IN1, axis=axis)[fslice].copy()
     if not complex_result:
         del IN1
         ret = ret.real
     if mode == "full":
         return ret
     elif mode == "same":
-        if product(s1,axis=0) > product(s2,axis=0):
+        if prod(s1, axis=0) > prod(s2, axis=0):
             osize = s1
         else:
             osize = s2
-        return _centered(ret,osize)
+        return _centered(ret, osize)
     elif mode == "valid":
-        return _centered(ret,abs(s2-s1)+1)
+        return _centered(ret, abs(s2 - s1) + 1)

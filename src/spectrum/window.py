@@ -33,45 +33,57 @@
     :References: See [Nuttall]_, [Marple]_, [Harris]_
 """
 import numpy as np
-from numpy import pi, cos, arange, array, sin, exp, sinc, linspace, \
-    sqrt, ones, log, array, prod
+from numpy import (
+    arange,
+    array,
+    cos,
+    exp,
+    linspace,
+    log,
+    ones,
+    pi,
+    prod,
+    sin,
+    sinc,
+    sqrt,
+)
 
 from spectrum import tools as stools
 
-#__all__ = ["window_names","Window","create_window"]
+# __all__ = ["window_names","Window","create_window"]
 
 
 window_names = {
-                 'bartlett_hann': 'window_bartlett_hann',
-                 'blackman_harris': 'window_blackman_harris',
-                 'blackman_nuttall': 'window_blackman_nuttall',
-                 'bohman':'window_bohman',
-                 'blackman': 'window_blackman',
-                 'chebwin':'window_chebwin',
-                 'gaussian': 'window_gaussian',
-                 'hamming':'window_hamming',
-                 'kaiser': 'window_kaiser',
-                 'lanczos': 'window_lanczos',
-                 'sinc': 'window_lanczos',
-                 'poisson': 'window_poisson',
-                 'tukey':'window_tukey',
-                 'nuttall':'window_nuttall',
-                 'parzen':'window_parzen',
-                 'flattop': 'window_flattop',
-                 'riesz':'window_riesz',
-                 'riemann':'window_riemann',
-                 'hann':'window_hann',
-                 'hanning':'window_hann',
-                 'poisson_hanning': 'window_poisson_hanning',
-                 'rectangular':'window_rectangle',
-                 'rectangle': 'window_rectangle',
-                 'bartlett':'window_bartlett',
-                 'triangular':     'window_bartlett',
-                 'cosine': 'window_cosine',
-                 'sine':   'window_cosine',
-                 'cauchy':'window_cauchy',
-                 'taylor':'window_taylor',
-                 }
+    "bartlett_hann": "window_bartlett_hann",
+    "blackman_harris": "window_blackman_harris",
+    "blackman_nuttall": "window_blackman_nuttall",
+    "bohman": "window_bohman",
+    "blackman": "window_blackman",
+    "chebwin": "window_chebwin",
+    "gaussian": "window_gaussian",
+    "hamming": "window_hamming",
+    "kaiser": "window_kaiser",
+    "lanczos": "window_lanczos",
+    "sinc": "window_lanczos",
+    "poisson": "window_poisson",
+    "tukey": "window_tukey",
+    "nuttall": "window_nuttall",
+    "parzen": "window_parzen",
+    "flattop": "window_flattop",
+    "riesz": "window_riesz",
+    "riemann": "window_riemann",
+    "hann": "window_hann",
+    "hanning": "window_hann",
+    "poisson_hanning": "window_poisson_hanning",
+    "rectangular": "window_rectangle",
+    "rectangle": "window_rectangle",
+    "bartlett": "window_bartlett",
+    "triangular": "window_bartlett",
+    "cosine": "window_cosine",
+    "sine": "window_cosine",
+    "cauchy": "window_cauchy",
+    "taylor": "window_taylor",
+}
 
 
 class Window(object):
@@ -116,6 +128,7 @@ class Window(object):
 
     .. rubric:: Constructor:
     """
+
     def __init__(self, N, name=None, norm=True, **kargs):
         """Create a tapering window object
 
@@ -133,17 +146,16 @@ class Window(object):
         * enbw:  getter to the Equivalent noise band width.
 
         """
-        #input attributse
-        assert N>0 , "First argument  must be positive"
+        # input attributse
+        assert N > 0, "First argument  must be positive"
         if name is None or name not in list(window_names.keys()):
-            raise ValueError("second argument must be a valid window name %s" %
-                             list(window_names.keys()))
+            raise ValueError("second argument must be a valid window name %s" % list(window_names.keys()))
 
         self.__N = N
         self.__name = name
         self.__norm = norm
 
-        #compute the window data and Fourier domain data
+        # compute the window data and Fourier domain data
         self.__data = create_window(N, name, **kargs)
         self.__frequencies = None
         self.__response = None
@@ -152,27 +164,36 @@ class Window(object):
 
     def _getNorm(self):
         return self.__norm
+
     norm = property(fget=_getNorm, doc="Getter of the normalisation flag (True by default)")
 
     def _getN(self):
         return self.__N
+
     N = property(fget=_getN, doc="Getter for the window length")
 
     def _getENBW(self):
         return self.__enbw
-    enbw = property(fget=_getENBW, doc="getter for the equivalent noise band\
-        width. See :func:`enbw` function")
+
+    enbw = property(
+        fget=_getENBW,
+        doc="getter for the equivalent noise band\
+        width. See :func:`enbw` function",
+    )
 
     def _getMeanSquare(self):
-        return np.sum(self.data**2)/self.N
+        return np.sum(self.data**2) / self.N
+
     mean_square = property(fget=_getMeanSquare, doc="returns :math:`\frac{w^2}{N}`")
 
     def _getName(self):
         return self.__name
+
     name = property(fget=_getName, doc="Getter for the window name")
 
     def _getData(self):
         return self.__data
+
     data = property(fget=_getData, doc="Getter for the window values (in time)")
 
     def _getF(self):
@@ -180,20 +201,25 @@ class Window(object):
             self.compute_response()
         self.__frequencies = linspace(-0.5, 0.5, len(self.__response))
         return self.__frequencies
+
     frequencies = property(fget=_getF, doc="Getter for the frequency array")
 
     def _getResponse(self):
         if self.__response is None:
             self.compute_response()
         return self.__response
-    response = property(fget=_getResponse, doc="Getter for the frequency \
-        response. See :meth:`compute_response`")
+
+    response = property(
+        fget=_getResponse,
+        doc="Getter for the frequency \
+        response. See :meth:`compute_response`",
+    )
 
     def compute_response(self, **kargs):
         """Compute the window data frequency response
 
         :param norm: True by default. normalised the frequency data.
-        :param int NFFT: total length of the final data sets( 2048 by default. 
+        :param int NFFT: total length of the final data sets( 2048 by default.
             if less than data length, then NFFT is set to the data length*2).
 
         The response is stored in :attr:`response`.
@@ -203,10 +229,10 @@ class Window(object):
         """
         from numpy.fft import fft, fftshift
 
-        norm = kargs.get('norm', self.norm)
+        norm = kargs.get("norm", self.norm)
 
         # do some padding. Default is max(2048, data.len*2)
-        NFFT = kargs.get('NFFT', 2048)
+        NFFT = kargs.get("NFFT", 2048)
         if NFFT < len(self.data):
             NFFT = self.data.size * 2
 
@@ -218,9 +244,9 @@ class Window(object):
         if norm is True:
             mag = mag / max(mag)
 
-        response = 20. * stools.log10(mag) # factor 20 we are looking at the response
-                                    # not the powe
-        #response = clip(response,mindB,100)
+        response = 20.0 * stools.log10(mag)  # factor 20 we are looking at the response
+        # not the powe
+        # response = clip(response,mindB,100)
         self.__response = response
 
     def plot_frequencies(self, mindB=None, maxdB=None, norm=True):
@@ -239,14 +265,15 @@ class Window(object):
             w.plot_frequencies()
 
         """
-        from pylab import plot, title, xlim, grid, ylim, xlabel, ylabel
+        from pylab import grid, plot, title, xlabel, xlim, ylabel, ylim
+
         # recompute the response
         self.compute_response(norm=norm)
 
         plot(self.frequencies, self.response)
         title("ENBW=%2.1f" % (self.enbw))
-        ylabel('Frequency response (dB)')
-        xlabel('Fraction of sampling frequency')
+        ylabel("Frequency response (dB)")
+        xlabel("Fraction of sampling frequency")
         # define the plot limits
         xlim(-0.5, 0.5)
         y0, y1 = ylim()
@@ -273,17 +300,17 @@ class Window(object):
             w.plot_window()
 
         """
-        from pylab import plot, xlim, grid, title, ylabel, axis
+        from pylab import axis, grid, plot, title, xlim, ylabel
+
         x = linspace(0, 1, self.N)
         xlim(0, 1)
         plot(x, self.data)
         grid(True)
-        title('%s Window (%s points)' % (self.name.capitalize(), self.N))
-        ylabel('Amplitude')
+        title("%s Window (%s points)" % (self.name.capitalize(), self.N))
+        ylabel("Amplitude")
         axis([0, 1, 0, 1.1])
 
-    def plot_time_freq(self, mindB=-100, maxdB=None, norm=True,
-            yaxis_label_position="right"):
+    def plot_time_freq(self, mindB=-100, maxdB=None, norm=True, yaxis_label_position="right"):
         """Plotting method to plot both time and frequency domain results.
 
         See :meth:`plot_frequencies` for the optional arguments.
@@ -297,7 +324,7 @@ class Window(object):
             w.plot_time_freq()
 
         """
-        from pylab import subplot, gca
+        from pylab import gca, subplot
 
         subplot(1, 2, 1)
         self.plot_window()
@@ -305,9 +332,11 @@ class Window(object):
         subplot(1, 2, 2)
         self.plot_frequencies(mindB=mindB, maxdB=maxdB, norm=norm)
 
-        if yaxis_label_position=="left":
-            try: tight_layout()
-            except: pass
+        if yaxis_label_position == "left":
+            try:
+                tight_layout()
+            except:
+                pass
         else:
             ax = gca()
             ax.yaxis.set_label_position("right")
@@ -317,11 +346,11 @@ class Window(object):
         print(self)
 
     def __str__(self):
-        msg = 'Window object:\n'
-        msg += 'Name: %s\n' % self.name
-        msg += 'Length: %s\n' % self.N
-        msg += 'NFFT (for the frequency response): %s\n' % self.response.size
-        msg += 'ENBW=%s\n' % self.enbw
+        msg = "Window object:\n"
+        msg += "Name: %s\n" % self.name
+        msg += "Length: %s\n" % self.N
+        msg += "NFFT (for the frequency response): %s\n" % self.response.size
+        msg += "ENBW=%s\n" % self.enbw
         return msg
 
 
@@ -406,29 +435,29 @@ def create_window(N, name=None, **kargs):
     .. seealso:: :func:`window_visu`, :func:`Window`, :mod:`spectrum.dpss`
     """
     if name is None:
-        name = 'rectangle'
+        name = "rectangle"
     name = name.lower()
-    assert name in list(window_names.keys()), \
-        """window name %s not implemented or incorrect. Try to use one of %s"""\
-        % (name, window_names)
-
+    assert name in list(
+        window_names.keys()
+    ), """window name %s not implemented or incorrect. Try to use one of %s""" % (name, window_names)
 
     # create the function name
     f = eval(window_names[name])
 
-    windows_with_parameters = \
-    {'kaiser': {'beta': eval(window_names['kaiser']).__defaults__[0]},
-     'blackman': {'alpha': eval(window_names['blackman']).__defaults__[0]},
-     'cauchy': {'alpha': eval(window_names['cauchy']).__defaults__[0]},
-     'flattop': {'mode': eval(window_names['flattop']).__defaults__[0]},
-     'gaussian': {'alpha': eval(window_names['gaussian']).__defaults__[0]},
-     'chebwin': {'attenuation':eval(window_names['chebwin']).__defaults__[0]},
-     'tukey': {'r':eval(window_names['tukey']).__defaults__[0]},
-     'poisson': {'alpha': eval(window_names['poisson']).__defaults__[0]},
-     'poisson_hanning': {'alpha':
-                         eval(window_names['poisson_hanning']).__defaults__[0]},
-     'taylor': {'nbar': eval(window_names['taylor']).__defaults__[0],
-                'sll': eval(window_names['taylor']).__defaults__[0]},     
+    windows_with_parameters = {
+        "kaiser": {"beta": eval(window_names["kaiser"]).__defaults__[0]},
+        "blackman": {"alpha": eval(window_names["blackman"]).__defaults__[0]},
+        "cauchy": {"alpha": eval(window_names["cauchy"]).__defaults__[0]},
+        "flattop": {"mode": eval(window_names["flattop"]).__defaults__[0]},
+        "gaussian": {"alpha": eval(window_names["gaussian"]).__defaults__[0]},
+        "chebwin": {"attenuation": eval(window_names["chebwin"]).__defaults__[0]},
+        "tukey": {"r": eval(window_names["tukey"]).__defaults__[0]},
+        "poisson": {"alpha": eval(window_names["poisson"]).__defaults__[0]},
+        "poisson_hanning": {"alpha": eval(window_names["poisson_hanning"]).__defaults__[0]},
+        "taylor": {
+            "nbar": eval(window_names["taylor"]).__defaults__[0],
+            "sll": eval(window_names["taylor"]).__defaults__[0],
+        },
     }
 
     if name not in list(windows_with_parameters.keys()):
@@ -436,9 +465,11 @@ def create_window(N, name=None, **kargs):
             # no parameters, so we directly call the function
             w = f(N)
         else:
-            raise ValueError("""
+            raise ValueError(
+                """
             Parameters do not match any of the window. The window provided
-            do not expect any parameters. Try to remove the parameters""")
+            do not expect any parameters. Try to remove the parameters"""
+            )
     elif name in list(windows_with_parameters.keys()):
         # user optional parameters are provided, scan them:
         dargs = {}
@@ -447,10 +478,12 @@ def create_window(N, name=None, **kargs):
             try:
                 default = windows_with_parameters[name][arg]
             except:
-                raise ValueError("""
+                raise ValueError(
+                    """
                     Invalid optional argument (%s) for %s window.
-                    Valid optional arguments are (%s)""" % \
-                    (arg, name, list(windows_with_parameters[name].keys())))
+                    Valid optional arguments are (%s)"""
+                    % (arg, name, list(windows_with_parameters[name].keys()))
+                )
             # add the user parameter to the list of parameters
             dargs[arg] = kargs.get(arg, default)
         # call the proper function with the optional arguments
@@ -501,7 +534,7 @@ def enbw(data):
 
     """
     N = len(data)
-    return N * np.sum(data**2) / np.sum(data)**2
+    return N * np.sum(data**2) / np.sum(data) ** 2
 
 
 def _kaiser(n, beta):
@@ -514,14 +547,15 @@ def _kaiser(n, beta):
     .. note:: 2 times slower than scipy.kaiser
     """
     from scipy.special import iv as besselI
+
     m = n - 1
     k = arange(0, m)
-    k = 2. * beta / m * sqrt (k * (m - k))
-    w = besselI (0, k) / besselI (0, beta)
+    k = 2.0 * beta / m * sqrt(k * (m - k))
+    w = besselI(0, k) / besselI(0, beta)
     return w
 
 
-def window_visu(N=51, name='hamming', **kargs):
+def window_visu(N=51, name="hamming", **kargs):
     """A Window visualisation tool
 
     :param N: length of the window
@@ -542,9 +576,9 @@ def window_visu(N=51, name='hamming', **kargs):
 
     """
     # get the default parameters
-    mindB = kargs.pop('mindB', -100)
-    maxdB = kargs.pop('maxdB', None)
-    norm = kargs.pop('norm', True)
+    mindB = kargs.pop("mindB", -100)
+    maxdB = kargs.pop("maxdB", None)
+    norm = kargs.pop("norm", True)
 
     # create a window object
     w = Window(N, name, **kargs)
@@ -569,7 +603,7 @@ def window_rectangle(N):
     return ones(N)
 
 
-def window_kaiser(N, beta=8.6, method='numpy'):
+def window_kaiser(N, beta=8.6, method="numpy"):
     r"""Kaiser window
 
     :param N: window length
@@ -586,12 +620,12 @@ def window_kaiser(N, beta=8.6, method='numpy'):
     where
 
       * :math:`I_0` is the zeroth order Modified Bessel function of the first kind.
-      * :math:`\alpha` is a real number that determines the shape of the 
-        window. It determines the trade-off between main-lobe width and side 
+      * :math:`\alpha` is a real number that determines the shape of the
+        window. It determines the trade-off between main-lobe width and side
         lobe level.
       * the length of the sequence is N=M+1.
 
-    The Kaiser window can approximate many other windows by varying 
+    The Kaiser window can approximate many other windows by varying
     the :math:`\beta` parameter:
 
     ===== ========================
@@ -626,8 +660,9 @@ def window_kaiser(N, beta=8.6, method='numpy'):
     """
     if N == 1:
         return ones(1)
-    if method == 'numpy':
+    if method == "numpy":
         from numpy import kaiser
+
         return kaiser(N, beta)
     else:
         return _kaiser(N, beta)
@@ -662,20 +697,19 @@ def window_blackman(N, alpha=0.16):
     .. seealso:: numpy.blackman, :func:`create_window`, :class:`Window`
 
     """
-    a0 = (1. - alpha)/2.
+    a0 = (1.0 - alpha) / 2.0
     a1 = 0.5
-    a2 = alpha/2.
+    a2 = alpha / 2.0
 
-    if (N == 1):
-        win = array([1.])
+    if N == 1:
+        win = array([1.0])
     else:
-        k = arange(0, N)/float(N-1.)
-        win =  a0 - a1 * cos (2 * pi * k) + a2 * cos (4 * pi * k)
+        k = arange(0, N) / float(N - 1.0)
+        win = a0 - a1 * cos(2 * pi * k) + a2 * cos(4 * pi * k)
     return win
 
-
-    #from numpy import blackman
-    #return blackman(N)
+    # from numpy import blackman
+    # return blackman(N)
 
 
 def window_bartlett(N):
@@ -699,6 +733,7 @@ def window_bartlett(N):
     .. seealso:: numpy.bartlett, :func:`create_window`, :class:`Window`.
     """
     from numpy import bartlett
+
     return bartlett(N)
 
 
@@ -723,6 +758,7 @@ def window_hamming(N):
     .. seealso:: numpy.hamming, :func:`create_window`, :class:`Window`.
     """
     from numpy import hamming
+
     return hamming(N)
 
 
@@ -747,6 +783,7 @@ def window_hann(N):
     .. seealso:: numpy.hanning, :func:`create_window`, :class:`Window`.
     """
     from numpy import hanning
+
     return hanning(N)
 
 
@@ -773,9 +810,9 @@ def window_gaussian(N, alpha=2.5):
 
     .. seealso:: scipy.signal.gaussian, :func:`create_window`
     """
-    t = linspace(-(N-1)/2., (N-1)/2., N)
-    #t = linspace(-(N)/2., (N)/2., N)
-    w = exp(-0.5*(alpha * t/(N/2.))**2.)
+    t = linspace(-(N - 1) / 2.0, (N - 1) / 2.0, N)
+    # t = linspace(-(N)/2., (N)/2., N)
+    w = exp(-0.5 * (alpha * t / (N / 2.0)) ** 2.0)
     return w
 
 
@@ -794,7 +831,13 @@ def window_chebwin(N, attenuation=50):
     .. seealso:: scipy.signal.chebwin, :func:`create_window`, :class:`Window`
     """
     import scipy.signal
-    return scipy.signal.chebwin(N, attenuation)
+
+    if "chebwin" in dir(scipy.signal):
+        return scipy.signal.chebwin(N, attenuation)
+    else:
+        import scipy.signal.windows
+
+        return scipy.signal.windows.chebwin(N, attenuation)
 
 
 def window_cosine(N):
@@ -813,11 +856,12 @@ def window_cosine(N):
 
     .. seealso:: :func:`create_window`, :class:`Window`
     """
-    if N ==1:
+    if N == 1:
         return ones(1)
     n = arange(0, N)
-    win = sin(pi*n/(N-1.))
+    win = sin(pi * n / (N - 1.0))
     return win
+
 
 def window_lanczos(N):
     r"""Lanczos window also known as sinc window.
@@ -835,11 +879,11 @@ def window_lanczos(N):
 
     .. seealso:: :func:`create_window`, :class:`Window`
     """
-    if N ==1:
+    if N == 1:
         return ones(1)
 
-    n = linspace(-N/2., N/2., N)
-    win = sinc(2*n/(N-1.))
+    n = linspace(-N / 2.0, N / 2.0, N)
+    win = sinc(2 * n / (N - 1.0))
     return win
 
 
@@ -869,9 +913,8 @@ def window_bartlett_hann(N):
     a1 = 0.48
     a2 = 0.38
 
-    win = a0 -  a1 *abs(n/(N-1.)-0.5) -a2 * cos(2*pi*n/(N-1.))
+    win = a0 - a1 * abs(n / (N - 1.0) - 0.5) - a2 * cos(2 * pi * n / (N - 1.0))
     return win
-
 
 
 def _coeff4(N, a0, a1, a2, a3):
@@ -885,11 +928,12 @@ def _coeff4(N, a0, a1, a2, a3):
         return ones(1)
 
     n = arange(0, N)
-    N1 = N - 1.
+    N1 = N - 1.0
 
-    w = a0 -a1*cos(2.*pi*n / N1) + a2*cos(4.*pi*n / N1) - a3*cos(6.*pi*n / N1)
+    w = a0 - a1 * cos(2.0 * pi * n / N1) + a2 * cos(4.0 * pi * n / N1) - a3 * cos(6.0 * pi * n / N1)
 
     return w
+
 
 def window_nuttall(N):
     r"""Nuttall tapering window
@@ -1001,9 +1045,8 @@ def window_bohman(N):
     .. seealso:: :func:`create_window`, :class:`Window`
     """
     x = linspace(-1, 1, N)
-    w = (1.-abs(x)) * cos(pi*abs(x)) + 1./pi * sin(pi*abs(x))
+    w = (1.0 - abs(x)) * cos(pi * abs(x)) + 1.0 / pi * sin(pi * abs(x))
     return w
-
 
 
 def window_tukey(N, r=0.5):
@@ -1030,8 +1073,8 @@ def window_tukey(N, r=0.5):
 
     .. seealso:: :func:`create_window`, :class:`Window`
     """
-    assert r>=0 and r<=1 , "r must be in [0,1]"
-    if N==1:
+    assert r >= 0 and r <= 1, "r must be in [0,1]"
+    if N == 1:
         return ones(1)
 
     if r == 0:
@@ -1039,14 +1082,13 @@ def window_tukey(N, r=0.5):
     elif r == 1:
         return window_hann(N)
     else:
-        from numpy import flipud, concatenate, where
+        from numpy import concatenate, flipud, where
 
         ## cosine-tapered window
         x = linspace(0, 1, N)
-        x1 = where(x<r/2.)
-        w = 0.5*(1+cos(2*pi/r*(x[x1[0]]-r/2)))
-        w = concatenate((w, ones(N-len(w)*2), flipud(w)))
-
+        x1 = where(x < r / 2.0)
+        w = 0.5 * (1 + cos(2 * pi / r * (x[x1[0]] - r / 2)))
+        w = concatenate((w, ones(N - len(w) * 2), flipud(w)))
 
         return w
 
@@ -1078,23 +1120,22 @@ def window_parzen(N):
 
     .. seealso:: :func:`create_window`, :class:`Window`
     """
-    from numpy import  where, concatenate
+    from numpy import concatenate, where
 
-    n = linspace(-(N-1)/2., (N-1)/2., N)
-    n1 = n[where(abs(n)<=(N-1)/4.)[0]]
-    n2 = n[where(n>(N-1)/4.)[0]]
-    n3 = n[where(n<-(N-1)/4.)[0]]
+    n = linspace(-(N - 1) / 2.0, (N - 1) / 2.0, N)
+    n1 = n[where(abs(n) <= (N - 1) / 4.0)[0]]
+    n2 = n[where(n > (N - 1) / 4.0)[0]]
+    n3 = n[where(n < -(N - 1) / 4.0)[0]]
 
-
-    w1 = 1. -6.*(abs(n1)/(N/2.))**2 + 6*(abs(n1)/(N/2.))**3
-    w2 = 2.*(1-abs(n2)/(N/2.))**3
-    w3 = 2.*(1-abs(n3)/(N/2.))**3
+    w1 = 1.0 - 6.0 * (abs(n1) / (N / 2.0)) ** 2 + 6 * (abs(n1) / (N / 2.0)) ** 3
+    w2 = 2.0 * (1 - abs(n2) / (N / 2.0)) ** 3
+    w3 = 2.0 * (1 - abs(n3) / (N / 2.0)) ** 3
 
     w = concatenate((w3, w1, w2))
     return w
 
 
-def window_flattop(N, mode='symmetric',precision=None):
+def window_flattop(N, mode="symmetric", precision=None):
     r"""Flat-top tapering window
 
     Returns symmetric or periodic flat top window.
@@ -1135,31 +1176,31 @@ def window_flattop(N, mode='symmetric',precision=None):
 
     .. seealso:: :func:`create_window`, :class:`Window`
     """
-    assert mode in ['periodic', 'symmetric']
+    assert mode in ["periodic", "symmetric"]
     t = arange(0, N)
 
     # FIXME: N=1 for mode = periodic ?
-    if mode == 'periodic':
-        x = 2*pi*t/float(N)
+    if mode == "periodic":
+        x = 2 * pi * t / float(N)
     else:
-        if N ==1:
+        if N == 1:
             return ones(1)
-        x = 2*pi*t/float(N-1)
+        x = 2 * pi * t / float(N - 1)
     a0 = 0.21557895
     a1 = 0.41663158
     a2 = 0.277263158
     a3 = 0.083578947
     a4 = 0.006947368
 
-    if precision == 'octave':
-        #to compare with octave, same as above but less precise
-        d  = 4.6402
-        a0 = 1./d
-        a1 = 1.93/d
-        a2 = 1.29/d
-        a3 = 0.388/d
-        a4 = 0.0322/d
-    w = a0-a1*cos(x)+a2*cos(2*x)-a3*cos(3*x)+a4*cos(4*x)
+    if precision == "octave":
+        # to compare with octave, same as above but less precise
+        d = 4.6402
+        a0 = 1.0 / d
+        a1 = 1.93 / d
+        a2 = 1.29 / d
+        a3 = 0.388 / d
+        a4 = 0.0322 / d
+    w = a0 - a1 * cos(x) + a2 * cos(2 * x) - a3 * cos(3 * x) + a4 * cos(4 * x)
     return w
 
 
@@ -1169,7 +1210,7 @@ def window_taylor(N, nbar=4, sll=-30):
     Taylor windows allows you to make tradeoffs between the
     mainlobe width and sidelobe level (sll).
 
-    Implemented as described by Carrara, Goodman, and Majewski 
+    Implemented as described by Carrara, Goodman, and Majewski
     in 'Spotlight Synthetic Aperture Radar: Signal Processing Algorithms'
     Pages 512-513
 
@@ -1184,22 +1225,27 @@ def window_taylor(N, nbar=4, sll=-30):
 
     .. seealso:: :func:`create_window`, :class:`Window`
     """
-    B = 10**(-sll/20)
-    A = log(B + sqrt(B**2 - 1))/pi
-    s2 = nbar**2 / (A**2 + (nbar - 0.5)**2)
-    ma = arange(1,nbar)
+    B = 10 ** (-sll / 20)
+    A = log(B + sqrt(B**2 - 1)) / pi
+    s2 = nbar**2 / (A**2 + (nbar - 0.5) ** 2)
+    ma = arange(1, nbar)
+
     def calc_Fm(m):
-        numer = (-1)**(m+1) * prod(1-m**2/s2/(A**2 + (ma - 0.5)**2))
-        denom = 2* prod([ 1-m**2/j**2 for j in ma if j != m])
-        return numer/denom
+        numer = (-1) ** (m + 1) * prod(1 - m**2 / s2 / (A**2 + (ma - 0.5) ** 2))
+        denom = 2 * prod([1 - m**2 / j**2 for j in ma if j != m])
+        return numer / denom
+
     Fm = array([calc_Fm(m) for m in ma])
+
     def W(n):
-        return 2 * np.sum(Fm * cos(2*pi*ma*(n-N/2 + 1/2)/N)) + 1
+        return 2 * np.sum(Fm * cos(2 * pi * ma * (n - N / 2 + 1 / 2) / N)) + 1
+
     w = array([W(n) for n in range(N)])
     # normalize (Note that this is not described in the original text)
-    scale = W((N-1)/2)
+    scale = W((N - 1) / 2)
     w /= scale
     return w
+
 
 def window_riesz(N):
     r"""Riesz tapering window
@@ -1219,9 +1265,9 @@ def window_riesz(N):
 
     .. seealso:: :func:`create_window`, :class:`Window`
     """
-    n = linspace(-N/2., (N)/2., N)
+    n = linspace(-N / 2.0, (N) / 2.0, N)
 
-    w = 1 - abs(n/(N/2.))**2.
+    w = 1 - abs(n / (N / 2.0)) ** 2.0
     return w
 
 
@@ -1243,10 +1289,9 @@ def window_riemann(N):
 
     .. seealso:: :func:`create_window`, :class:`Window`
     """
-    n = linspace(-N/2., (N)/2., N)
-    w = sin(n/float(N)*2.*pi) / (n / float(N)*2.*pi)
+    n = linspace(-N / 2.0, (N) / 2.0, N)
+    w = sin(n / float(N) * 2.0 * pi) / (n / float(N) * 2.0 * pi)
     return w
-
 
 
 def window_poisson(N, alpha=2):
@@ -1269,8 +1314,8 @@ def window_poisson(N, alpha=2):
 
     .. seealso:: :func:`create_window`, :class:`Window`
     """
-    n = linspace(-N/2., (N)/2., N)
-    w = exp(-alpha * abs(n)/(N/2.))
+    n = linspace(-N / 2.0, (N) / 2.0, N)
+    w = exp(-alpha * abs(n) / (N / 2.0))
     return w
 
 
@@ -1296,7 +1341,7 @@ def window_poisson_hanning(N, alpha=2):
     """
     w1 = window_hann(N)
     w2 = window_poisson(N, alpha=alpha)
-    return w1*w2
+    return w1 * w2
 
 
 def window_cauchy(N, alpha=3):
@@ -1319,8 +1364,6 @@ def window_cauchy(N, alpha=3):
 
     .. seealso:: :func:`window_poisson`, :func:`window_hann`
     """
-    n = linspace(-N/2., (N)/2., N)
-    w = 1./(1.+ (alpha*n/(N/2.))**2)
+    n = linspace(-N / 2.0, (N) / 2.0, N)
+    w = 1.0 / (1.0 + (alpha * n / (N / 2.0)) ** 2)
     return w
-
-
