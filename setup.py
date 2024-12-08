@@ -1,18 +1,21 @@
-import os, sys, glob
+import glob
+import os
+import sys
+
 pj = os.path.join
 
-from setuptools import setup, find_packages
 from distutils.core import Extension
 
+from setuptools import find_packages, setup
 
-_MAJOR               = 0
-_MINOR               = 8
-_MICRO               = 1
-version              = '%d.%d.%d' % (_MAJOR, _MINOR, _MICRO)
-release              = '%d.%d' % (_MAJOR, _MINOR)
+_MAJOR = 0
+_MINOR = 9
+_MICRO = 0
+version = "%d.%d.%d" % (_MAJOR, _MINOR, _MICRO)
+release = "%d.%d" % (_MAJOR, _MINOR)
 
 
-with open('README.rst') as f:
+with open("README.rst") as f:
     readme = f.read()
 
 
@@ -23,19 +26,23 @@ setup(
     long_description=readme,
     author="Thomas Cokelaer",
     author_email="cokelaer@gmail.com",
-    url='http://github.com/cokelaer/spectrum',
-    license='new BSD',
-
-    ext_modules=[Extension('spectrum.mydpss', ['src/cpp/mydpss.c', ],
-        export_symbols=['multitap'])],
-
-    packages = find_packages('src'),
-    package_dir={ '' : 'src' },
-
+    url="http://github.com/cokelaer/spectrum",
+    license="new BSD",
+    ext_modules=[
+        Extension(
+            "spectrum.mydpss",
+            [
+                "src/cpp/mydpss.c",
+            ],
+            export_symbols=["multitap"],
+        )
+    ],
+    packages=find_packages("src"),
+    package_dir={"": "src"},
     # Dependencies
     install_requires=open("requirements.txt").read(),
     extras_require={
-        'plot': ['matplotlib'],
+        "plot": ["matplotlib"],
         "testing": [
             "pytest",
             "pytest-cov",
@@ -45,21 +52,14 @@ setup(
             "pytest-runner",
             "coveralls",
         ],
-        "doc": [
-            'sphinx',
-            'sphinx_rtd_theme'
-        ]
-
+        "doc": ["sphinx", "sphinx_rtd_theme"],
     },
-
-
-    package_data = {
-        'spectrum.data' : ['*'],
-        },
-
-
+    package_data={
+        "spectrum.data": ["*"],
+    },
     platforms=["Linux"],
-    classifiers=["Development Status :: 1 - Planning",
+    classifiers=[
+        "Development Status :: 1 - Planning",
         "Environment :: Console",
         "Intended Audience :: Developers",
         "Intended Audience :: Education",
@@ -74,6 +74,5 @@ setup(
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.7",
         "Topic :: Scientific/Engineering",
-        ]   
+    ],
 )
-
