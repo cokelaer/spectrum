@@ -13,8 +13,8 @@ SPECTRUM : Spectral Analysis in Python
 .. image:: https://anaconda.org/conda-forge/spectrum/badges/license.svg
    :target: https://anaconda.org/conda-forge/spectrum
 
-.. image:: https://anaconda.org/conda-forge/spectrum/badges/installer/conda.svg
-   :target: https://conda.anaconda.org/conda-forge
+.. image:: https://anaconda.org/conda-forge/spectrum/badges/version.svg
+    :target: https://anaconda.org/conda-forge/spectrum/badges/version.svg
 
 .. image:: https://anaconda.org/conda-forge/spectrum/badges/downloads.svg
    :target: https://anaconda.org/conda-forge/spectrum
