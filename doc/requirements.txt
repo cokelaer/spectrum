@@ -1,8 +1,8 @@
 numpydoc
-sphinx<7
+sphinx
 sphinx_rtd_theme
 sequana_sphinxext
-pillow<=10.3.0
+pillow
 sphinx_gallery
 sphinx_copybutton
 sphinxcontrib_googleanalytics
