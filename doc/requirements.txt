@@ -1,0 +1,8 @@
+numpydoc
+sphinx<7
+sphinx_rtd_theme
+sequana_sphinxext
+pillow<=10.3.0
+sphinx_gallery
+sphinx_copybutton
+sphinxcontrib_googleanalytics
