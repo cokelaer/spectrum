@@ -7,7 +7,7 @@ pj = os.path.join
 from setuptools import Extension, find_packages, setup
 
 _MAJOR = 0
-_MINOR = 9
+_MINOR = 10
 _MICRO = 0
 version = "%d.%d.%d" % (_MAJOR, _MINOR, _MICRO)
 release = "%d.%d" % (_MAJOR, _MINOR)

@@ -110,6 +110,8 @@ Changelog (summary)
 ========== ============================================================
 release    description
 ========== ============================================================
+0.10.0     * add python 3.12 and 3.13 support
+           * add sos2ss, sos2tf, etc. fix #85, #88
 0.9.0      * handles new numpy API (keeping back compatibility).
            * included https://github.com/cokelaer/spectrum/pull/73
              thanks to @butala contribution to speed up fft.
