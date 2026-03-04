@@ -51,5 +51,7 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+doc/auto_examples/
+doc/sg_execution_times.rst
 
 .idea

@@ -1,0 +1,123 @@
+{
+ "Spectrogram": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.spectrogram",
+   "module_short": "spectrum",
+   "name": "Spectrogram"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrogram"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrogram"
+  }
+ ],
+ "data": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "dolphin_filename": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "str"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "dolphin_filename"
+  }
+ ],
+ "p": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum.spectrogram",
+   "module_short": "spectrum",
+   "name": "Spectrogram"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrogram"
+  }
+ ],
+ "p.periodogram": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum.spectrogram",
+   "module_short": "spectrum",
+   "name": "Spectrogram.periodogram"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrogram.periodogram"
+  }
+ ],
+ "p.plot": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum.spectrogram",
+   "module_short": "spectrum",
+   "name": "Spectrogram.plot"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrogram.plot"
+  }
+ ],
+ "readwav": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "readwav"
+  }
+ ],
+ "samplerate": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ]
+}

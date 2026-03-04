@@ -1,0 +1,691 @@
+{
+ "cos": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ufunc"
+  }
+ ],
+ "create_all_psd": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  }
+ ],
+ "data": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "list"
+  }
+ ],
+ "f": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "method"
+  }
+ ],
+ "legend": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  }
+ ],
+ "nn": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "numpy.arange": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "arange"
+  }
+ ],
+ "pi": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "float"
+  }
+ ],
+ "pylab.figure": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "pylab",
+   "module_short": "pylab",
+   "name": "figure"
+  }
+ ],
+ "pylab.linspace": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "_ArrayFunctionDispatcher"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "pylab",
+   "module_short": "pylab",
+   "name": "linspace"
+  }
+ ],
+ "pylab.ylim": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "pylab",
+   "module_short": "pylab",
+   "name": "ylim"
+  }
+ ],
+ "randn": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "method"
+  }
+ ],
+ "sin": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ufunc"
+  }
+ ],
+ "size": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "_ArrayFunctionDispatcher"
+  }
+ ],
+ "spectrum.Periodogram": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.periodogram",
+   "module_short": "spectrum",
+   "name": "Periodogram"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Periodogram"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "FourierSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "FourierSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Periodogram"
+  }
+ ],
+ "spectrum.marple_data": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "list"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "marple_data"
+  }
+ ],
+ "spectrum.pburg": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.burg",
+   "module_short": "spectrum",
+   "name": "pburg"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pburg"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pburg"
+  }
+ ],
+ "spectrum.pcorrelogram": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.correlog",
+   "module_short": "spectrum",
+   "name": "pcorrelogram"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pcorrelogram"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "FourierSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "FourierSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pcorrelogram"
+  }
+ ],
+ "spectrum.pcovar": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.covar",
+   "module_short": "spectrum",
+   "name": "pcovar"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pcovar"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pcovar"
+  }
+ ],
+ "spectrum.pev": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.eigenfre",
+   "module_short": "spectrum",
+   "name": "pev"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pev"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pev"
+  }
+ ],
+ "spectrum.pma": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.arma",
+   "module_short": "spectrum",
+   "name": "pma"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pma"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pma"
+  }
+ ],
+ "spectrum.pminvar": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.minvar",
+   "module_short": "spectrum",
+   "name": "pminvar"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pminvar"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pminvar"
+  }
+ ],
+ "spectrum.pmodcovar": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.modcovar",
+   "module_short": "spectrum",
+   "name": "pmodcovar"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pmodcovar"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pmodcovar"
+  }
+ ],
+ "spectrum.pmusic": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.eigenfre",
+   "module_short": "spectrum",
+   "name": "pmusic"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pmusic"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pmusic"
+  }
+ ],
+ "spectrum.pyule": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.yulewalker",
+   "module_short": "spectrum",
+   "name": "pyule"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pyule"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pyule"
+  }
+ ],
+ "xx": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ]
+}

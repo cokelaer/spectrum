@@ -1,0 +1,342 @@
+{
+ "a": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "allpsds": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "list"
+  }
+ ],
+ "allpsds.append": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "array": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "array"
+  }
+ ],
+ "lfilter": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "scipy.signal",
+   "module_short": "scipy.signal",
+   "name": "lfilter"
+  }
+ ],
+ "log10": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ufunc"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "pylab",
+   "module_short": "pylab",
+   "name": "log10"
+  }
+ ],
+ "mean": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "_ArrayFunctionDispatcher"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "pylab",
+   "module_short": "pylab",
+   "name": "mean"
+  }
+ ],
+ "p": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum.yulewalker",
+   "module_short": "spectrum",
+   "name": "pyule"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pyule"
+  }
+ ],
+ "p.frequencies": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum.yulewalker",
+   "module_short": "spectrum",
+   "name": "pyule.frequencies"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pyule.frequencies"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum.frequencies"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum.frequencies"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "Spectrum.frequencies"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrum.frequencies"
+  }
+ ],
+ "p.plot": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum.yulewalker",
+   "module_short": "spectrum",
+   "name": "pyule.plot"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pyule.plot"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum.plot"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum.plot"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "Spectrum.plot"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrum.plot"
+  }
+ ],
+ "p.psd": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum.yulewalker",
+   "module_short": "spectrum",
+   "name": "pyule.psd"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pyule.psd"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum.psd"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum.psd"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "Spectrum.psd"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrum.psd"
+  }
+ ],
+ "plot": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "pylab",
+   "module_short": "pylab",
+   "name": "plot"
+  }
+ ],
+ "pyule": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.yulewalker",
+   "module_short": "spectrum",
+   "name": "pyule"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pyule"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "ParametricSpectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum.psd",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "Spectrum"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "spectrum",
+   "module_short": "spectrum",
+   "name": "pyule"
+  }
+ ],
+ "randn": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "pylab",
+   "module_short": "pylab",
+   "name": "randn"
+  }
+ ],
+ "this": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "x": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ]
+}

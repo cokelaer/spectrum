@@ -138,7 +138,7 @@ pygments_style = "sphinx"
 modindex_common_prefix = ["spectrum."]
 
 # -- sphinx gallery ------------------------------------------------------------
-plot_gallery = True
+plot_gallery = "True"
 sphinx_gallery_conf = {
     "doc_module": "spectrum",
 }
@@ -159,7 +159,6 @@ if not on_rtd:
     import sphinx_rtd_theme
 
     html_theme = "sphinx_rtd_theme"
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 else:
     html_theme = "default"
 
