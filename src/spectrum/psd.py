@@ -298,16 +298,16 @@ class Spectrum(object):
         return self.__method
     def _setMethod(self, method):
         self.__method = method
-    method = property(fget=_getMethod, fset=_setMethod)
+    method = property(fget=_getMethod, fset=_setMethod,
+                      doc="The PSD estimation method (alias to the class name).")
 
-    """def __call__(self, *args, **kargs):
-        # To be use with care. THis function is there just to help, it
-        #    does not populate the proper attribute except psd.
-        if self.method is not None:
-            res = self.method(self.data, *args, **kargs)
-            self.psd = res[0]
-        #return res
-    """
+    # def __call__(self, *args, **kargs):
+    #     # To be used with care. This function is there just to help, it
+    #     #    does not populate the proper attribute except psd.
+    #     if self.method is not None:
+    #         res = self.method(self.data, *args, **kargs)
+    #         self.psd = res[0]
+    #     #return res
     def run(self, *args, **kargs):
         # Kept for back compatibility
         # e.g. used in this external notebook:
@@ -861,16 +861,16 @@ class ParametricSpectrum(Spectrum):
         self.__reflection = ref
     def _get_ref(self):
         return self.__reflection
-    reflection = property(fget=_get_ref, fset=_set_ref)
+    reflection = property(fget=_get_ref, fset=_set_ref,
+                          doc="Reflection coefficients of the AR model.")
 
-    """ self.reflection = None
-        elif method == 'aryule':
-            from spectrum import aryule
-            ar, v, coeff = aryule(self.data, self.ar_order)
-            self.ar = ar
-            self.rho = v
-            self.reflection = coeff
-        """
+    # self.reflection = None
+    # elif method == 'aryule':
+    #     from spectrum import aryule
+    #     ar, v, coeff = aryule(self.data, self.ar_order)
+    #     self.ar = ar
+    #     self.rho = v
+    #     self.reflection = coeff
 
     def plot_reflection(self):
         from pylab import stem, title, xlabel, ylabel

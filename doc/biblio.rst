@@ -7,21 +7,23 @@ library.
 Books
 ------
 
-.. [Hayes] Hayes, M.H. Statistical Digital Signal Processing and Modeling. New York: John Wiley & Sons, 1996.
+* Hayes, M.H. Statistical Digital Signal Processing and Modeling. New York: John Wiley & Sons, 1996.
 
 .. [Kay] Kay, S.M. Modern Spectral Estimation. Englewood Cliffs, NJ: Prentice Hall, 1988.
 
 .. [Marple] Marple, S.L. Digital Spectral Analysis. Englewood Cliffs, NJ: Prentice Hall, 1987.
 
-.. [Orfanidis] Orfanidis, S.J. Introduction to Signal Processing. Upper Saddle River, NJ: Prentice Hall, 1996.
+* Orfanidis, S.J. Introduction to Signal Processing. Upper Saddle River, NJ: Prentice Hall, 1996.
 
 .. [Percival] Percival, D.B., and A.T. Walden. Spectral Analysis for Physical Applications: Multitaper and Conventional Univariate Techniques. Cambridge: Cambridge University Press, 1993.
 
-.. [Proakis] Proakis, J.G., and D.G. Manolakis. Digital Signal Processing: Principles, Algorithms, and Applications. Englewood Cliffs, NJ: Prentice Hall, 1996.
+* Proakis, J.G., and D.G. Manolakis. Digital Signal Processing: Principles, Algorithms, and Applications. Englewood Cliffs, NJ: Prentice Hall, 1996.
 
-.. [Stoica] Stoica, P., and R. Moses. Introduction to Spectral Analysis. Upper Saddle River, NJ: Prentice Hall, 1997.
+* Stoica, P., and R. Moses. Introduction to Spectral Analysis. Upper Saddle River, NJ: Prentice Hall, 1997.
 
 .. [octave] octave software
+
+.. [Mathworks] MathWorks. Signal Processing Toolbox User's Guide. Natick, MA: The MathWorks Inc., 2010. http://www.mathworks.com/help/signal/
 
 
 Articles
@@ -35,7 +37,7 @@ Articles
 
 .. [Wax] Wax, M. and Kailath, T. Detection of signals by information Theoretic criteria, IEEE Trans Acoust. Speech Signal Process, vol ASSP-33, pp 387-392, 1985.
 
-.. [Welch] Welch, P.D. "The Use of Fast Fourier Transform for the Estimation of Power Spectra: A Method Based on Time Averaging Over Short, Modified Periodograms." IEEE Trans. Audio Electroacoust. Vol. AU-15 (June 1967). Pgs.70-73. 
+* Welch, P.D. "The Use of Fast Fourier Transform for the Estimation of Power Spectra: A Method Based on Time Averaging Over Short, Modified Periodograms." IEEE Trans. Audio Electroacoust. Vol. AU-15 (June 1967). Pgs.70-73.
 
 *  John Parker Burg (1968) "A new analysis technique for time series data", NATO advanced study Institute on Signal Processing with Emphasis on Underwater Acoustics, Enschede, Netherlands, Aug. 12-23, 1968.
 * Steven M. Kay and Stanley Lawrence Marple Jr.: "Spectrum analysis -- a modern perspective", Proceedings of the IEEE, Vol 69, pp 1380-1419, Nov., 1981

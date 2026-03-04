@@ -12,8 +12,8 @@
 
     .. autosummary::
 
-        ~spectrum.correlation.CORRELATION
-        ~spectrum.correlation.xcorr
+        CORRELATION
+        xcorr
 
     .. codeauthor: Thomas Cokelaer, 2011
 

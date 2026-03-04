@@ -130,6 +130,7 @@ Documentation
     :hidden:
 
     biblio.rst
+    concepts.rst
 
 License
 =======

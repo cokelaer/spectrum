@@ -2,7 +2,7 @@ What is the Spectrum object ?
 ===============================
 
 .. module:: spectrum.psd
-
+   :no-index:
 
 Normally Users should not be bother by the classes used. For instance if you use the pburg class to compute a PSD estimate base on the Burg method, you just nee to use :class:`~spectrum.burg.pburg`. Indeed, the normal usage to estimate a PSD is to use the PSD estimate starting with the letter `p` such as parma, pminvar, pburg, (exception: use Periodogram instead of pPeriodogram). 
 
