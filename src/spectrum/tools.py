@@ -165,7 +165,7 @@ def cshift(data, offset):
 
 
 def pow2db(x):
-    """returns the corresponding decibel (dB) value for a power value x.
+    r"""returns the corresponding decibel (dB) value for a power value x.
 
     The relationship between power and decibels is:
 
@@ -232,7 +232,7 @@ def db2mag(xdb):
 
 
 def mag2db(x):
-    """Convert magnitude to decibels (dB)
+    r"""Convert magnitude to decibels (dB)
 
     The relationship between magnitude and decibels is:
 

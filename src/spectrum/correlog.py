@@ -24,7 +24,7 @@ __all__ = ["CORRELOGRAMPSD", "pcorrelogram"]
 def CORRELOGRAMPSD(X, Y=None, lag=-1, window='hamming',
                     norm='unbiased', NFFT=4096, window_params={},
                     correlation_method='xcorr'):
-    """PSD estimate using correlogram method.
+    r"""PSD estimate using correlogram method.
 
 
     :param array X: complex or real data samples X(1) to X(N)
