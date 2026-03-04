@@ -4,11 +4,11 @@
 .. image:: https://badge.fury.io/py/spectrum.svg
     :target: https://pypi.python.org/pypi/spectrum
 
-.. image:: https://github.com/cokelaer/spectrum/actions/workflows/main.yml/badge.svg?branch=master
+.. image:: https://github.com/cokelaer/spectrum/actions/workflows/main.yml/badge.svg?branch=main
     :target: http://travis-ci.com/cokelaer/spectrum
 
-.. image:: https://coveralls.io/repos/cokelaer/spectrum/badge.png?branch=master 
-    :target: https://coveralls.io/r/cokelaer/spectrum?branch=master 
+.. image:: https://coveralls.io/repos/cokelaer/spectrum/badge.png?branch=main 
+    :target: https://coveralls.io/r/cokelaer/spectrum?branch=main 
 
 .. image:: https://anaconda.org/conda-forge/spectrum/badges/license.svg
     :target: https://anaconda.org/conda-forge/spectrum
