@@ -4,11 +4,11 @@ SPECTRUM : Spectral Analysis in Python
 .. image:: https://badge.fury.io/py/spectrum.svg
     :target: https://pypi.python.org/pypi/spectrum
 
-.. image:: https://github.com/cokelaer/spectrum/actions/workflows/main.yml/badge.svg?branch=master
+.. image:: https://github.com/cokelaer/spectrum/actions/workflows/main.yml/badge.svg?branch=main
     :target: https://github.com/cokelaer/spectrum/actions/workflows/main.yml
 
-.. image:: https://coveralls.io/repos/cokelaer/spectrum/badge.png?branch=master
-    :target: https://coveralls.io/r/cokelaer/spectrum?branch=master
+.. image:: https://coveralls.io/repos/cokelaer/spectrum/badge.png?branch=main
+    :target: https://coveralls.io/r/cokelaer/spectrum?branch=main
 
 .. image:: https://anaconda.org/conda-forge/spectrum/badges/license.svg
    :target: https://anaconda.org/conda-forge/spectrum
@@ -30,7 +30,7 @@ SPECTRUM : Spectral Analysis in Python
 :Citation: Cokelaer et al, (2017), 'Spectrum': Spectral Analysis in Python, Journal of Open Source Software, 2(18), 348, doi:10.21105/joss.00348
 
 
-.. image:: https://raw.githubusercontent.com/cokelaer/spectrum/master/doc/psd_all.png
+.. image:: https://raw.githubusercontent.com/cokelaer/spectrum/main/doc/psd_all.png
     :alt: Overview of PSD methods available in Spectrum
     :width: 50%
 
