@@ -4,9 +4,7 @@ import sys
 
 pj = os.path.join
 
-from distutils.core import Extension
-
-from setuptools import find_packages, setup
+from setuptools import Extension, find_packages, setup
 
 _MAJOR = 0
 _MINOR = 9
@@ -73,6 +71,12 @@ setup(
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Topic :: Scientific/Engineering",
     ],
 )

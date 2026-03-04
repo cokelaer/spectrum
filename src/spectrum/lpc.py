@@ -8,7 +8,7 @@ __all__ = ['lpc']
 
 
 def lpc(x, N=None):
-    """Linear Predictor Coefficients.
+    r"""Linear Predictor Coefficients.
 
     :param x:
     :param int N: default is length(X) - 1

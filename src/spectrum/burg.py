@@ -80,7 +80,7 @@ def _arburg2(X, order):
 
 
 class pburg(ParametricSpectrum):
-    """Class to create PSD based on Burg algorithm
+    r"""Class to create PSD based on Burg algorithm
 
     See :func:`arburg` for description.
 

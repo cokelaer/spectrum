@@ -172,7 +172,7 @@ class Range(object):
 
 
 class Spectrum(object):
-    """Base class for all Spectrum classes
+    r"""Base class for all Spectrum classes
 
     All PSD classes should inherits from this class to store common attributes
     such as the input data or sampling frequency. An instance is created
@@ -345,7 +345,7 @@ class Spectrum(object):
         self.__scale_by_freq = scale
         self.modified = True
     scale_by_freq = property(fget=_getScale, fset=_setScale,
-                            doc="scale the PSD by :math:`2*\pi/df`")
+                            doc=r"scale the PSD by :math:`2*\pi/df`")
 
     def _getNFFT(self):
         return self.__NFFT
@@ -753,7 +753,7 @@ class Spectrum(object):
 
 
 class ParametricSpectrum(Spectrum):
-    """Spectrum based on Fourier transform.
+    r"""Spectrum based on Fourier transform.
 
     This class inherits attributes and methods from
     :class:`Spectrum`. It is used by children class :class:`~spectrum.periodogram.Periodogram`,
@@ -891,7 +891,7 @@ class ParametricSpectrum(Spectrum):
 
 
 class FourierSpectrum(Spectrum):
-    """Spectrum based on Fourier transform.
+    r"""Spectrum based on Fourier transform.
 
     This class inherits attributes and methods from  :class:`Spectrum`. It is
     used by children class :class:`~spectrum.periodogram.Periodogram`,
