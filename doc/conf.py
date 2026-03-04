@@ -29,9 +29,9 @@ import matplotlib.sphinxext
 
 matplotlib.use("Agg")
 
-import pkg_resources
+import importlib.metadata
 
-version = pkg_resources.require(pkg_name)[0].version
+version = importlib.metadata.version(pkg_name)
 
 
 release = version
