@@ -36,7 +36,7 @@ def minvar(X, order, sampling=1., NFFT=default_NFFT):
 
     :param X: Array of complex or real data samples (length N)
     :param int order: Dimension of correlation matrix (AR order = order - 1 )
-    :param float T: Sample interval (PSD scaling)
+    :param float sampling: Sampling frequency of the input data in Hz
     :param int NFFT: length of the final PSD
 
     :return:
@@ -130,7 +130,7 @@ def minvar(X, order, sampling=1., NFFT=default_NFFT):
     psi = fft(psi, NFFT)
 
     #  Invert the psi terms at this point to get PSD values
-    PSD = sampling / np.real(psi)
+    PSD = 1.0 / (sampling * np.real(psi))
 
     return PSD, A, k
 

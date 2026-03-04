@@ -41,6 +41,14 @@ def test_minvar():
     newpsd = tools.cshift(psd, len(psd) // 2)  # switch positive and negative freq
 
 
+def test_minvar_sampling():
+    """Verify that sampling frequency scales PSD inversely (T=1/fs convention)."""
+    res1 = minvar(marple_data, 15, sampling=1.0, NFFT=16)
+    res2 = minvar(marple_data, 15, sampling=2.0, NFFT=16)
+    # With sampling=2, PSD should be half of sampling=1 (since T=1/fs)
+    assert_array_almost_equal(res1[0], res2[0] * 2.0)
+
+
 def test_pminvar():
     psd = pminvar(marple_data, 15)
     psd()
