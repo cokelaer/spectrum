@@ -2,9 +2,9 @@
 
 import numpy as np
 
-__all__ = ["tf2zp",  'eqtflength', 'latc2tf', 'latcfilt',
-    'ss2zpk', 'tf2sos', 'tf2ss', 'tf2zpk', 'zpk2ss', 'zpk2tf']
-
+__all__ = ['eqtflength', 'latc2tf', 'latcfilt',
+    'sos2ss', 'sos2tf', 'sos2zp',
+    'ss2zpk', 'tf2zp', 'tf2sos', 'tf2ss', 'tf2zpk', 'zpk2ss', 'zpk2tf']
 
 """to be done
 
@@ -247,5 +247,87 @@ def zpk2ss(z, p, k):
     """
     import scipy.signal
     return scipy.signal.zpk2ss(z,p,k)
+
+
+def sos2tf(sos):
+    """Return a single transfer function from a series of second-order sections.
+
+    :param array_like sos: Array of second-order filter coefficients, must have
+        shape ``(n_sections, 6)``. Each row corresponds to a second-order
+        section, with the first three columns providing the numerator
+        coefficients and the last three providing the denominator coefficients.
+
+    :return:
+        * b : ndarray Numerator polynomial coefficients.
+        * a : ndarray Denominator polynomial coefficients.
+
+    .. doctest::
+
+        >>> import scipy.signal
+        >>> from spectrum.transfer import sos2tf
+        >>> sos = scipy.signal.butter(4, 0.2, output='sos')
+        >>> b, a = sos2tf(sos)
+
+    .. note:: wrapper of scipy function sos2tf
+    .. seealso:: :func:`sos2ss`, :func:`sos2zp`
+    """
+    import scipy.signal
+    return scipy.signal.sos2tf(sos)
+
+
+def sos2zp(sos):
+    """Return zeros, poles, and gain of a series of second-order sections.
+
+    :param array_like sos: Array of second-order filter coefficients, must have
+        shape ``(n_sections, 6)``. Each row corresponds to a second-order
+        section, with the first three columns providing the numerator
+        coefficients and the last three providing the denominator coefficients.
+
+    :return:
+        * z : ndarray Zeros of the transfer function.
+        * p : ndarray Poles of the transfer function.
+        * k : float System gain.
+
+    .. doctest::
+
+        >>> import scipy.signal
+        >>> from spectrum.transfer import sos2zp
+        >>> sos = scipy.signal.butter(4, 0.2, output='sos')
+        >>> z, p, k = sos2zp(sos)
+
+    .. note:: wrapper of scipy function sos2zpk
+    .. seealso:: :func:`sos2ss`, :func:`sos2tf`
+    """
+    import scipy.signal
+    return scipy.signal.sos2zpk(sos)
+
+
+def sos2ss(sos):
+    """Convert digital filter second-order section parameters to state-space form.
+
+    :param array_like sos: Array of second-order filter coefficients, must have
+        shape ``(n_sections, 6)``. Each row corresponds to a second-order
+        section, with the first three columns providing the numerator
+        coefficients and the last three providing the denominator coefficients.
+
+    :return:
+        * A : ndarray State-space representation of the IIR filter.
+        * B : ndarray State-space representation of the IIR filter.
+        * C : ndarray State-space representation of the IIR filter.
+        * D : ndarray State-space representation of the IIR filter.
+
+    .. doctest::
+
+        >>> import scipy.signal
+        >>> from spectrum.transfer import sos2ss
+        >>> sos = scipy.signal.butter(4, 0.2, output='sos')
+        >>> A, B, C, D = sos2ss(sos)
+
+    .. note:: Implemented by chaining :func:`sos2tf` and ``scipy.signal.tf2ss``.
+    .. seealso:: :func:`sos2tf`, :func:`sos2zp`
+    """
+    import scipy.signal
+    b, a = sos2tf(sos)
+    return scipy.signal.tf2ss(b, a)
 
 

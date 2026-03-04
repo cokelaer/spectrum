@@ -89,6 +89,46 @@ def test_ss2zpk():
     assert k == kp
 
 
+def test_sos2tf():
+    from scipy import signal
+    sos = signal.butter(4, 0.2, output='sos')
+    b, a = transfer.sos2tf(sos)
+    # Verify round-trip: sos2tf then tf2zpk should match sos2zpk
+    z_tf, p_tf, k_tf = signal.tf2zpk(b, a)
+    z_sos, p_sos, k_sos = signal.sos2zpk(sos)
+    assert_almost_equal(abs(k_tf), abs(k_sos), decimal=5)
+    assert len(z_tf) == len(z_sos)
+    assert len(p_tf) == len(p_sos)
+
+
+def test_sos2zp():
+    from scipy import signal
+    sos = signal.butter(4, 0.2, output='sos')
+    z, p, k = transfer.sos2zp(sos)
+    z_ref, p_ref, k_ref = signal.sos2zpk(sos)
+    assert_almost_equal(np.sort(np.abs(z)), np.sort(np.abs(z_ref)), decimal=5)
+    assert_almost_equal(np.sort(np.abs(p)), np.sort(np.abs(p_ref)), decimal=5)
+    assert_almost_equal(k, k_ref, decimal=5)
+
+
+def test_sos2ss():
+    from scipy import signal
+    sos = signal.butter(4, 0.2, output='sos')
+    A, B, C, D = transfer.sos2ss(sos)
+    # Verify state-space matrices are returned with correct shapes
+    n_sections = sos.shape[0]
+    order = 2 * n_sections
+    assert A.shape == (order, order)
+    assert B.shape == (order, 1)
+    assert C.shape == (1, order)
+    assert D.shape == (1, 1)
+    # Verify round-trip: ss2zpk should recover poles/zeros matching sos2zpk
+    z_ss, p_ss, k_ss = signal.ss2zpk(A, B, C, D)
+    z_sos, p_sos, k_sos = signal.sos2zpk(sos)
+    assert_almost_equal(np.sort(np.abs(p_ss)), np.sort(np.abs(p_sos)), decimal=5)
+    assert_almost_equal(abs(k_ss), abs(k_sos), decimal=5)
+
+
 
 
 
