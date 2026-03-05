@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spectrum"
+version = "0.10.0"
+description = "Spectrum Analysis Tools"
+readme = "README.rst"
+license = { text = "new BSD" }
+authors = [
+    { name = "Thomas Cokelaer", email = "cokelaer@gmail.com" }
+]
+keywords = ["signal", "spectrum", "analysis"]
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Telecommunications Industry",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Unix",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "easydev",
+    "numpy",
+    "scipy",
+    "matplotlib",
+]
+
+[project.optional-dependencies]
+testing = [
+    "pytest",
+    "pytest-cov",
+    "pytest-xdist",
+    "pytest-mock",
+    "pytest-timeout",
+    "pytest-runner",
+    "coveralls",
+]
+doc = ["sphinx", "sphinx_rtd_theme"]
+
+[project.urls]
+Homepage = "http://github.com/cokelaer/spectrum"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"spectrum.data" = ["*"]
+
+[tool.pytest.ini_options]
+addopts = "--durations=10 --verbose"
