@@ -197,7 +197,10 @@ def WelchPeriodogram(data, NFFT=None,  sampling=1., **kargs):
 
     """
     from pylab import psd
-    spectrum = Spectrum(data, sampling=1.)
+    fft_length = kargs.get('pad_to')
+    if fft_length is None:
+        fft_length = 256 if NFFT is None else NFFT
+    spectrum = Spectrum(data, sampling=sampling, NFFT=int(fft_length))
 
     P = psd(data, NFFT, Fs=sampling, **kargs)
     spectrum.psd = P[0]
