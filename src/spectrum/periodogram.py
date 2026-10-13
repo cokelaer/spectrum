@@ -54,6 +54,7 @@ def speriodogram(x, NFFT=None, detrend=True, sampling=1.,
 
     :param x: an array or matrix of data samples.
     :param NFFT: length of the data before FFT is computed (zero padding)
+    :param int axis: sample axis for matrix input (default 0).
     :param bool detrend: detrend the data before co,puteing the FFT
     :param float sampling: sampling frequency of the input :attr:`data`.
 
@@ -62,9 +63,9 @@ def speriodogram(x, NFFT=None, detrend=True, sampling=1.,
 
     :return: 2-sided PSD if complex data, 1-sided if real.
 
-    if a matrix is provided (using numpy.matrix), then a periodogram
-    is computed for each row. The returned matrix has the same shape as the input
-    matrix.
+    For matrix input, ``axis`` selects the sample dimension (default 0).
+    A separate periodogram is computed for each column with ``axis=0`` or
+    each row with ``axis=1``. That dimension is replaced by the frequency bins.
 
     The mean of the input data is also removed from the data before computing
     the psd.
@@ -110,27 +111,29 @@ def speriodogram(x, NFFT=None, detrend=True, sampling=1.,
     # matrix case
     elif x.ndim == 2:
         logging.debug('2D array. each row is a 1D array')
-        [r, c] = x.shape
-        w = np.array([Window(r, window).data for this in range(c)]).reshape(r,c) 
+        r = x.shape[axis]
+        shape = [1, 1]
+        shape[axis] = r
+        w = Window(r, window).data.reshape(shape)
 
     if NFFT is None:
-        NFFT = len(x)
+        NFFT = r
 
     isreal = np.isrealobj(x)
 
     if detrend == True:
-        m = np.mean(x, axis=axis)
+        m = np.mean(x, axis=axis, keepdims=True)
     else:
         m = 0
 
     if isreal == True:
         if x.ndim == 2:
-            res =  (abs (rfft (x*w - m, NFFT, axis=0))) ** 2. / r
+            res =  (abs (rfft (x*w - m, NFFT, axis=axis))) ** 2. / r
         else:
             res =  (abs (rfft (x*w - m, NFFT, axis=-1))) ** 2. / r
     else:
         if x.ndim == 2:
-            res =  (abs (fft (x*w - m, NFFT, axis=0))) ** 2. / r
+            res =  (abs (fft (x*w - m, NFFT, axis=axis))) ** 2. / r
         else:
             res =  (abs (fft (x*w - m, NFFT, axis=-1))) ** 2. / r
 
